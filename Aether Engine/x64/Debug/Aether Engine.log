@@ -1,0 +1,173 @@
+﻿  Menu.cpp
+C:\libs\SFML-3.0.0\include\SFML\System\Exception.hpp(41,47): warning C4275: non dll-interface class 'std::runtime_error' used as base for dll-interface class 'sf::Exception'
+  (compiling source file 'src/Structure/Menu.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\stdexcept(100,19):
+      see declaration of 'std::runtime_error'
+      C:\libs\SFML-3.0.0\include\SFML\System\Exception.hpp(41,23):
+      see declaration of 'sf::Exception'
+  
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Game.h(41,53): warning C4244: 'return': conversion from 'T' to 'float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Game.h(41,53): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Game.h(41,53): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Game.h(41,53): warning C4244:             T=unsigned int
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Game.h(41,53): warning C4244:         ]
+  (compiling source file 'src/Structure/Menu.cpp')
+  
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Entities\UI\Button.h(9,40): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  (compiling source file 'src/Structure/Menu.cpp')
+  
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Entities\UI\Toggle.h(9,42): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  (compiling source file 'src/Structure/Menu.cpp')
+  
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(14,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(19,100): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(19,75): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(19,50): warning C4244: 'argument': conversion from 'float' to 'const uint', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(43,100): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(43,75): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(43,50): warning C4244: 'argument': conversion from 'float' to 'const uint', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(75,100): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(75,75): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(75,50): warning C4244: 'argument': conversion from 'float' to 'const uint', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(102,100): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(102,75): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(102,50): warning C4244: 'argument': conversion from 'float' to 'const uint', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(126,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(156,100): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(156,75): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(156,50): warning C4244: 'argument': conversion from 'float' to 'const uint', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(193,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(194,15): warning C4244: 'initializing': conversion from 'T' to 'float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(194,15): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(194,15): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(194,15): warning C4244:             T=unsigned int
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(194,15): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(195,15): warning C4244: 'initializing': conversion from 'T' to 'float', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(195,15): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(195,15): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(195,15): warning C4244:             T=unsigned int
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(195,15): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(198,43): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(202,47): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(211,19): warning C4244: 'argument': conversion from 'float' to 'uint', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(216,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(216,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(216,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(216,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(216,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(217,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(217,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(217,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(217,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(217,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(221,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(221,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(221,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(221,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(221,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(222,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(222,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(222,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(222,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(222,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(226,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(226,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(226,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(226,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(226,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(227,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(227,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(227,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(227,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(227,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(231,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(231,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(231,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(231,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(231,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(232,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(232,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(232,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(232,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(232,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(236,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(236,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(236,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(236,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(236,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(237,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(237,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(237,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(237,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(237,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(241,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(241,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(241,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(241,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(241,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(242,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(242,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(242,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(242,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(242,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(246,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(246,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(246,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(246,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(246,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(247,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(247,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(247,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(247,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(247,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(251,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(251,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(251,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(251,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(251,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(252,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(252,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(252,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(252,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(252,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(256,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(256,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(256,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(256,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(256,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(257,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(257,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(257,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(257,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(257,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(261,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(261,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(261,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(261,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(261,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(262,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(262,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(262,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(262,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(262,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(266,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(266,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(266,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(266,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(266,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(267,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(267,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(267,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(267,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(267,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(271,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(271,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(271,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(271,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(271,32): warning C4244:         ]
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(272,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(272,32): warning C4244:         with
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(272,32): warning C4244:         [
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(272,32): warning C4244:             T=float
+C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp(272,32): warning C4244:         ]
+  Salazar Engine.vcxproj -> C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\x64\Debug\Salazar Engine.exe
