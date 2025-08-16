@@ -1,146 +1,116 @@
+#include <thread>
+#include <string>
 #include "Game.h"
-#include "Scene.h"
+#include "../Core/Input.h"
+#include "../Core/Math.h"
 
-Game::Game(const char* title, uint init_fps) :
-    fps(init_fps), debug_timer(fps) {
-    //Initialize the window
-    resolution = { 2560, 1440 }; //Primary monitor (1) resolution
-    //resolution = { 1920, 1080 }; //Secondary monitor (0) resolution
-    window = make_unique<Engine::Window_Windows>();
-    window->Create(resolution, "Game Title", 1);
+Game::Game(const char* title, const uint init_fps)
+    : fps(init_fps), resolution(min_res * 2), camera({ 0 }, Vec2i(min_res)),
+    window("Game", resolution), renderer(window.GetWin(), &camera) {
 
-    //Initialize the renderer
-    renderer = make_unique<Renderer_D2D>();
-    renderer->Init(window->GetHandle());
+    //Set random seed
+    srand((uint)time(nullptr));
 
-    //Initialize the camera
-    /*
-    camera.setSize(Vector2f(window.getSize()));
-    //View is set in Scene.cpp
+    //Initialize SDL
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS);
+    TTF_Init();
 
-    //Initialize the fonts
-    if (!default_font.openFromFile("assets/Fonts/m5x7.ttf"))
-        cerr << "Failed to load font 'm5x7'!" << endl;
-    default_font.setSmooth(false);
+    //Delta time
+    target_frame_time = 1.f / fps;
+    last_time = hr_clock::now();
+
+    //Set the resolution, camera dimensions, and tile size
+    resolution = window.WinSize();
+    SetResolution(resolution);
+    Sprite::SetRenderer(renderer.GetRenderer());
+
+    //Set the Text camera
+    Text::SetCam(&camera);
+
+
+    //Initialize the Input namespace
+    Input::Init(&window, &camera);
+
+    //Initialize fonts
+    for (int i = 12; i < 301; i += 2)
+        default_fonts.insert({ i, Font("m5x7", i) });
+    debug_txt.Init(&default_fonts[36]);
 
     //Initialize the DJ's tracks
     //Play the title track - TO-DO
 
-    //Initialize Scenes
-    title_scene = make_unique<Scene>(*this, window, Scenes::TITLE);
-    cutscene_scene = make_unique<Scene>(*this, window, Scenes::CUTSCENE);
-    area_scene = make_unique<Scene>(*this, window, Scenes::AREA);
-    scenes.insert(make_pair(Scenes::TITLE, title_scene));
-    scenes.insert(make_pair(Scenes::CUTSCENE, cutscene_scene));
-    scenes.insert(make_pair(Scenes::AREA, area_scene));
-    SetScene(Scenes::TITLE);
+    //Init scene, which sets the Game* in all the classes that need it
+    //gm.Init(this);
+    //Open the title scene
+    //gm.ChangeScene();
 
-    //Cursors for lmb actions
-    sf::Image c_i;
-    //Default cursor
-    c_i.loadFromFile("assets/Sprites/Cursors/Default.png");
-    auto c = make_unique<sf::Cursor>(sf::Cursor::createFromPixels(c_i.getPixelsPtr(), { 16, 16 }, { 0, 0 }).value());
-    cursors.insert({ Actions::DEFAULT, move(c)});
-    //NoAction
-    c_i.loadFromFile("assets/Sprites/Cursors/NoAction.png");
-    c = make_unique<sf::Cursor>(sf::Cursor::createFromPixels(c_i.getPixelsPtr(), { 16, 16 }, { 0, 0 }).value());
-    cursors.insert({ Actions::NOACTION, move(c) });
-    //Move
-    c_i.loadFromFile("assets/Sprites/Cursors/Move.png");
-    c = make_unique<sf::Cursor>(sf::Cursor::createFromPixels(c_i.getPixelsPtr(), { 16, 16 }, { 0, 0 }).value());
-    cursors.insert({ Actions::MOVE, move(c) });
-
-
-    cursor = cursors[Actions::DEFAULT].get();
-    window.setMouseCursor(*cursor);
-
-
-    //Init debug line
-    /*
-    debug_box.setSize(Vector2f(2, resolution.y));
-    debug_box.setPosition(Vector2f(resolution.x * .5, 0));
-    debug_box.setFillColor(sf::Color(255, 255, 0, 127));
-    */
+    //Initialize cursor
+    //Cursor sprite info
+    //Sprite::Info csi = {};
+    //csi.sheet = "UI/Cursors"; csi.frame_size = csi.spr_size = { 16 };
+    //cursor.Init(csi);
+    //SDL_SetWindowRelativeMouseMode(); //This will lock the cursor to the game window
+    //SDL_HideCursor();
 }
 
 void Game::Run() {
-    //Handle events
-    window->PollEvents();
+    //Calculate delta time
+    auto now = hr_clock::now();
+    delta = now - last_time;
+    last_time = now;
+    delta_time = delta.count();
 
-    if (window) {
+    //Handle events
+    window.PollEvents();
+
+    //Process input and update the game state once every 60th of a second
+    accumulated_time += delta_time;
+    if (accumulated_time >= target_frame_time) {
+        accumulated_time -= target_frame_time;
+        if (++game_frames >= fps) game_frames = 0;
+
         //Process input
         ProcessInput();
         //Update the game world
         Update();
-        //Draw the game world
-        Render();
     }
+
+
+    //Draw the game world
+    if (window.open) Render();
     else running = false;
+
+    //Framerate cap
+    auto frame_time = (hr_clock::now() - now).count();
+    if (frame_time < target_frame_time)
+        this_thread::sleep_for(durationf(target_frame_time - frame_time));
 }
 
 //Process input
 void Game::ProcessInput() {
-    /*
-    if (auto scene = active_scene.lock())
-        scene->GetInput();
-    else
-        cerr << "ERROR: ACTIVE SCENE NO LONGER VALID!" << endl;
-    */
+
+    //Update cursor position
+    cursor.MoveTo(Input::MousePos());
 }
 
 //Update the game world
 void Game::Update() {
-    /*
-    if (!--debug_timer) {
-        debug_timer = fps * 3;
-    }
+    //Reset our input variables
+    Input::Update();
 
-    if (++frames_elapsed > fps) frames_elapsed = 0;
+    //Update the current scene
 
-    //Reset our variables
-    Input::UpdateVars();
-
-    //Close the old scene if needed
-    if (auto old_scn = old_scene.lock()) {
-        old_scn->Open(false);
-        old_scene.reset();
-    }
-
-    auto scene = active_scene.lock();
-    scene->Update();
-
-    //window.setMouseCursor(*cursor);
-    */
 }
 
 //Draw the game world
 void Game::Render() {
 
-    renderer->BeginFrame(); //This also clears the frame
-    
-    renderer->EndFrame();
-}
+    renderer.BeginFrame(); //This also clears the frame
 
-void Game::SetScene(Scenes scn) {
-    /*
-    if (scenes.find(scn) != scenes.end()) {
 
-        old_scene = active_scene;
+    renderer.DrawSprite(cursor);
 
-        //Open the new scene
-        active_scene = scenes[scn];
-        auto scene = active_scene.lock();
-        if (auto o_scn = old_scene.lock()) {
-            if (scene->label != Scenes::TITLE)
-                scene->SetPartyMems(o_scn->GetPartyMems());
-        }
-        scene->Open();
-
-        //Old scene *must* be closed next frame!
-    }
-    else
-        cout << "That Scene does not exist!" << endl;
-        */
+    renderer.EndFrame();
 }
 
 void Game::SetMusicVolume(float n_v) {
@@ -150,72 +120,59 @@ void Game::SetMusicVolume(float n_v) {
 }
 
 void Game::SetSFXVolume(float n_v) {
-    /*
     Math::Clamp(n_v, 0, 100);
     sfx_volume = n_v;
-    auto scene = active_scene.lock();
-    scene->SetEntitySFXVolume(sfx_volume);
-    */
 }
 
-void Game::SetResolution(uint res_scalar) {
+void Game::SetResolution(uchar res_scalar) {
     //Minimum resolution is 640 x 360
     if (res_scalar > 0) {
-        Vector2u new_win_size = res_scalar * Display::MinRes();
-        while (new_win_size.x > Display::ScreenSize().x or new_win_size.y > Display::ScreenSize().y) {
+        Vec2u new_win_size = { res_scalar * min_res.x, res_scalar * min_res.y };
+        while (new_win_size.x > window.ScreenSize().x or new_win_size.y > window.ScreenSize().y) {
             --res_scalar;
-            new_win_size = res_scalar * Display::MinRes();
+            new_win_size = { res_scalar * min_res.x, res_scalar * min_res.y };
         }
         resolution = new_win_size;
     }
     else {
         res_scalar = 1;
-        resolution = Display::MinRes();
+        resolution = min_res;
     }
 
-    window->Destroy();
-    window->Create(resolution, "Game Title", 0);
-    /*
-    window.setFramerateLimit(fps);
-    window.setVerticalSyncEnabled(true);
-    camera.setSize(Vector2f(window.getSize()));
-    camera.setCenter(Vector2f(window.getSize()) * .5f);
-
-    if (auto scene = active_scene.lock())
-        scene->ResizeMenus();
-
-    //Debug stuff
-    /*
-    debug_box.setSize(Vector2f(2, resolution.y));
-    debug_box.setPosition(Vector2f(resolution.x * .5, 0));
-    debug_box.setFillColor(sf::Color(255, 255, 0, 127));
-    */
+    SetRes();
 }
 
-void Game::SetResolution(Vector2u n_r) {
+void Game::SetResolution(Vec2u n_r) {
+
     if (n_r.x > 0 and n_r.y > 0) {
-        n_r.x = n_r.x <= Display::ScreenSize().x ? n_r.x : Display::ScreenSize().x;
-        n_r.y = n_r.y <= Display::ScreenSize().y ? n_r.y : Display::ScreenSize().y;
+        n_r.x = n_r.x <= window.ScreenSize().x ? n_r.x : window.ScreenSize().x;
+        n_r.y = n_r.y <= window.ScreenSize().y ? n_r.y : window.ScreenSize().y;
 
         resolution = n_r;
 
-        window->Destroy();
-        window->Create(resolution, "Game Title", 0);
-        /*
-        window.setFramerateLimit(fps);
-        window.setVerticalSyncEnabled(true);
-        camera.setSize(Vector2f(window.getSize()));
-        camera.setCenter(Vector2f(window.getSize()) * .5f);
-
-        if (auto scene = active_scene.lock())
-            scene->ResizeMenus();
-            */
+        SetRes();
     }
 
-    //Debug stuff
-    /*
-    debug_box.setSize(Vector2f(2, resolution.y));
-    debug_box.setPosition(Vector2f(resolution.x * .5, 0));
-    debug_box.setFillColor(sf::Color(255, 255, 0, 127));
-    */
+}
+
+void Game::SetRes() {
+    //Resize the window
+    if (resolution == window.ScreenSize())
+        SDL_SetWindowFullscreen(window.GetWin(), true);
+    else {
+        SDL_SetWindowFullscreen(window.GetWin(), false);
+        SDL_SetWindowSize(window.GetWin(), resolution.x, resolution.y);
+
+        //Move the window
+        SDL_Rect screen_bounds;
+        SDL_DisplayID dID = SDL_GetDisplayForWindow(window.GetWin());
+        SDL_GetDisplayBounds(dID, &screen_bounds);
+        SDL_SetWindowPosition(window.GetWin(), (int)(screen_bounds.w * .5f - resolution.x * .5f), (int)(screen_bounds.h * .5f - resolution.y * .5f));
+    }
+
+    //Set the renderer's window size
+    renderer.SetWinSize();
+
+    //Set the res_scale for Text
+    Text::SetResScale(resolution.x / min_res.x);
 }

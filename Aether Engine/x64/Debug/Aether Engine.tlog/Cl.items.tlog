@@ -1,19 +1,16 @@
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\DJ.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\DJ.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Entities\Ball.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\Ball.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Entities\Brick.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\Brick.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Entities\PowerUp.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\PowerUp.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Entities\UI\Button.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\Button.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Entities\Paddle.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\Paddle.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Entities\UI\Picker.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\Picker.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Entities\UI\Slider.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\Slider.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Entities\UI\Toggle.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\Toggle.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Entities\UI\UI.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\UI.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Menu.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\Menu.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Utils\Animation.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\Animation.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Utils\Collision.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\Collision.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Entities\Entity.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\Entity.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Game.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\Game.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\main.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\main.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Structure\Scene.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\Scene.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Utils\Input.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\Input.obj
-C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\src\Utils\Util.cpp;C:\Users\Griffin G. Salazar\source\Cpp Projects\Salazar Engine SFML\Salazar Engine\x64\Debug\Util.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\Core\Collision.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\Collision.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\Core\Input.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\Input.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\Core\Math.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\Math.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\Entities\Entity.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\Entity.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\Entities\UI\Button.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\Button.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\Entities\UI\Picker.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\Picker.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\Entities\UI\Slider.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\Slider.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\Entities\UI\Toggle.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\Toggle.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\Entities\UI\UI.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\UI.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\Game\Game.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\Game.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\Game\Menu.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\Menu.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\Game\Scene.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\Scene.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\Graphics\Renderer.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\Renderer.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\Graphics\Sprite.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\Sprite.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\Graphics\Window.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\Window.obj
+C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\src\main.cpp;C:\Users\Griffin G. Salazar\Cpp Projects\Aether Engine\Aether Engine\x64\Debug\main.obj

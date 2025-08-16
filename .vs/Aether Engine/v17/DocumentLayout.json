@@ -1,30 +1,62 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\",
+  "WorkspaceRootPath": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\UI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Game\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Game\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Scene.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Game\\Scene.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\Entity.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Entities\\Entity.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Entities\\Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Core\\Enums.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Core\\Enums.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\Picker.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Entities\\UI\\Picker.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\UI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Entities\\UI\\UI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\UI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Entities\\UI\\UI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\Slider.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Entities\\UI\\Slider.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Entities\\Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Entities\\Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\Toggle.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Entities\\UI\\Toggle.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Utils\\Animation.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Utils\\Animation.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\Button.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Entities\\UI\\Button.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Utils\\Animation.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Utils\\Animation.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Menu.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Game\\Menu.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Entities\\Entity.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Entities\\Entity.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Menu.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Game\\Menu.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Scene.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D0BFE6A1-68C5-4739-AEF1-1C450C4EB4BC}|Aether Engine\\Aether Engine.vcxproj|solutionrelative:Aether Engine\\src\\Game\\Scene.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,84 +66,188 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UI.cpp",
-              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\UI.cpp",
-              "RelativeDocumentMoniker": "Aether Engine\\src\\Entities\\UI\\UI.cpp",
-              "ToolTip": "C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\UI.cpp",
-              "RelativeToolTip": "Aether Engine\\src\\Entities\\UI\\UI.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAkAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-01-30T06:47:40.703Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UI.h",
-              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\UI.h",
-              "RelativeDocumentMoniker": "Aether Engine\\src\\Entities\\UI\\UI.h",
-              "ToolTip": "C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\UI.h",
-              "RelativeToolTip": "Aether Engine\\src\\Entities\\UI\\UI.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-01-30T06:46:57.262Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Entity.h",
-              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Entities\\Entity.h",
-              "RelativeDocumentMoniker": "Aether Engine\\src\\Entities\\Entity.h",
-              "ToolTip": "C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Entities\\Entity.h",
-              "RelativeToolTip": "Aether Engine\\src\\Entities\\Entity.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAPAAAAAAAAAA==",
+              "Title": "Scene.h",
+              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Scene.h",
+              "RelativeDocumentMoniker": "Aether Engine\\src\\Game\\Scene.h",
+              "ToolTip": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Scene.h",
+              "RelativeToolTip": "Aether Engine\\src\\Game\\Scene.h",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABYAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-01-30T06:03:41.012Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Entity.cpp",
-              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Entities\\Entity.cpp",
-              "RelativeDocumentMoniker": "Aether Engine\\src\\Entities\\Entity.cpp",
-              "ToolTip": "C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Entities\\Entity.cpp",
-              "RelativeToolTip": "Aether Engine\\src\\Entities\\Entity.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-01-30T06:19:19.654Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Animation.h",
-              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Utils\\Animation.h",
-              "RelativeDocumentMoniker": "Aether Engine\\src\\Utils\\Animation.h",
-              "ToolTip": "C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Utils\\Animation.h",
-              "RelativeToolTip": "Aether Engine\\src\\Utils\\Animation.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-01-30T06:19:11.047Z",
+              "WhenOpened": "2025-08-16T04:46:15.541Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Animation.cpp",
-              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Utils\\Animation.cpp",
-              "RelativeDocumentMoniker": "Aether Engine\\src\\Utils\\Animation.cpp",
-              "ToolTip": "C:\\Users\\Griffin G. Salazar\\source\\Cpp Projects\\Iron \u0026 Aether Adventures\\Aether Engine\\Aether Engine\\src\\Utils\\Animation.cpp",
-              "RelativeToolTip": "Aether Engine\\src\\Utils\\Animation.cpp",
-              "ViewState": "AgIAAGEAAAAAAAAAAAAAAIgAAAABAAAAAAAAAA==",
+              "Title": "Entity.cpp",
+              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\Entity.cpp",
+              "RelativeDocumentMoniker": "Aether Engine\\src\\Entities\\Entity.cpp",
+              "ToolTip": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\Entity.cpp",
+              "RelativeToolTip": "Aether Engine\\src\\Entities\\Entity.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-01-30T06:19:11.736Z",
+              "WhenOpened": "2025-08-16T04:46:03.213Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Entity.h",
+              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\Entity.h",
+              "RelativeDocumentMoniker": "Aether Engine\\src\\Entities\\Entity.h",
+              "ToolTip": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\Entity.h",
+              "RelativeToolTip": "Aether Engine\\src\\Entities\\Entity.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-08-16T04:46:02.594Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Picker.cpp",
+              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\Picker.cpp",
+              "RelativeDocumentMoniker": "Aether Engine\\src\\Entities\\UI\\Picker.cpp",
+              "ToolTip": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\Picker.cpp",
+              "RelativeToolTip": "Aether Engine\\src\\Entities\\UI\\Picker.cpp",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAGAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-08-16T04:42:18.783Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Slider.cpp",
+              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\Slider.cpp",
+              "RelativeDocumentMoniker": "Aether Engine\\src\\Entities\\UI\\Slider.cpp",
+              "ToolTip": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\Slider.cpp",
+              "RelativeToolTip": "Aether Engine\\src\\Entities\\UI\\Slider.cpp",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAFcAAABfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-08-16T04:41:31.969Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Button.cpp",
+              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\Button.cpp",
+              "RelativeDocumentMoniker": "Aether Engine\\src\\Entities\\UI\\Button.cpp",
+              "ToolTip": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\Button.cpp",
+              "RelativeToolTip": "Aether Engine\\src\\Entities\\UI\\Button.cpp",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAAEgAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-08-16T04:39:31.776Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Toggle.cpp",
+              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\Toggle.cpp",
+              "RelativeDocumentMoniker": "Aether Engine\\src\\Entities\\UI\\Toggle.cpp",
+              "ToolTip": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\Toggle.cpp",
+              "RelativeToolTip": "Aether Engine\\src\\Entities\\UI\\Toggle.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-08-16T04:39:30.487Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UI.cpp",
+              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\UI.cpp",
+              "RelativeDocumentMoniker": "Aether Engine\\src\\Entities\\UI\\UI.cpp",
+              "ToolTip": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Entities\\UI\\UI.cpp",
+              "RelativeToolTip": "Aether Engine\\src\\Entities\\UI\\UI.cpp",
+              "ViewState": "AgIAACgAAAAAAAAAAAAYwDMAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-08-16T04:39:13.169Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Enums.h",
+              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Core\\Enums.h",
+              "RelativeDocumentMoniker": "Aether Engine\\src\\Core\\Enums.h",
+              "ToolTip": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Core\\Enums.h",
+              "RelativeToolTip": "Aether Engine\\src\\Core\\Enums.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-08-16T04:38:31.673Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Menu.cpp",
+              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Menu.cpp",
+              "RelativeDocumentMoniker": "Aether Engine\\src\\Game\\Menu.cpp",
+              "ToolTip": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Menu.cpp",
+              "RelativeToolTip": "Aether Engine\\src\\Game\\Menu.cpp",
+              "ViewState": "AgIAAMAAAAAAAAAAAAAAAEcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-08-16T04:37:26.654Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Game.h",
+              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Game.h",
+              "RelativeDocumentMoniker": "Aether Engine\\src\\Game\\Game.h",
+              "ToolTip": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Game.h",
+              "RelativeToolTip": "Aether Engine\\src\\Game\\Game.h",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAAB8AAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-08-16T04:18:02.274Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Game.cpp",
+              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Game.cpp",
+              "RelativeDocumentMoniker": "Aether Engine\\src\\Game\\Game.cpp",
+              "ToolTip": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Game.cpp",
+              "RelativeToolTip": "Aether Engine\\src\\Game\\Game.cpp",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAADAAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-08-16T04:31:53.877Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Menu.h",
+              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Menu.h",
+              "RelativeDocumentMoniker": "Aether Engine\\src\\Game\\Menu.h",
+              "ToolTip": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Menu.h",
+              "RelativeToolTip": "Aether Engine\\src\\Game\\Menu.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-08-16T04:23:35.539Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Scene.cpp",
+              "DocumentMoniker": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Scene.cpp",
+              "RelativeDocumentMoniker": "Aether Engine\\src\\Game\\Scene.cpp",
+              "ToolTip": "C:\\Users\\Griffin G. Salazar\\Cpp Projects\\Aether Engine\\Aether Engine\\src\\Game\\Scene.cpp",
+              "RelativeToolTip": "Aether Engine\\src\\Game\\Scene.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-08-16T04:23:33.001Z",
               "EditorCaption": ""
             }
           ]
