@@ -36,7 +36,7 @@ public:
 	//Text
 	void DrawTxt(Text& txt);
 
-	void DrawGrid(const Vec2i& start = { 0, 0 }, const Vec2i& end = { 640, 360 }, const uchar& tile_size = 16);
+	void DrawGrid(const Vec2i& start = { 0, 0 }, const Vec2i& end = { 640, 360 }, const uchar& tile_size = 16, const Color& grid_color = Color(1));
 
 	void DrawPath(std::vector<Vec2i> path, const Color& path_color = Color(1));
 

@@ -21,13 +21,10 @@ enum class UIElem {
 	Back,
 	Close,
 	Fullscreen,
-	Load,
-	No,
 	Options,
 	Quit,
 	Resume,
 	Title,
-	Yes,
 	//Pickers
 	Resolution,
 	//Sliders

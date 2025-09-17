@@ -6,7 +6,6 @@
 class UI : public Entity {
 public:
     Menu* menu = nullptr;
-    uchar ui_layer;
     Text label;
 
     UI(const Sprite::Info& s_i, Menu* m, const UIElem e,
@@ -15,7 +14,7 @@ public:
     virtual void GetInput() override;
     virtual void Draw() override;
 
-    inline bool Selected() { return active and Collision::RectPoint(bbox, Input::MousePos()) and game->curr_ui_layer == ui_layer; }
+    inline bool Selected() { return active and Collision::RectPoint(bbox, Input::MousePos()) and menu->has_focus; }
 
     void SetActive(const bool new_active = true);
     inline bool GetActive() const { return active; }

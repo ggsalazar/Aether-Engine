@@ -12,7 +12,7 @@ Game::Game(const char* title, const uint init_fps)
     srand((uint)time(nullptr));
 
     //Initialize SDL
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
     TTF_Init();
 
     //Delta time
@@ -27,7 +27,6 @@ Game::Game(const char* title, const uint init_fps)
     //Set the Text camera
     Text::SetCam(&camera);
 
-
     //Initialize the Input namespace
     Input::Init(&window, &camera);
 
@@ -40,9 +39,8 @@ Game::Game(const char* title, const uint init_fps)
     //Play the title track - TO-DO
 
     //Init scene, which sets the Game* in all the classes that need it
-    //gm.Init(this);
-    //Open the title scene
-    //gm.ChangeScene();
+    scene.Init(this);
+    scene.ChangeScene(SceneName::Title);
 
     //Initialize cursor
     //Cursor sprite info
@@ -98,7 +96,8 @@ void Game::Update() {
     //Reset our input variables
     Input::Update();
 
-    //Update the current scene
+    //Get input for the scene
+    scene.GetInput();
 
 }
 
@@ -107,9 +106,10 @@ void Game::Render() {
 
     renderer.BeginFrame(); //This also clears the frame
 
+    scene.Draw();
+    scene.DrawGUI();
 
     renderer.DrawSprite(cursor);
-
     renderer.EndFrame();
 }
 

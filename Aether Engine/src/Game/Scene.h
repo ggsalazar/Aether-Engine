@@ -12,11 +12,20 @@ class UI;
 
 class Scene {
 public:
+    SceneName curr_scn = SceneName::Title;
     vector<Entity*> entities;
 
 	Scene() = default;
-	~Scene();
+    ~Scene() {
+        for (auto& e : entities) delete e;
+        entities.clear();
+
+        for (auto& m : menus) delete m;
+        menus.clear();
+    }
 	void Init(Game* g);
+
+    void ChangeScene(SceneName new_scn);
 
     //Engine stuff
     void GetInput();

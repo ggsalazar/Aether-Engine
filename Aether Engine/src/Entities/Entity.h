@@ -33,6 +33,7 @@ public:
     inline Rect GetBBox() const { return bbox; }
 
     void PlaySound();
+    void PlaySoundPitchShift();
 
 protected:
     Vec2i pos;

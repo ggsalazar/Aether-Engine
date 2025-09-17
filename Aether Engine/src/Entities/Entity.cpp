@@ -30,6 +30,10 @@ void Entity::MoveTo(const Vec2f new_pos) {
 }
 
 void Entity::PlaySound() {
+    ///Play the sound
+}
+
+void Entity::PlaySoundPitchShift() {
     //Play assigned noise with slight pitch shift
     float pitch_shift = (rand() % 10) * .01;
     if (rand() % 2) pitch_shift *= -1;
