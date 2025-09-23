@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
-#include "Game.h"
+#include "../Engine/Engine.h"
+#include "../Engine/Graphics/Text.h"
 
 class UI;
 
@@ -16,7 +17,7 @@ public:
         for (auto& [_, sm] : sub_menus) delete sm;
         sub_menus.clear();
     }
-    static inline void SetGame(Game* g) { game = g; }
+    static inline void SetEngine(Engine* e) { engine = e; }
 
     //Engine
     virtual void GetInput();
@@ -51,5 +52,5 @@ protected:
     unordered_map<UIElem, UI*> ui_elems;
     Vec2f ui_ori = { .5f, .5f };
 
-    static inline Game* game;
+    static inline Engine* engine;
 };

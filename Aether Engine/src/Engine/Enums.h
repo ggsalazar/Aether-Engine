@@ -1,7 +1,7 @@
 #pragma once
 
 //Engine
-enum class SceneName {
+enum class Scene {
 	Game,
 	Title
 };

@@ -5,16 +5,15 @@
 int Entity::SEC = 0;
 
 Entity::Entity(const Sprite::Info s_i)
-    : pos(s_i.pos) /*sound(sb)*/ {
+    : sprite(s_i) /*, sound(sb)*/ {
 
-    sprite.Init(s_i);
-    Entity::MoveTo(Vec2f(pos));
+    Entity::MoveTo(Vec2f(sprite.GetPos()));
 
-    SEC = game->GetFPS();
+    SEC = engine->GetFPS();
 }
 
 void Entity::Draw() {
-    game->renderer.DrawSprite(sprite);
+    engine->renderer.DrawSprite(sprite);
 }
 
 void Entity::MoveBy(const Vec2f offset) {

@@ -1,75 +1,52 @@
 #pragma once
-#include <chrono>
-#include "Scene.h" //unordered_map, Dialogue, Geometry
-#include "../Core/Camera.h"
-#include "../Graphics/Window.h"
-#include "../Graphics/Renderer.h" //SDL_render, Sprite (SDL_image)
+#include <queue>
+#include <unordered_map>
+#include "../Engine/Enums.h"
 
 using namespace std;
-using namespace chrono;
-using hr_clock = high_resolution_clock;
-using durationf = duration<float>;
+
+class Engine;
+class Menu;
+class Entity;
+class UI;
 
 class Game {
-private:
-    //Variables
-    uint fps = 0;
-    uint game_frames = 0;
-    float target_frame_time;
-    hr_clock::time_point last_time;
-    durationf delta;
-    float accumulated_time = 0.f;
-    float music_volume = 100;
-    float sfx_volume = 100;
-
 public:
-    //Game UTH details
-    const Vec2u min_res = { 640, 360 };
-    Vec2u resolution;
-    Window window;
-    Renderer renderer;
-    bool running = true;
-    float delta_time = 0.f;
-    bool paused = false;
-    Scene scene;
+    Scene curr_scn = Scene::Title;
+    vector<Entity*> entities;
 
-    //Camera
-    Camera camera;
-
-    //Music & SFX - waiting for SDL_mixer 3.0
-    //DJ dj;
-    //Soundboard sb;
-
-    //Miscellaneous
-    unordered_map<int, Font> default_fonts;
-    Text debug_txt;
-    Sprite cursor;
-
-    Game(const char* title, const uint init_fps);
+	Game() = default;
     ~Game() {
-        TTF_Quit();
-        //Mix_CloseAudio();
-        //Mix_Quit();
-        SDL_Quit(); //Pretty sure this has to be called last
+        for (auto& e : entities) delete e;
+        entities.clear();
+
+        for (auto& m : menus) delete m;
+        menus.clear();
     }
+	void Init(Engine* e);
 
-    //Engine
-    void Run();
-    void ProcessInput();
+    void ChangeScene(Scene new_scn);
+
+    //Engine stuff
+    void GetInput();
     void Update();
-    void Render();
+    void Draw();
+    void DrawGUI();
+    void Resize();
 
-    //Frame stuff
-    inline uint GetFPS() const { return fps; }
-    inline int GetGameFrames() const { return game_frames; }
+    //Menu handling
+    void CreateMenu(const MenuName menu);
+    void OpenMenu(const MenuName menu, const bool o = true);
+    bool MenuOpen(const MenuName menu);
+    Menu* FindMenu(const MenuName menu);
 
-    //Settings
-    void SetMusicVolume(float n_v);
-    inline float GetMusicVolume() const { return music_volume; }
-    void SetSFXVolume(float n_v);
-    inline float GetSFXVolume() const { return sfx_volume; }
+    //Entities
+    inline void AddEntity(Entity* e) { entities.push_back(e); }
+    void RemoveEntity(Entity* e);
+    void SetEntitySFXVolume(const float new_volume);
 
-    void SetResolution(uchar res_scalar);
-    void SetResolution(Vec2u n_r);
-    void SetRes();
+private:
+    vector<Menu*> menus;
+
+    inline static Engine* engine = nullptr;
 };

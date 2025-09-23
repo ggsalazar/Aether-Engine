@@ -1,8 +1,8 @@
 #pragma once
 #include <SDL3/SDL_scancode.h>
-#include "../Graphics/Window.h"
-#include "../Core/Camera.h"
-#include "Vec2.h" //iostream
+#include "Graphics/Camera.h"
+#include "Graphics/Window.h"
+#include "Math/Vec2.h" //iostream
 
 //Mouse buttons
 constexpr int LMB = SDL_BUTTON_LEFT;

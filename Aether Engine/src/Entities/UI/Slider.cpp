@@ -1,10 +1,8 @@
 #include "Slider.h"
-#include "../../Core/Math.h"
+#include "../../Engine/Math/Math.h"
 
-Slider::Slider(const Sprite::Info& s_i, Menu* m, const UIElem e,
-    const uchar init_ui_layer)
-    : UI(s_i, m, e, init_ui_layer),
-    knob_label(label.font) {
+Slider::Slider(const Sprite::Info& s_i, Menu* m, const UIElem e)
+    : UI(s_i, m, e), knob_label(label.GetFontSize()) {
 
     Sprite::Info knob_info = {}; knob_info.sheet = "UI/SliderKnob";
     knob_info.scale = sprite.GetScale();
@@ -22,7 +20,7 @@ Slider::Slider(const Sprite::Info& s_i, Menu* m, const UIElem e,
     //Setting knob position based on appropriate value
     string rounded_val = "";
     if (elem == UIElem::Music_V or elem == UIElem::SFX_V) {
-        float vol = elem == UIElem::Music_V ? game->GetMusicVolume() : game->GetSFXVolume();
+        float vol = elem == UIElem::Music_V ? engine->GetMusicVolume() : engine->GetSFXVolume();
         knob_pos = (((knob_pos_max - knob_pos_min) * vol) * .01) + knob_pos_min;
 
         //Set the value
@@ -52,9 +50,9 @@ void Slider::GetInput() {
             new_val = (knob_pos - knob_pos_min) / (knob_pos_max - knob_pos_min) * 100;
 
             if (elem == UIElem::Music_V)
-                game->SetMusicVolume(new_val);
+                engine->SetMusicVolume(new_val);
             else if (elem == UIElem::SFX_V)
-                game->SetSFXVolume(new_val);
+                engine->SetSFXVolume(new_val);
 
             dec_place = 3;
         }
@@ -68,8 +66,8 @@ void Slider::GetInput() {
 void Slider::Draw() {
     UI::Draw();
 
-    game->renderer.DrawTxt(knob_label);
-    game->renderer.DrawSprite(knob_spr);
+    engine->renderer.DrawTxt(knob_label);
+    engine->renderer.DrawSprite(knob_spr);
 }
 
 void Slider::Move() {
@@ -83,9 +81,9 @@ void Slider::Move() {
     knob_pos_min = bbox.x + bbox.w * .1f;
 
     if (elem == UIElem::Music_V)
-        knob_pos = knob_pos_min + (game->GetMusicVolume() * .01 * (knob_pos_max - knob_pos_min));
+        knob_pos = knob_pos_min + (engine->GetMusicVolume() * .01 * (knob_pos_max - knob_pos_min));
     else if (elem == UIElem::SFX_V)
-        knob_pos = knob_pos_min + (game->GetSFXVolume() * .01 * (knob_pos_max - knob_pos_min));
+        knob_pos = knob_pos_min + (engine->GetSFXVolume() * .01 * (knob_pos_max - knob_pos_min));
 
     knob_spr.MoveTo(Round(knob_pos, pos.y));
     knob_label.MoveTo({ pos.x, pos.y + label_offset });

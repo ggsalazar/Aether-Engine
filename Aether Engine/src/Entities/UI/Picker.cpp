@@ -1,8 +1,7 @@
 #include "Picker.h"
 
-Picker::Picker(const Sprite::Info& s_i, Menu* m, const UIElem e,
-    const uchar init_ui_layer)
-    : UI(s_i, m, e, init_ui_layer), picking(label.font) {
+Picker::Picker(const Sprite::Info& s_i, Menu* m, const UIElem e)
+    : UI(s_i, m, e), picking(label.GetFontSize()) {
 
     label_offset = 6;
     label.MoveTo({ pos.x, pos.y - label_offset });
@@ -23,7 +22,7 @@ Picker::Picker(const Sprite::Info& s_i, Menu* m, const UIElem e,
     string picking_str = "";
     switch (elem) {
         case UIElem::Resolution:
-            picking_str = to_string(game->resolution.x / game->min_res.x);
+            picking_str = to_string(engine->resolution.x / engine->min_res.x);
         break;
     }
     picking.SetStr(picking_str);
@@ -53,16 +52,16 @@ void Picker::GetInput() {
 
 void Picker::Draw() {
     if (Selected())
-        game->renderer.DrawRect(bbox, Color(0, 1, 0));
+        engine->renderer.DrawRect(bbox, Color(0, 1, 0));
 
     UI::Draw();
 
-    game->renderer.DrawTxt(picking);
+    engine->renderer.DrawTxt(picking);
 
     if (LeftSelected())
-        game->renderer.DrawRect(l_bbox, Color(1, 0, 0, .5)); //Red, 50% opacity
+        engine->renderer.DrawRect(l_bbox, Color(1, 0, 0, .5)); //Red, 50% opacity
     else if (RightSelected())
-        game->renderer.DrawRect(r_bbox, Color(0, 0, 1, .5)); //Blue, 50% opacity
+        engine->renderer.DrawRect(r_bbox, Color(0, 0, 1, .5)); //Blue, 50% opacity
 }
 
 void Picker::Move() {
@@ -93,7 +92,7 @@ void Picker::LeftReleased() {
             uint curr_res = stoi(p);
 
             if (--curr_res < 1)
-                curr_res = floor(game->window.ScreenSize().x / game->min_res.x);
+                curr_res = floor(engine->window.ScreenSize().x / engine->min_res.x);
 
             p = to_string(curr_res);
 
@@ -112,7 +111,7 @@ void Picker::RightReleased() {
         case UIElem::Resolution: {
             uint curr_res = stoi(p);
 
-            if (++curr_res > floor(game->window.ScreenSize().x / game->min_res.x))
+            if (++curr_res > floor(engine->window.ScreenSize().x / engine->min_res.x))
                 curr_res = 1;
 
             p = to_string(curr_res);

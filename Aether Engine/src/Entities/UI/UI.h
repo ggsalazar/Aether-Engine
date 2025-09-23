@@ -1,6 +1,6 @@
 #pragma once
 #include "../Entity.h" //Collision (Geometry (Vec2 (iostream))), Sprite, Text, Game, Scene
-#include "../../Core/Input.h" //Window
+#include "../../Engine/Input.h" //Window
 #include "../../Game/Menu.h"
 
 class UI : public Entity {
@@ -8,8 +8,7 @@ public:
     Menu* menu = nullptr;
     Text label;
 
-    UI(const Sprite::Info& s_i, Menu* m, const UIElem e,
-        const uchar init_ui_layer = 0);
+    UI(const Sprite::Info& s_i, Menu* m, const UIElem e);
 
     virtual void GetInput() override;
     virtual void Draw() override;

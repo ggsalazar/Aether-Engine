@@ -5,8 +5,7 @@ class Toggle : public UI {
 public:
     bool on = false;
 
-    Toggle(const Sprite::Info& s_i, Menu* m, const UIElem e,
-        const uint init_ui_layer = 0);
+    Toggle(const Sprite::Info& s_i, Menu* m, const UIElem e);
 
     void Draw() override;
     inline void MoveBy(Vec2f offset) override { Entity::MoveBy(offset); Move(); }

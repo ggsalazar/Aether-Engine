@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
-#include "../Core/Camera.h"
-#include "../Core/Geometry.h"
-#include "Font.h"
+#include "../Engine.h" //Camera, Font, Sprite (Geometry)
 
 using std::string;
 
@@ -13,6 +11,7 @@ public:
     struct Info {
         string str = "";
         Vec2i pos;
+        uint font_size = 36;
         Vec2i str_size;
         uint max_width = 640;
         Color color{ 1 };
@@ -22,25 +21,30 @@ public:
     static inline uchar res_scale = 1;
     Font* font = nullptr;
 
-    Text() = default;
-    Text(Font* f, const Info& i = {}) : font(f), info(i) {
-        MoveTo(info.pos);
-        SetLogicalMaxW(info.max_width);
+    Text(const Info& i = {}) {
+        Init(i);
+    }
+    Text(const uint i_size) {
+        info.font_size = i_size;
+        Init(info);
     }
     ~Text() {}
-    void Init(Font* f, const Info& i = {}) {
-        font = f;
+    void Init(const Info& i = {}) {
         info = i;
+        font = &engine->default_fonts[info.font_size * res_scale];
 
         MoveTo(info.pos);
         SetLogicalMaxW(info.max_width);
     }
 
     static inline void SetResScale(uchar new_scale) { res_scale = new_scale; }
+    static inline void SetEngine(Engine* e) { engine = e; }
     static inline void SetCam(Camera* c) { cam = c; }
 
     //Should just be used for rendering
     inline Info GetInfo() const { return info; }
+
+    inline uint GetFontSize() const { return info.font_size; }
 
     inline void SetStr(const string s) { info.str = s; }
     inline void ConcatStr(const string s) { info.str += s; }
@@ -77,5 +81,6 @@ public:
 
 private:
     Info info = {};
-    static inline Camera* cam = nullptr;
+    inline static Engine* engine = nullptr;
+    inline static Camera* cam = nullptr;
 };

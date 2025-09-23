@@ -1,7 +1,7 @@
 #include "UI.h"
 
-UI::UI(const Sprite::Info& s_i, Menu* m, const UIElem e, const uchar init_ui_layer)
-    : Entity(s_i), menu(m), elem(e), ui_layer(init_ui_layer), label(&game->default_fonts[18 * Text::res_scale]) {
+UI::UI(const Sprite::Info& s_i, Menu* m, const UIElem e)
+    : Entity(s_i), menu(m), elem(e), label(18) {
 
     //Label
     string l_str = "";
@@ -17,9 +17,6 @@ UI::UI(const Sprite::Info& s_i, Menu* m, const UIElem e, const uchar init_ui_lay
         l_str = "Back";
         break;
 
-    case UIElem::No:
-        l_str = "No";
-        break;
 
     case UIElem::Options:
         l_str = "Options";
@@ -35,10 +32,6 @@ UI::UI(const Sprite::Info& s_i, Menu* m, const UIElem e, const uchar init_ui_lay
 
     case UIElem::Title:
         l_str = "Return to Title";
-        break;
-
-    case UIElem::Yes:
-        l_str = "Yes";
         break;
     }
     //Pickers, sliders, and toggles
@@ -95,7 +88,7 @@ void UI::GetInput() {
 
 void UI::Draw() {
     Entity::Draw();
-    game->renderer.DrawTxt(label);
+    engine->renderer.DrawTxt(label);
 }
 
 void UI::SetActive(const bool new_active) {

@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <SDL3_image/SDL_image.h>
-#include "../Core/Geometry.h" //(Vec2 (iostream))
+#include "../Math/Geometry.h" //(Vec2 (iostream))
 
 class Sprite {
     friend class Renderer;

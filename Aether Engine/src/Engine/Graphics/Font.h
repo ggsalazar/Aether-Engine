@@ -20,6 +20,7 @@ public:
 
 	}
 	~Font() {
+		//This causes crashes for some fucking reason
 		//TTF_CloseFont(font);
 	}
 

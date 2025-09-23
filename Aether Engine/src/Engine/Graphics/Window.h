@@ -3,14 +3,14 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <SDL3/SDL_video.h>
-#include "../Core/Vec2.h" //iostream
+#include "../Math/Vec2.h" //iostream
 
 class Window {
 public:
 	bool open = true;
 	bool has_focus = true;
 
-	Window(const char* title, Vec2u size = { 0, 0 });
+	Window(const char* title, Vec2u size = { 0 });
 	~Window() {
 		SDL_DestroyWindow(window);
 	}

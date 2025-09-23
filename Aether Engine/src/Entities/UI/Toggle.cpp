@@ -1,8 +1,7 @@
 #include "Toggle.h"
 
-Toggle::Toggle(const Sprite::Info& s_i, Menu* m, const UIElem e,
-	const uint init_ui_layer)
-	: UI(s_i, m, e, init_ui_layer) {
+Toggle::Toggle(const Sprite::Info& s_i, Menu* m, const UIElem e)
+	: UI(s_i, m, e) {
 
 	label_offset = 12;
 	label.SetOrigin({ 1.f, .5 });
@@ -10,7 +9,7 @@ Toggle::Toggle(const Sprite::Info& s_i, Menu* m, const UIElem e,
 
 	switch (elem) {
 	case UIElem::Fullscreen:
-		on = game->resolution.x == game->window.ScreenSize().x;
+		on = engine->resolution.x == engine->window.ScreenSize().x;
 		SetActive(!on);
 		break;
 	}
@@ -18,7 +17,7 @@ Toggle::Toggle(const Sprite::Info& s_i, Menu* m, const UIElem e,
 
 void Toggle::Draw() {
 	if (Selected())
-		game->renderer.DrawRect(bbox, Color(1, 0, 0));
+		engine->renderer.DrawRect(bbox, Color(1, 0, 0));
 
 	UI::Draw();
 

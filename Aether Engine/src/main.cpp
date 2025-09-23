@@ -1,9 +1,9 @@
-#include "Game/Game.h"
+#include "Engine/Engine.h"
 
 int main() {
 
     //Initialize
-    Game game("Aether Engine", 60);
+    Engine game("Aether Engine", 60);
 
     //Game loop
     while (game.running)

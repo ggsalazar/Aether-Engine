@@ -1,7 +1,8 @@
 #include <sstream>
 #include "Renderer.h"
-#include "../Core/Camera.h"
-#include "../Core/Collision.h"
+#include "Camera.h"
+#include "Text.h" //Font.h
+#include "../Collision.h"
 
 Renderer::Renderer(SDL_Window* window, Camera* cam) : camera(cam) {
 

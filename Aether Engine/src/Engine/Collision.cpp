@@ -1,5 +1,5 @@
 #include "Collision.h"
-#include "Math.h"
+#include "Math/Math.h"
 
 bool Collision::AABB(const Rect& a, const Rect& b) {
     Rect a_norm = a;
