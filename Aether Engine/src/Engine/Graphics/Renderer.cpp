@@ -66,7 +66,7 @@ void Renderer::DrawTxt(Text& txt) {
 	SDL_SetRenderLogicalPresentation(renderer, win_size.x, win_size.y, SDL_LOGICAL_PRESENTATION_DISABLED);
 
 	if (surface) SDL_DestroySurface(surface);
-	surface = TTF_RenderText_Blended_Wrapped(txt.font->GetFont(), ti->str.c_str(), ti->str.length(), c, ti->max_width);
+	surface = TTF_RenderText_Blended_Wrapped(txt.font->GetFont(), ti->str.c_str(), ti->str.length(), c, txt.GetMaxW(true));
 	if (!surface) {
 		std::cout << "Failed to create text surface!\n";
 		return;
@@ -77,14 +77,12 @@ void Renderer::DrawTxt(Text& txt) {
 		std::cout << "Failed to create text texture!\n";
 		return;
 	}
-
-	TTF_GetStringSizeWrapped(txt.font->GetFont(), ti->str.c_str(), strlen(ti->str.c_str()), txt.GetPhysicalMaxW(), &ti->str_size.x, nullptr);
-	ti->str_size.y = surface->h;
-
+	
+	TTF_GetStringSizeWrapped(txt.font->GetFont(), ti->str.c_str(), strlen(ti->str.c_str()), txt.GetMaxW(true), &ti->str_size.x, &ti->str_size.y);
 
 	Rect true_cam_vp = Rect({ camera->viewport.x, camera->viewport.y },
 		{ camera->viewport.w * Text::res_scale, camera->viewport.h * Text::res_scale });
-	Vec2i txt_pos = { ti->pos.x + camera->viewport.x, ti->pos.y + camera->viewport.y };
+	Vec2i txt_pos = { ti->pos.x * Text::res_scale + camera->viewport.x, ti->pos.y * Text::res_scale + camera->viewport.y };
 	txt_pos = Round(txt_pos.x - (ti->str_size.x * ti->origin.x), txt_pos.y - (ti->str_size.y * ti->origin.y));
 	if (Collision::AABB(true_cam_vp, Rect(txt_pos, Vec2i(ti->str_size.x, ti->str_size.y)))) {
 		SDL_FRect src_rect = { 0, 0, surface->w, surface->h };

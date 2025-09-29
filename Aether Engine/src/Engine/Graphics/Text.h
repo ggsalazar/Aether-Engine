@@ -31,10 +31,8 @@ public:
     ~Text() {}
     void Init(const Info& i = {}) {
         info = i;
-        font = &engine->default_fonts[info.font_size * res_scale];
 
-        MoveTo(info.pos);
-        SetLogicalMaxW(info.max_width);
+        SetFont();
     }
 
     static inline void SetResScale(uchar new_scale) { res_scale = new_scale; }
@@ -44,23 +42,31 @@ public:
     //Should just be used for rendering
     inline Info GetInfo() const { return info; }
 
+    inline void SetFont(uint new_font_size = -1) {
+        info.font_size = new_font_size == -1 ? info.font_size : new_font_size;
+
+        font = &engine->fonts[info.font_size * res_scale];
+    }
     inline uint GetFontSize() const { return info.font_size; }
 
     inline void SetStr(const string s) { info.str = s; }
     inline void ConcatStr(const string s) { info.str += s; }
     inline string GetStr() const { return info.str; }
 
-    inline void MoveTo(const Vec2i new_pos) { info.pos = Vec2i{ new_pos.x - cam->viewport.x, new_pos.y - cam->viewport.y } *res_scale; }
-    inline void MoveBy(const Vec2i offset) { info.pos += Vec2i{ offset.x - cam->viewport.x, offset.y - cam->viewport.y } *res_scale; }
-    inline Vec2i GetPos() const { return info.pos / res_scale; }
+    inline void MoveTo(const Vec2i new_pos) { info.pos = new_pos; }
+    inline void MoveBy(const Vec2i offset) { info.pos += offset; }
+    inline Vec2i GetPos() const { return info.pos; }
 
-    inline Vec2i GetLogicalStrSize() const { return info.str_size / res_scale; }
-    inline Vec2i GetPhysicalStrSize() const { return info.str_size; }
+    inline Vec2i GetStrSize(bool physical = false) {
+        TTF_GetStringSizeWrapped(font->GetFont(), info.str.c_str(), strlen(info.str.c_str()), GetMaxW(true), &info.str_size.x, &info.str_size.y);
+        if (physical) return info.str_size;
+        else return info.str_size / res_scale;
+    }
 
-    inline void SetLogicalMaxW(const uint new_max) { info.max_width = new_max * res_scale; }
-    inline uint GetLogicalMaxW() const { return info.max_width / res_scale; }
-    inline void SetPhysicalMaxW(const uint new_phys_max) { info.max_width = new_phys_max; }
-    inline uint GetPhysicalMaxW() const { return info.max_width; }
+    inline void SetMaxW(const uint new_max) { info.max_width = new_max; }
+    inline uint GetMaxW(const bool physical = false) const {
+        return physical ? info.max_width * res_scale : info.max_width;
+    }
 
     inline void SetColor(const Color& c) { info.color = c; }
     inline Color GetColor() const { return info.color; }

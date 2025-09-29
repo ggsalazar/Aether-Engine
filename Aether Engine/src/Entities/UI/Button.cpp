@@ -47,6 +47,7 @@ void Button::Released() {
         break;
 
     case UIElem::Quit:
+        engine->window.open = false;
         break;
 
     case UIElem::Resume:

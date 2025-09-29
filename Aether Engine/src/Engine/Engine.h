@@ -42,7 +42,7 @@ public:
     //Soundboard sb;
 
     //Miscellaneous
-    unordered_map<int, Font> default_fonts;
+    unordered_map<int, Font> fonts;
     Sprite cursor;
 
     Engine(const char* title, const uint init_fps);

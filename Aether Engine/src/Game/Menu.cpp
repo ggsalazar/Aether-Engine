@@ -10,11 +10,11 @@ Menu::Menu(const MenuName i_name) : name(i_name), menu_text(42), sup_text(30) {
     menu_text.SetOrigin();
     //Text has to be placed at the *actual* resolution
     Vec2i m_t_pos = { 0 };
-    string m_t_str = "MENU DEFAULT";
+    string m_t_str = "";
 
     sup_text.SetOrigin();
     Vec2i s_t_pos = { 0 };
-    string s_t_str = "SUPPLEMENTARY DEFAULT";
+    string s_t_str = "";
     uint s_t_str_max_w = -1;
 
     Sprite::Info elem_info = {}; elem_info.origin = ui_ori;
@@ -24,8 +24,8 @@ Menu::Menu(const MenuName i_name) : name(i_name), menu_text(42), sup_text(30) {
 
     case MenuName::Main: {
 
-        m_t_pos = Round(engine->min_res.x * .5f, engine->min_res.y * .12f); m_t_str = "Shadows of Autongrad";
-        s_t_pos = Round(m_t_pos.x, engine->min_res.y * .15f); s_t_str = "An Iron & Aether Adventure";
+        m_t_pos = Round(engine->min_res.x * .5f, engine->min_res.y * .12f); m_t_str = "Aether Engine";
+        s_t_pos = Round(m_t_pos.x, engine->min_res.y * .15f); s_t_str = "";
 
         elem_info.sheet = "UI/Button";
         elem_info.pos = Round(engine->min_res.x * .5f, engine->min_res.y * .4f);
@@ -42,7 +42,7 @@ Menu::Menu(const MenuName i_name) : name(i_name), menu_text(42), sup_text(30) {
     }
 
     case MenuName::Options: {
-        m_t_pos = Round(engine->min_res.x * .5f, engine->min_res.y * .12f); m_t_str = "Shadows of Autongrad";
+        m_t_pos = Round(engine->min_res.x * .5f, engine->min_res.y * .12f); m_t_str = "Aether Engine";
         s_t_pos = Round(m_t_pos.x, engine->min_res.y * .15f); s_t_str = "Options";
 
         elem_info.pos = Round(m_t_pos.x, engine->min_res.y * .3f);
@@ -87,10 +87,10 @@ Menu::Menu(const MenuName i_name) : name(i_name), menu_text(42), sup_text(30) {
 
 
     //Set our texts (not strictly necessary but keeping for now)
-    menu_text.MoveTo(m_t_pos); menu_text.SetStr(m_t_str); menu_text.SetLogicalMaxW(engine->min_res.x);
-    sup_text.MoveTo(s_t_pos); sup_text.SetStr(s_t_str); sup_text.SetOrigin({ .5f, .0f }); sup_text.SetLogicalMaxW(engine->min_res.x);
+    menu_text.MoveTo(m_t_pos); menu_text.SetStr(m_t_str); menu_text.SetMaxW(engine->min_res.x);
+    sup_text.MoveTo(s_t_pos); sup_text.SetStr(s_t_str); sup_text.SetOrigin({ .5f, .0f }); sup_text.SetMaxW(engine->min_res.x);
     if (s_t_str_max_w != -1)
-        sup_text.SetLogicalMaxW(s_t_str_max_w);
+        sup_text.SetMaxW(s_t_str_max_w);
 }
 
 
@@ -127,11 +127,11 @@ void Menu::Draw() {
 
 void Menu::Resize() {
     //Have to resize all the fonts
-    menu_text.font = &engine->default_fonts[42 * Text::res_scale];
-    sup_text.font = &engine->default_fonts[30 * Text::res_scale];
+    menu_text.SetFont();
+    sup_text.SetFont();
 
     for (auto& uie : ui_elems) {
-        uie.second->label.font = &engine->default_fonts[18 * Text::res_scale];
+        uie.second->label.SetFont();
         if (Picker* p = dynamic_cast<Picker*>(uie.second)) p->SetPickingF();
         else if (Slider* s = dynamic_cast<Slider*>(uie.second)) s->SetKLF();
     }
@@ -139,6 +139,7 @@ void Menu::Resize() {
 
 void Menu::Open(const bool o) {
     open = o;
+    has_focus = open;
 
     if (!open) {
         for (const auto& sm : sub_menus)
