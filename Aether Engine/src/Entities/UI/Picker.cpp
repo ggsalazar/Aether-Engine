@@ -86,41 +86,30 @@ void Picker::SetPicking(const string new_p) {
 }
 
 void Picker::LeftReleased() {
-    string p = picking.GetStr();
+    uint curr_picking = stoi(picking.GetStr());
     switch (elem) {
-        case UIElem::Resolution: {
-            uint curr_res = stoi(p);
-
-            if (--curr_res < 1)
-                curr_res = floor(engine->window.ScreenSize().x / engine->min_res.x);
-
-            p = to_string(curr_res);
+        case UIElem::Resolution:
+            if (--curr_picking < 1)
+                curr_picking = floor(engine->window.ScreenSize().x / engine->min_res.x);
 
             //Set the Apply button to active
             menu->SetUIElemActive(UIElem::Apply);
-            break;
-        }
+        break;
     }
 
-    picking.SetStr(p);
+    picking.SetStr(to_string(curr_picking));
 }
 
 void Picker::RightReleased() {
-    string p = picking.GetStr();
+    uint curr_picking = stoi(picking.GetStr());
     switch (elem) {
-        case UIElem::Resolution: {
-            uint curr_res = stoi(p);
-
-            if (++curr_res > floor(engine->window.ScreenSize().x / engine->min_res.x))
-                curr_res = 1;
-
-            p = to_string(curr_res);
-
+        case UIElem::Resolution: 
+            if (++curr_picking > floor(engine->window.ScreenSize().x / engine->min_res.x))
+                curr_picking = 1;
             //Set the Apply button to active
             menu->SetUIElemActive(UIElem::Apply);
-            break;
-        }
+        break;
     }
 
-    picking.SetStr(p);
+    picking.SetStr(to_string(curr_picking));
 }
