@@ -1,14 +1,14 @@
 #include "Toggle.h"
 
-Toggle::Toggle(const Sprite::Info& s_i, Menu* m, const UIElem e)
-	: UI(s_i, m, e) {
+Toggle::Toggle(const Sprite::Info& s_i, Menu* m, const Widget w)
+	: UI(s_i, m, w) {
 
 	label_offset = 12;
 	label.SetOrigin({ 1.f, .5 });
 	label.MoveTo({ pos.x - label_offset, pos.y });
 
-	switch (elem) {
-	case UIElem::Fullscreen:
+	switch (widget) {
+	case Widget::Fullscreen:
 		on = engine->resolution.x == engine->window.ScreenSize().x;
 		SetActive(!on);
 		break;
@@ -33,12 +33,12 @@ void Toggle::Move() {
 void Toggle::Released() {
 	on = !on;
 
-	switch (elem) {
-	case UIElem::Fullscreen:
+	switch (widget) {
+	case Widget::Fullscreen:
 		//Set the Apply button to active
-		menu->SetUIElemActive(UIElem::Apply);
+		menu->SetWidgetActive(Widget::Apply);
 
-		menu->SetUIElemActive(UIElem::Resolution, !on);
+		menu->SetWidgetActive(Widget::Resolution, !on);
 		break;
 
 	}

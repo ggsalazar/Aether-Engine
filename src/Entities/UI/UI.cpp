@@ -1,72 +1,81 @@
 #include "UI.h"
+#include "../../Engine/Input.h" //Window
 
-UI::UI(const Sprite::Info& s_i, Menu* m, const UIElem e)
-    : Entity(s_i), menu(m), elem(e), label(18) {
+UI::UI(const Sprite::Info& s_i, Menu* m, const Widget w)
+    : Entity(s_i), menu(m), label(18), widget(w) {
 
     //Label
-    string l_str = "";
+    string l_str;
+    Sprite::Info info = {}; info.sheet = "UI/Btn_Blank";
+    info.pos = pos; info.origin = sprite.GetOrigin();
+    info.frame_size = {112, 33}; info.num_frames = 3;
+    info.anim_fps = 0; info.dfc = -10;
 
-    //Buttons
-    switch (elem) {
-    case UIElem::Apply:
+    switch (widget) {
+    case Widget::Apply:
         l_str = "Apply";
         SetActive(false);
         break;
 
-    case UIElem::Back:
+    case Widget::Back:
         l_str = "Back";
         break;
 
 
-    case UIElem::Options:
+    case Widget::Options:
         l_str = "Options";
         break;
 
-    case UIElem::Quit:
+    case Widget::Quit:
         l_str = "Quit";
         break;
 
-    case UIElem::Resume:
+    case Widget::Resume:
         l_str = "Resume";
         break;
 
-    case UIElem::Title:
+    case Widget::Title:
         l_str = "Return to Title";
         break;
     }
     //Pickers, sliders, and toggles
-    switch (elem) {
+    switch (widget) {
         //Pickers
-
-    case UIElem::Resolution:
-        l_str = "Resolution";
+        case Widget::Resolution:
+            l_str = "Resolution";
         break;
 
         //Sliders
-    case UIElem::Music_V:
-        l_str = "Music Volume";
+        case Widget::Music_V:
+            l_str = "Music Volume";
+            info.sheet = "UI/Slider";
         break;
 
-    case UIElem::SFX_V:
-        l_str = "SFX Volume";
+        case Widget::SFX_V:
+            l_str = "SFX Volume";
+            info.sheet = "UI/Slider";
         break;
 
         //Toggles
-    case UIElem::Fullscreen:
-        l_str = "Fullscreen";
+        case Widget::Fullscreen:
+            l_str = "Fullscreen";
+            info.sheet = "UI/Toggle";
         break;
     }
+
+    sprite.Init(info);
+
+    //Set bbox size
+    Entity::Move();
 
     label.MoveTo(pos);
     label.SetStr(l_str);
     label.SetOrigin();
 
-    sprite.SetDFC(-10);
-
     //Sound
     /*
     if (!sb.loadFromFile("assets/SFX/ButtonClick.mp3")) {
-        cerr << "Failed to load sound for UI element!" << endl;
+        cerr << "Failed to load sound for UI widgetent!" << endl;
         return;
     }
     sound.setBuffer(sb);
@@ -88,7 +97,10 @@ void UI::GetInput() {
 
 void UI::Draw() {
     Entity::Draw();
-    engine->renderer.DrawTxt(label);
+}
+
+bool UI::Selected() {
+    return active and Collision::RectPoint(bbox, Input::MousePos()) and menu->has_focus;
 }
 
 void UI::SetActive(const bool new_active) {

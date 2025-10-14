@@ -1,6 +1,6 @@
 #pragma once
 #include "../Entity.h" //Collision (Geometry (Vec2 (iostream))), Sprite, Text, Game, Scene
-#include "../../Engine/Input.h" //Window
+#include "../../Engine/Graphics/Text.h"
 #include "../../Game/Menu.h"
 
 class UI : public Entity {
@@ -8,25 +8,23 @@ public:
     Menu* menu = nullptr;
     Text label;
 
-    UI(const Sprite::Info& s_i, Menu* m, const UIElem e);
+    UI(const Sprite::Info& s_i, Menu* m = nullptr, const Widget w = Widget::NONE);
 
-    virtual void GetInput() override;
-    virtual void Draw() override;
+    void GetInput() override;
+    void Draw() override;
 
-    inline bool Selected() { return active and Collision::RectPoint(bbox, Input::MousePos()) and menu->has_focus; }
+    bool Selected();
 
     void SetActive(const bool new_active = true);
-    inline bool GetActive() const { return active; }
-    inline bool GetActivated() const { return activated; }
-    inline UIElem GetElem() const { return elem; }
+    [[nodiscard]] inline bool GetActive() const { return active; }
+    [[nodiscard]] inline bool GetActivated() const { return activated; }
+    [[nodiscard]] inline Widget GetWidget() const { return widget; }
 
 protected:
     //Variables
     int label_offset = 0;
-    UIElem elem = UIElem::NONE;
-    bool active = true;
-    bool primed = false;
-    bool activated = false;
+    Widget widget = Widget::NONE;
+    bool active = true, primed = false, activated = false;
 
     //Functions
     virtual void Pressed();

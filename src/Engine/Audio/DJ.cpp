@@ -1,6 +1,6 @@
 #include "DJ.h"
 
-
+/*
 bool DJ::CheckTrack(const string track) {
 	if (tracks.count(track) > 0) return true;
 	else cout << "Track " << track << " does not exist!" << endl;
@@ -18,3 +18,4 @@ bool DJ::LoadTrack(const string track, const float vol) {
 	cout << "Failed to load track " << track << "!" << endl;
 	return false;
 }
+*/

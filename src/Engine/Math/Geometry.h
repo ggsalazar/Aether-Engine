@@ -20,7 +20,7 @@ struct Line {
 
 	Line(int x_1, int x_2, int y_1, int y_2) : x1(x_1), x2(x_2), y1(y_1), y2(y_2) {}
 	Line(Vec2i p1, Vec2i p2) : x1(p1.x), x2(p2.x), y1(p1.y), y2(p2.y) {}
-	inline float Length() const { return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); }
+	[[nodiscard]] inline float Length() const { return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); }
 };
 //ostream operator
 template <typename T>
@@ -32,8 +32,8 @@ struct Circle {
 
 	Circle(Vec2i p, float r) : x(p.x), y(p.y), r(r) {}
 
-	inline float Area() const { return r * r * 3.14159; }
-	inline float Circ() const { return 6.28318 * r; }
+	[[nodiscard]] inline float Area() const { return r * r * 3.14159; }
+	[[nodiscard]] inline float Circ() const { return 6.28318 * r; }
 };
 //ostream operator
 template <typename T>
@@ -44,7 +44,7 @@ struct Tri {
 
 	Tri(Vec2i p1, Vec2i p2, Vec2i p3) : pos1(p1), pos2(p2), pos3(p3) {}
 
-	inline float Area() const { return (pos1.x * (pos2.y - pos3.y) + pos2.x * (pos3.y - pos1.y) + pos3.x * (pos1.y - pos2.y)) * .5; }
+	[[nodiscard]] inline float Area() const { return (pos1.x * (pos2.y - pos3.y) + pos2.x * (pos3.y - pos1.y) + pos3.x * (pos1.y - pos2.y)) * .5; }
 };
 //ostream operator
 template <typename T>
@@ -57,7 +57,7 @@ struct Rect {
 	Rect(Vec2i p, int s) : x(p.x), y(p.y), w(s), h(s) {}
 	Rect(Vec2i p, Vec2i s) : x(p.x), y(p.y), w(s.x), h(s.y) {}
 
-	inline float Area() const { return w * h; }
+	[[nodiscard]] inline float Area() const { return w * h; }
 };
 //ostream operator
 template <typename T>

@@ -7,7 +7,7 @@ Window::Window(const char* title, Vec2u size) {
 		flags = SDL_WINDOW_FULLSCREEN | SDL_WINDOW_HIGH_PIXEL_DENSITY;
 	window = SDL_CreateWindow(title, size.x, size.y, flags);
 
-	if (window == NULL)
+	if (window == nullptr)
 		std::cout << "Could not create window: " << SDL_GetError() << "\n";
 
 	int w, h;

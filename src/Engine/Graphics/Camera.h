@@ -1,5 +1,5 @@
 #pragma once
-#include "../Math/Geometry.h"
+#include "../Math/Geometry.h" //Vec2 (iostream)
 
 class Camera {
 public:
@@ -14,7 +14,7 @@ public:
 	inline void MoveCenterTo(Vec2i new_pos) { viewport.x = new_pos.x - viewport.w * .5f; viewport.y = new_pos.y - viewport.h * .5f; }
 	inline void MoveBy(Vec2i offset) { viewport.x += offset.x; viewport.y += offset.y; }
 
-	inline Vec2i GetPos() const { return { viewport.x, viewport.y }; }
-	inline Vec2i GetCenter() const { return Round((viewport.x + viewport.w * .5f), (viewport.y + viewport.h * .5f)); }
+	[[nodiscard]] inline Vec2i GetPos() const { return { viewport.x, viewport.y }; }
+	[[nodiscard]] inline Vec2i GetCenter() const { return Round((viewport.x + viewport.w * .5f), (viewport.y + viewport.h * .5f)); }
 
 };

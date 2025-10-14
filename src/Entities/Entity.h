@@ -1,10 +1,6 @@
 #pragma once
 #include "../Engine/Collision.h" //Geometry (Vec2 (iostream))
-#include "../Engine/Enums.h"
-#include "../Engine/Graphics/Sprite.h"
-
-class Engine;
-class Game;
+#include "../Engine/Engine.h" //Camera, Renderer, Game (Enums, Sprite)
 
 class Entity {
 public:
@@ -34,8 +30,8 @@ public:
     virtual void MoveTo(const Vec2f new_pos);
     virtual void MoveTo(const Vec2i new_pos);
 
-    inline Vec2i GetPos() const { return pos; }
-    inline Rect GetBBox() const { return bbox; }
+    [[nodiscard]] inline Vec2i GetPos() const { return pos; }
+    [[nodiscard]] inline Rect GetBBox() const { return bbox; }
 
     void PlaySFX();
     void PlaySFXPitchShift();

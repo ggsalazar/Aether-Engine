@@ -10,19 +10,13 @@ public:
     bool to_close = false, has_focus = false;
 
     Menu(const MenuName i_name);
-    virtual ~Menu() {
-        for (auto& [_, w] : widgets) delete w;
-        widgets.clear();
-
-        for (auto& [_, sm] : sub_menus) delete sm;
-        sub_menus.clear();
-    }
+    ~Menu();
     static inline void SetEngine(Engine* e) { engine = e; }
 
     //Engine
-    virtual void GetInput();
-    virtual void Update();
-    virtual void Draw();
+    void GetInput();
+    void Update();
+    void Draw();
 
     void Resize();
 
@@ -33,13 +27,14 @@ public:
     inline bool GetOpen() const { return open; }
     void OpenSM(const MenuName s_m);
 
-    //UI Elements
+    //Widgets
     void RemoveWidget(const Widget ui);
     bool CheckWidget(const Widget ui);
     bool GetWidgetActive(const Widget ui);
     void SetWidgetActive(const Widget ui, const bool a = true);
-    void SetWidgetStatus(const Widget ui, const string new_status);
+    Vec2i GetWidgetPos(const Widget ui);
     string GetWidgetStatus(const Widget ui);
+    void SetWidgetStatus(const Widget ui, const string new_status);
 
 protected:
     MenuName name;

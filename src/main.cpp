@@ -1,7 +1,6 @@
 #include "Engine/Engine.h"
 
 int main() {
-
     //Initialize
     Engine game("Aether Engine", 60);
 

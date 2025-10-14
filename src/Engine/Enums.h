@@ -14,7 +14,7 @@ enum class MenuName {
 	Pause,
 };
 
-enum class UIElem {
+enum class Widget {
 	NONE,
 	//Buttons
 	Apply,

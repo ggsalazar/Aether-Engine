@@ -1,6 +1,5 @@
 #pragma once
-#include <queue>
-#include <unordered_map>
+#include <vector>
 #include "../Engine/Enums.h"
 #include "../Engine/Graphics/Sprite.h"
 
@@ -15,15 +14,10 @@ class Game {
 public:
     Scene curr_scn = Scene::Title;
     vector<Entity*> entities;
+    bool paused = false;
 
 	Game() = default;
-    ~Game() {
-        for (auto& e : entities) delete e;
-        entities.clear();
-
-        for (auto& m : menus) delete m;
-        menus.clear();
-    }
+    ~Game();
 	void Init(Engine* e);
 
     void ChangeScene(Scene new_scn);

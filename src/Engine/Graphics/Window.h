@@ -17,10 +17,10 @@ public:
 
 	void PollEvents();
 
-	inline SDL_Window* GetWin() const { return window; }
+	[[nodiscard]] inline SDL_Window* GetWin() const { return window; }
 
-	inline Vec2u ScreenSize() const { return screen_size; }
-	inline Vec2u WinSize() const { return win_size; }
+	[[nodiscard]] inline Vec2u ScreenSize() const { return screen_size; }
+	[[nodiscard]] inline Vec2u WinSize() const { return win_size; }
 
 private:
 	SDL_Window* window;

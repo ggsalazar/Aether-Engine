@@ -1,13 +1,12 @@
 #include <thread>
-#include <string>
 #include "Engine.h"
 #include "Input.h"
 #include "Graphics/Text.h"
 #include "Math/Math.h"
 
-Engine::Engine(const char* title, const uint init_fps)
-    : fps(init_fps), resolution(min_res * 2), camera({ 0 }, Vec2i(min_res)),
-    window(title, resolution), renderer(window.GetWin(), &camera) {
+Engine::Engine(const char* title, const uchar init_fps)
+    : fps(init_fps), resolution(min_res*2), window(title, resolution),
+    renderer(window.GetWin(), &camera), camera({ 0 }, Vec2i(min_res)) {
 
     //Set random seed
     srand((uint)time(nullptr));
@@ -20,36 +19,29 @@ Engine::Engine(const char* title, const uint init_fps)
     target_frame_time = 1.f / fps;
     last_time = hr_clock::now();
 
-    //Set the resolution, camera dimensions, and tile size
+    //Set the resolution
     resolution = window.WinSize();
     SetResolution(resolution);
-    Sprite::SetRenderer(renderer.GetRenderer());
 
-    //Initialize Text engine & cam
-    Text::SetEngine(this);
-    Text::SetCam(&camera);
+    //Set sprite's renderer & game fps
+    Sprite::SetSDLRenderer(renderer.GetRenderer());
+    Sprite::SetRenderer(&renderer);
+    Sprite::SetGameFPS(fps);
+
+    //Initialize text fonts
+    Text::InitFonts();
 
     //Initialize the Input namespace
     Input::Init(&window, &camera);
 
-    //Initialize fonts
-    for (int i = 12; i <= 300; i += 2)
-        fonts.insert({ i, Font("m5x7", i) });
-
-    //Initialize the DJ's tracks
-    //Play the title track - TO-DO
+    //Initialize the DJ's tracks - TO-DO
 
     //Init game, which sets the Engine* in all the classes that need it
     game.Init(this);
     game.ChangeScene(Scene::Title);
 
-    //Initialize cursor
-    //Cursor sprite info
-    //Sprite::Info csi = {};
-    //csi.sheet = "UI/Cursors"; csi.frame_size = csi.spr_size = { 16 };
-    //cursor.Init(csi);
     //SDL_SetWindowRelativeMouseMode(); //This will lock the cursor to the game window
-    //SDL_HideCursor();
+    SDL_HideCursor();
 }
 
 void Engine::Run() {
@@ -74,7 +66,6 @@ void Engine::Run() {
         Update();
     }
 
-
     //Draw the game world
     if (window.open) Render();
     else running = false;
@@ -87,9 +78,8 @@ void Engine::Run() {
 
 //Process input
 void Engine::ProcessInput() {
-
-    //Update cursor position
-    cursor.MoveTo(Input::MousePos());
+    //Get input for the game
+    game.GetInput();
 }
 
 //Update the game world
@@ -97,25 +87,23 @@ void Engine::Update() {
     //Reset our input variables
     Input::Update();
 
-    //Get input for the scene
-    game.GetInput();
+    //Update the game
+    game.Update();
 }
 
 //Draw the game world
 void Engine::Render() {
-
     renderer.BeginFrame(); //This also clears the frame
 
     game.Draw();
     game.DrawGUI();
 
-    renderer.DrawSprite(cursor);
     renderer.EndFrame();
 }
 
 void Engine::SetMusicVolume(float n_v) {
     Math::Clamp(n_v, 0, 100);
-    music_volume = n_v;
+    msc_volume = n_v;
     //dj.SetVolume(music_volume);
 }
 
@@ -143,7 +131,6 @@ void Engine::SetResolution(uchar res_scalar) {
 }
 
 void Engine::SetResolution(Vec2u n_r) {
-
     if (n_r.x > 0 and n_r.y > 0) {
         n_r.x = n_r.x <= window.ScreenSize().x ? n_r.x : window.ScreenSize().x;
         n_r.y = n_r.y <= window.ScreenSize().y ? n_r.y : window.ScreenSize().y;
@@ -152,7 +139,6 @@ void Engine::SetResolution(Vec2u n_r) {
 
         SetRes();
     }
-
 }
 
 void Engine::SetRes() {

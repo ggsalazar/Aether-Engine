@@ -2,14 +2,26 @@
 #include "Menu.h"
 #include "../Engine/Engine.h"
 #include "../Engine/Input.h"
-#include "../Engine/Math/Math.h"
 #include "../Entities/Entity.h"
+
+Game::~Game() {
+	for (auto& e : entities) delete e;
+	entities.clear();
+
+	for (auto& m : menus) delete m;
+	menus.clear();
+}
 
 void Game::Init(Engine* e) {
 	//Initialize all the things
 	engine = e;
 	Menu::SetEngine(engine);
 	Entity::SetEngine(engine, this);
+
+	//Initialize the cursor sprite
+	Sprite::Info spr_info = {};
+	spr_info.sheet = "UI/Cursor"; spr_info.frame_size = {10, 14};
+	cursor.Init(spr_info);
 }
 
 void Game::ChangeScene(Scene new_scn) {
@@ -34,8 +46,9 @@ void Game::ChangeScene(Scene new_scn) {
 }
 
 void Game::GetInput() {
-	//Move the cursor
+	//Update cursor position and frame
 	cursor.MoveTo(Input::MousePos());
+	cursor.SetCurrFrame(Input::BtnDown(LMB));
 
 	for (auto& e : entities) e->GetInput();
 
@@ -43,6 +56,7 @@ void Game::GetInput() {
 }
 
 void Game::Update() {
+
 	for (auto& e : entities) e->Update();
 	for (auto& m : menus) {
 		m->Update();

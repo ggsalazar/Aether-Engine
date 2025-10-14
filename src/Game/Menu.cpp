@@ -9,29 +9,25 @@ Menu::Menu(const MenuName i_name) : name(i_name), menu_text(42), sup_text(30) {
     //Menu and Supp text variables
     menu_text.SetOrigin();
     Vec2i m_t_pos = { 0 };
-    string m_t_str = "";
+    string m_t_str;
 
     sup_text.SetOrigin();
     Vec2i s_t_pos = { 0 };
-    string s_t_str = "";
-    uint s_t_str_max_w = -1;
+    string s_t_str;
+    uint s_t_str_max_w = 0;
 
     Sprite::Info elem_info = {}; elem_info.origin = ui_ori;
     int e_y_buffer = 0;
     //What we do depends on our name
     switch (name) {
-
     case MenuName::Main: {
-
         m_t_pos = Round(engine->min_res.x * .5f, engine->min_res.y * .12f); m_t_str = "Aether Engine";
         s_t_pos = Round(m_t_pos.x, engine->min_res.y * .15f); s_t_str = "";
 
-        elem_info.sheet = "UI/Button";
         elem_info.pos = Round(engine->min_res.x * .5f, engine->min_res.y * .4f);
 
         e_y_buffer = round(engine->min_res.y * .1f);
 
-        elem_info.pos.y += e_y_buffer;
         widgets.insert({ Widget::Options, new Button(elem_info, this, Widget::Options) });
 
         elem_info.pos.y += e_y_buffer;
@@ -57,12 +53,10 @@ Menu::Menu(const MenuName i_name) : name(i_name), menu_text(42), sup_text(30) {
 
 
         //Resolution picker, fullscreen toggle, and apply button
-        elem_info.sheet = "UI/Button";
         elem_info.pos.y += e_y_buffer;
         widgets.insert({ Widget::Resolution, new Picker(elem_info, this, Widget::Resolution) });
 
-
-        elem_info.sheet = "UI/Toggle"; elem_info.frame_size = { 24 };
+        elem_info.frame_size = { 24 };
         elem_info.pos.y += e_y_buffer;
         elem_info.pos.x += 34;
         widgets.insert({ Widget::Fullscreen, new Toggle(elem_info, this, Widget::Fullscreen) });
@@ -71,10 +65,8 @@ Menu::Menu(const MenuName i_name) : name(i_name), menu_text(42), sup_text(30) {
         //Reset the size of a single frame
         elem_info.frame_size = { 0 };
 
-        elem_info.sheet = "UI/Button";
         elem_info.pos.y += e_y_buffer;
         widgets.insert({ Widget::Apply, new Button(elem_info, this, Widget::Apply) });
-
 
         //Back button
         elem_info.pos.y = round(engine->min_res.y * .9f);
@@ -88,8 +80,16 @@ Menu::Menu(const MenuName i_name) : name(i_name), menu_text(42), sup_text(30) {
     //Set our texts (not strictly necessary but keeping for now)
     menu_text.MoveTo(m_t_pos); menu_text.SetStr(m_t_str); menu_text.SetMaxW(engine->min_res.x);
     sup_text.MoveTo(s_t_pos); sup_text.SetStr(s_t_str); sup_text.SetOrigin({ .5f, .0f }); sup_text.SetMaxW(engine->min_res.x);
-    if (s_t_str_max_w != -1)
+    if (s_t_str_max_w != 0)
         sup_text.SetMaxW(s_t_str_max_w);
+}
+
+Menu::~Menu() {
+    for (auto& [_, w] : widgets) delete w;
+    widgets.clear();
+
+    for (auto& [_, sm] : sub_menus) delete sm;
+    sub_menus.clear();
 }
 
 
@@ -150,11 +150,12 @@ void Menu::Open(const bool o) {
 void Menu::OpenSM(const MenuName s_m) {
     if (sub_menus.count(s_m) > 0)
         sub_menus[s_m]->Open();
-    else cout << "That Sub-Menu does not exist in this Menu!\n";
+    else cout << "Menu::OpenSM(): That Sub-Menu does not exist in this Menu!\n";
 }
 
 void Menu::RemoveWidget(const Widget w) {
     if (CheckWidget(w)) {
+        //Why is this commented out?
         //delete widgets[w];
         widgets.erase(w);
     }
@@ -163,12 +164,31 @@ void Menu::RemoveWidget(const Widget w) {
 bool Menu::CheckWidget(const Widget w) {
     if (widgets.find(w) != widgets.end()) return true;
 
-    cout << "That Widget does not exist!" << endl;
+    cout << "Menu::CheckWidget(): That Widget does not exist!" << endl;
     return false;
 }
 
-void Menu::SetWidgetStatus(const Widget w, const string new_status) {
+bool Menu::GetWidgetActive(const Widget w) {
+    if (CheckWidget(w))
+        return widgets[w]->GetActive();
 
+    return false;
+}
+
+void Menu::SetWidgetActive(const Widget w, const bool a) {
+    if (CheckWidget(w))
+        widgets[w]->SetActive(a);
+}
+
+Vec2i Menu::GetWidgetPos(const Widget w) {
+    if (CheckWidget(w))
+        return widgets[w]->GetPos();
+
+    cout << "Menu::GetWidgetPos(): No such Widget exists\n";
+    return Vec2i();
+}
+
+void Menu::SetWidgetStatus(const Widget w, const string new_status) {
     if (CheckWidget(w)) {
         if (auto picker = dynamic_cast<Picker*>(widgets[w]))
             picker->SetPicking(new_status);
@@ -177,13 +197,7 @@ void Menu::SetWidgetStatus(const Widget w, const string new_status) {
     }
 }
 
-void Menu::SetWidgetActive(const Widget w, const bool a) {
-    if (CheckWidget(w))
-        widgets[w]->SetActive(a);
-}
-
 string Menu::GetWidgetStatus(const Widget w) {
-
     if (CheckWidget(w)) {
         if (auto picker = dynamic_cast<Picker*>(widgets[w]))
             return picker->GetPicking();
@@ -193,12 +207,7 @@ string Menu::GetWidgetStatus(const Widget w) {
         }
     }
 
-    return "No such Widget exists";
+    return "Menu::GetWidgetStatus(): No such Widget exists\n";
 }
 
-bool Menu::GetWidgetActive(const Widget w) {
-    if (CheckWidget(w))
-        return widgets[w]->GetActive();
 
-    return false;
-}

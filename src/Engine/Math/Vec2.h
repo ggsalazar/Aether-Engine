@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cmath>
 
-#define VEC2_INLINE [[nodiscard]] constexpr inline
+#define VEC2_INLINE constexpr inline
 
 using uint = unsigned int;
 using uchar = unsigned char;

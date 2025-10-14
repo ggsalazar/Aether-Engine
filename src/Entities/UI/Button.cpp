@@ -1,15 +1,15 @@
-#include <windows.h>
-#include <shellapi.h>
 #include "Button.h"
 
 void Button::Update() {
+    //When not Selected or primed, this is 0; when Selected but not primed, this is 1; when selected and primed, this is 2
+    sprite.SetCurrFrame(Selected() + primed);
 }
 
 void Button::Draw() {
-    if (Selected())
-        engine->renderer.DrawRect(bbox, Color(1, 0, 0)); //THIS IS A TEMPORARY MEASURE
-
     UI::Draw();
+
+    if (sprite.GetSheet() == "UI/Btn_Blank")
+        engine->renderer.DrawTxt(label);
 }
 
 void Button::Pressed() {
@@ -18,15 +18,15 @@ void Button::Pressed() {
 
 void Button::Released() {
     activated = true;
-    switch (elem) {
+    switch (widget) {
 
-    case UIElem::Apply:
+    case Widget::Apply:
         if (menu->GetName() == MenuName::Options) {
             //Set the game's current resolution to the scale determined by the resolution picker OR set it to fullscreen if that toggle is clicked
-            if (menu->GetUIElemStatus(UIElem::Fullscreen) == "True" and engine->resolution != engine->window.ScreenSize())
+            if (menu->GetWidgetStatus(Widget::Fullscreen) == "True" and engine->resolution != engine->window.ScreenSize())
                 engine->SetResolution(engine->window.ScreenSize());
             else {
-                uint new_scale = stoi(menu->GetUIElemStatus(UIElem::Resolution));
+                uint new_scale = stoi(menu->GetWidgetStatus(Widget::Resolution));
                 uint old_scale = engine->resolution.x / engine->min_res.x;
                 if (new_scale != old_scale)
                     engine->SetResolution(new_scale);
@@ -38,24 +38,24 @@ void Button::Released() {
         }
         break;
 
-    case UIElem::Back:
+    case Widget::Back:
         menu->Open(false);
         break;
 
-    case UIElem::Options:
+    case Widget::Options:
         menu->Open(false);
         break;
 
-    case UIElem::Quit:
+    case Widget::Quit:
         engine->window.open = false;
         break;
 
-    case UIElem::Resume:
+    case Widget::Resume:
         menu->Open(false);
-        engine->paused = false;
+        game->paused = false;
         break;
 
-    case UIElem::Title:
+    case Widget::Title:
         break;
     }
 }

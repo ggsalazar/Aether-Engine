@@ -1,4 +1,6 @@
+#include <SDL3/SDL_render.h>
 #include "Sprite.h"
+#include "Renderer.h"
 
 void Sprite::Init(const Info& i) {
     info = i;
@@ -6,13 +8,12 @@ void Sprite::Init(const Info& i) {
     if (info.sheet != "") {
 
         SetAnimFPS(info.anim_fps);
-
-        std::string sheet_png = "assets/Sprites/" + info.sheet + ".png";
+        std::string sheet_png = "../assets/Sprites/" + info.sheet + ".png";
         if (texture) {
             SDL_DestroyTexture(texture);
             texture = nullptr;
         }
-        texture = IMG_LoadTexture(renderer, sheet_png.c_str());
+        texture = IMG_LoadTexture(sdl_renderer, sheet_png.c_str());
 
         if (!texture)
             std::cout << "Could not load texture from file: " << sheet_png << "!\n";
@@ -22,8 +23,12 @@ void Sprite::Init(const Info& i) {
         Vec2f s_size;
         SDL_GetTextureSize(texture, &s_size.x, &s_size.y);
         info.sheet_size = Round(s_size.x, s_size.y);
-        if (info.frame_size == Vec2i{ 0 }) info.frame_size = info.sheet_size;
-        if (info.spr_size == Vec2i{ 0 }) info.spr_size = info.frame_size;
+
+        info.frame_size = info.frame_size == Vec2i{0} ? info.sheet_size : info.frame_size;
+        info.spr_size = info.spr_size == Vec2i{0} ? info.frame_size : info.spr_size;
+
+        //Automatically set num_frames if it wasn't already set (assumes only 1 row in the sheet)
+        if (info.num_frames == 1 and info.sheet_size.y == info.frame_size.y) info.num_frames = info.sheet_size.x / info.frame_size.x;
     }
 }
 
@@ -36,29 +41,13 @@ void Sprite::Update() {
     }
 }
 
-void Sprite::SetSheet(std::string new_sheet) {
-    new_sheet = "assets/Sprites/" + new_sheet + ".png";
-    if (texture) {
-        SDL_DestroyTexture(texture);
-        texture = nullptr;
-    }
-    texture = IMG_LoadTexture(renderer, new_sheet.c_str());
-
-    if (!texture)
-        std::cout << "Could not load texture from file: " << new_sheet << "!\n";
-
-    SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
-
-    Vec2f s_size;
-    SDL_GetTextureSize(texture, &s_size.x, &s_size.y);
-    info.sheet_size = Round(s_size.x, s_size.y);
-    if (info.frame_size == Vec2i{ 0 }) info.frame_size = info.sheet_size;
-    if (info.spr_size == Vec2i{ 0 }) info.spr_size = info.frame_size;
+void Sprite::Draw() const {
+    renderer->DrawSprite(*this);
 }
 
-void Sprite::SetSheetRow(uint new_s_r, const uint new_n_f) {
+void Sprite::SetSheetRow(uchar new_s_r, const uchar new_n_f) {
     //Dividing the height of the sheet by the height of the frame should ALWAYS produce a whole number
-    const uint num_rows = info.sheet_size.y / info.frame_size.y;
+    const uchar num_rows = info.sheet_size.y / info.frame_size.y;
     while (0 > new_s_r or new_s_r >= num_rows) {
         if (new_s_r < 0) new_s_r += num_rows;
         else if (new_s_r >= num_rows) new_s_r -= num_rows;
@@ -70,23 +59,31 @@ void Sprite::SetSheetRow(uint new_s_r, const uint new_n_f) {
         SetNumFrames(new_n_f);
 }
 
-void Sprite::SetCurrFrame(uint new_c_f) {
-    if (info.anim_fps > 0)
-        while (new_c_f >= info.num_frames) new_c_f -= info.num_frames;
+void Sprite::SetCurrFrame(uchar new_c_f) {
+    if (info.anim_fps > 0) {
+        if (info.ping_pong and new_c_f == info.num_frames-1) {
+            info.anim_fps *= -1;
+        }
+        else
+            while (new_c_f >= info.num_frames) new_c_f -= info.num_frames;
+    }
 
-    else if (info.anim_fps < 0)
-        while (new_c_f < 0) new_c_f += info.num_frames;
+    else if (info.anim_fps < 0) {
+        if (info.ping_pong and new_c_f == 0) {
+            info.anim_fps *= -1;
+        }
+    }
 
     info.curr_frame = new_c_f;
 }
 
-void Sprite::SetAnimFPS(const int new_fps) {
+void Sprite::SetAnimFPS(const char new_fps) {
     info.anim_fps = new_fps;
 
     if (info.anim_fps != 0) {
         info.fci = abs(round(game_fps / info.anim_fps));
 
-        info.anim_length = info.num_frames / info.anim_fps;
+        info.anim_length = (float)info.num_frames / (float)info.anim_fps;
     }
     else {
         info.fci = 0;

@@ -1,8 +1,9 @@
 #include "Slider.h"
 #include "../../Engine/Math/Math.h"
+#include "../../Engine/Input.h" //Window
 
-Slider::Slider(const Sprite::Info& s_i, Menu* m, const UIElem e)
-    : UI(s_i, m, e), knob_label(label.GetFontSize()) {
+Slider::Slider(const Sprite::Info& s_i, Menu* m, const Widget w)
+    : UI(s_i, m, w), knob_label(label.GetFontSize()) {
 
     Sprite::Info knob_info = {}; knob_info.sheet = "UI/SliderKnob";
     knob_info.scale = sprite.GetScale();
@@ -19,8 +20,8 @@ Slider::Slider(const Sprite::Info& s_i, Menu* m, const UIElem e)
 
     //Setting knob position based on appropriate value
     string rounded_val = "";
-    if (elem == UIElem::Music_V or elem == UIElem::SFX_V) {
-        float vol = elem == UIElem::Music_V ? engine->GetMusicVolume() : engine->GetSFXVolume();
+    if (widget == Widget::Music_V or widget == Widget::SFX_V) {
+        float vol = widget == Widget::Music_V ? engine->GetMusicVolume() : engine->GetSFXVolume();
         knob_pos = (((knob_pos_max - knob_pos_min) * vol) * .01) + knob_pos_min;
 
         //Set the value
@@ -46,12 +47,12 @@ void Slider::GetInput() {
 
         float new_val = 0;
         uint dec_place = 0;
-        if (elem == UIElem::Music_V or elem == UIElem::SFX_V) {
+        if (widget == Widget::Music_V or widget == Widget::SFX_V) {
             new_val = (knob_pos - knob_pos_min) / (knob_pos_max - knob_pos_min) * 100;
 
-            if (elem == UIElem::Music_V)
+            if (widget == Widget::Music_V)
                 engine->SetMusicVolume(new_val);
-            else if (elem == UIElem::SFX_V)
+            else if (widget == Widget::SFX_V)
                 engine->SetSFXVolume(new_val);
 
             dec_place = 3;
@@ -80,9 +81,9 @@ void Slider::Move() {
     knob_pos_max = bbox.x + bbox.w * .9f;
     knob_pos_min = bbox.x + bbox.w * .1f;
 
-    if (elem == UIElem::Music_V)
+    if (widget == Widget::Music_V)
         knob_pos = knob_pos_min + (engine->GetMusicVolume() * .01 * (knob_pos_max - knob_pos_min));
-    else if (elem == UIElem::SFX_V)
+    else if (widget == Widget::SFX_V)
         knob_pos = knob_pos_min + (engine->GetSFXVolume() * .01 * (knob_pos_max - knob_pos_min));
 
     knob_spr.MoveTo(Round(knob_pos, pos.y));
