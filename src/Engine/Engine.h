@@ -19,7 +19,7 @@ private:
     float target_frame_time, delta_time = .0f, accumulated_time = .0f;;
     hr_clock::time_point last_time;
     durationf delta;
-    float msc_volume = 100, sfx_volume = 100;
+    float sfx_volume = 100;
 
 public:
     const Vec2u min_res = { 640, 360 };
@@ -30,10 +30,6 @@ public:
     Camera camera;
     DJ dj;
     bool running = true;
-
-    //Music & SFX
-    //DJ dj;
-    //Soundboard sb;
 
     Engine(const char* title, const uchar init_fps);
     ~Engine() {

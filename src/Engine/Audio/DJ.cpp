@@ -10,8 +10,15 @@ DJ::DJ() {
 	msc_track = MIX_CreateTrack(mixer);
 
 	//Initialize all of the game's tracks (the Engine has no tracks)
-	//songs.insert({Song::<Songname>, MIX_LoadAudio(mixer, "path_to_file.mp3/ogg/etc", false)});
+	//songs.insert({Song::<Songname>, MIX_LoadAudio(mixer, "../assets/Music/file_name.mp3/ogg/etc", false)});
 	//Repeat above line as necessary
+}
+
+bool DJ::CheckSong(const Song s)   {
+	if (songs.count(s) > 0) return true;
+
+	std::cout << "DJ::CheckSong(): Checked for non-loaded song!\n";
+	return false;
 }
 
 void DJ::PlaySong(const Song s, const char loop_num, float fadein) {
@@ -51,8 +58,8 @@ void DJ::PlaySong(const Song s, const char loop_num, float fadein) {
 	}
 }
 
-void DJ::SetVolume(float n_v) {
-	Math::Clamp(n_v, 0.f, 100.f);
-	n_v /= 50.f;
-	MIX_SetMasterGain(mixer, n_v);
+void DJ::SetVolume(const float n_v) {
+	msc_volume = n_v;
+	Math::Clamp(msc_volume, 0.f, 200.f);
+	MIX_SetMasterGain(mixer, msc_volume/100.f);
 }

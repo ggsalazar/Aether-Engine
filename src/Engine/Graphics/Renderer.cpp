@@ -38,11 +38,16 @@ void Renderer::DrawSprite(const Sprite& spr) const {
 								(float)(si->spr_size.x * si->scale.x),
 								(float)(si->spr_size.y * si->scale.y) };
 
+		//Set the center of rotation
+		//SDL uses degrees, as do my sprites
+		const SDL_FPoint center = {dest.w * si->origin.x, dest.h * si->origin.y};
+		//Flip is handled by scale; -1 values for x/y will flip it appropriately
+
 		//Set the tint
 		SDL_SetTextureColorMod(spr.texture, si->tint.r * 255, si->tint.g * 255, si->tint.b * 255);
 		SDL_SetTextureAlphaMod(spr.texture, si->tint.a * 255);
 
-		SDL_RenderTexture(renderer, spr.texture, &src, &dest);
+		SDL_RenderTextureRotated(renderer, spr.texture, &src, &dest, si->rot, &center, SDL_FLIP_NONE);
 	}
 }
 

@@ -34,8 +34,6 @@ Engine::Engine(const char* title, const uchar init_fps)
     //Initialize the Input namespace
     Input::Init(&window, &camera);
 
-    //Initialize the DJ's tracks - TO-DO
-
     //Init game, which sets the Engine* in all the classes that need it
     game.Init(this);
     game.ChangeScene(Scene::Title);

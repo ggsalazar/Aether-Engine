@@ -22,16 +22,16 @@ Slider::Slider(const Sprite::Info& s_i, Menu* m, const Widget w)
     string rounded_val;
     if (widget == Widget::Music_V or widget == Widget::SFX_V) {
         float vol = widget == Widget::Music_V ? engine->GetMusicVolume() : engine->GetSFXVolume();
-        knob_pos = (((knob_pos_max - knob_pos_min) * vol) * .01) + knob_pos_min;
+        knob_pos = ((knob_pos_max - knob_pos_min) * vol * .005) + knob_pos_min;
 
         //Set the value
-        rounded_val = to_string((knob_pos - knob_pos_min) / (knob_pos_max - knob_pos_min) * 100);
+        rounded_val = to_string((knob_pos - knob_pos_min) / (knob_pos_max - knob_pos_min) * 200);
         rounded_val = rounded_val.substr(0, rounded_val.find('.') + 3);
     }
     knob_spr.MoveTo({ (int)knob_pos, pos.y });
 
     knob_label.SetOrigin();
-    knob_label.SetStr(rounded_val);
+    knob_label.SetStr(rounded_val + '%');
     knob_label.MoveTo({ pos.x, pos.y + label_offset });
 }
 
@@ -48,10 +48,10 @@ void Slider::GetInput() {
         float new_val = 0;
         uchar dec_place = 0;
         if (widget == Widget::Music_V or widget == Widget::SFX_V) {
-            new_val = (knob_pos - knob_pos_min) / (knob_pos_max - knob_pos_min) * 100;
+            new_val = (knob_pos - knob_pos_min) / (knob_pos_max - knob_pos_min) * 200;
 
             if (widget == Widget::Music_V)
-                engine->SetMusicVolume(new_val);
+                engine->dj.SetVolume(new_val);
             else if (widget == Widget::SFX_V)
                 engine->SetSFXVolume(new_val);
 
@@ -60,13 +60,14 @@ void Slider::GetInput() {
 
         //Set the string
         string r_val = to_string(new_val);
-        knob_label.SetStr(r_val.substr(0, r_val.find('.') + dec_place));
+        knob_label.SetStr(r_val.substr(0, r_val.find('.') + dec_place) + '%');
     }
 }
 
 void Slider::Draw() {
     UI::Draw();
 
+    engine->renderer.DrawTxt(label);
     engine->renderer.DrawTxt(knob_label);
     engine->renderer.DrawSprite(knob_spr);
 }
@@ -82,9 +83,9 @@ void Slider::Move() {
     knob_pos_min = bbox.x + bbox.w * .1f;
 
     if (widget == Widget::Music_V)
-        knob_pos = knob_pos_min + (engine->GetMusicVolume() * .01 * (knob_pos_max - knob_pos_min));
+        knob_pos = knob_pos_min + (engine->GetMusicVolume() * .005 * (knob_pos_max - knob_pos_min));
     else if (widget == Widget::SFX_V)
-        knob_pos = knob_pos_min + (engine->GetSFXVolume() * .01 * (knob_pos_max - knob_pos_min));
+        knob_pos = knob_pos_min + (engine->GetSFXVolume() * .005 * (knob_pos_max - knob_pos_min));
 
     knob_spr.MoveTo(Round(knob_pos, pos.y));
     knob_label.MoveTo({ pos.x, pos.y + label_offset });

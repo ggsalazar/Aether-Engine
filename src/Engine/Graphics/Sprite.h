@@ -69,9 +69,11 @@ public:
 
     //Rotation in degrees
     inline void SetRotD(const float angle) { info.rot = angle; }
+    inline void AlterRotD(const float offset) { info.rot += offset; }
     [[nodiscard]] inline float GetRotD() const { return info.rot; }
     //Rotation in radians
     inline void SetRotR(const float rad) { info.rot = rad * 57.2958; }
+    inline void AlterRotR(const float offset) { info.rot += offset * 57.2958; }
     [[nodiscard]] inline float GetRotR() const { return info.rot / 57.2958; }
 
     inline void SetColor(const Color& c) { info.tint = c; }
