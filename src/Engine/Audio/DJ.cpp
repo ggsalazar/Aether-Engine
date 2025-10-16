@@ -21,6 +21,17 @@ bool DJ::CheckSong(const Song s)   {
 	return false;
 }
 
+Song DJ::CurrSong() {
+	MIX_Audio* curr_audio = MIX_GetTrackAudio(msc_track);
+	if (!curr_audio) return Song::NONE;
+
+	for (auto& [s, a] : songs)
+		if (a == curr_audio) return s;
+
+	//Likely unnecessary but putting it here jic
+	return Song::NONE;
+}
+
 void DJ::PlaySong(const Song s, const char loop_num, float fadein) {
 	if (!CheckSong(s)) {
 		std::cout << "DJ::PlaySong(): Trying to play non-existent song!\n";

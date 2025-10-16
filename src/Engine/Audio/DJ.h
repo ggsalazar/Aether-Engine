@@ -11,6 +11,8 @@ public:
 
 	//Check if a song exists
 	inline bool CheckSong(const Song s);
+	//What song is currently playing?
+	Song CurrSong();
 
 	//Play a song
 	void PlaySong(const Song s, const char loop_num = 0, float fadein = 0.f);
@@ -26,7 +28,7 @@ public:
 	[[nodiscard]] inline float GetSongPos() { return MIX_TrackFramesToMS(msc_track, MIX_GetTrackPlaybackPosition(msc_track))/SEC/60; }
 
 	//Volume
-	[[nodiscard]] inline float GetVolume() const  { return msc_volume }
+	[[nodiscard]] inline float GetVolume() const  { return msc_volume; }
 	void SetVolume(const float n_v);
 
 private:
