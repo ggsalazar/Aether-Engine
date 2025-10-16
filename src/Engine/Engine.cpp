@@ -101,12 +101,6 @@ void Engine::Render() {
     renderer.EndFrame();
 }
 
-void Engine::SetMusicVolume(float n_v) {
-    Math::Clamp(n_v, 0, 100);
-    msc_volume = n_v;
-    //dj.SetVolume(music_volume);
-}
-
 void Engine::SetSFXVolume(float n_v) {
     Math::Clamp(n_v, 0, 100);
     sfx_volume = n_v;

@@ -1,10 +1,11 @@
 #pragma once
 #include <chrono>
 #include <SDL3_ttf/SDL_ttf.h>
+#include "Audio/DJ.h" //Enums, SDL_mixer
 #include "Graphics/Camera.h"//Geometry (Vec2 (iostream))
 #include "Graphics/Window.h" //SDL, SDL_main, SDL_video
 #include "Graphics/Renderer.h" //SDL_render
-#include "../Game/Game.h" //Enums, Sprite
+#include "../Game/Game.h" //Sprite
 
 using namespace std;
 using namespace chrono;
@@ -21,13 +22,13 @@ private:
     float msc_volume = 100, sfx_volume = 100;
 
 public:
-    //Game UTH details
     const Vec2u min_res = { 640, 360 };
     Vec2u resolution;
     Window window;
     Renderer renderer;
     Game game;
     Camera camera;
+    DJ dj;
     bool running = true;
 
     //Music & SFX
@@ -37,9 +38,8 @@ public:
     Engine(const char* title, const uchar init_fps);
     ~Engine() {
         TTF_Quit();
-        //Mix_CloseAudio();
-        //Mix_Quit();
-        SDL_Quit(); //Pretty sure this has to be called last
+        MIX_Quit();
+        SDL_Quit(); //Has to be called last
     }
 
     //Engine
@@ -53,8 +53,6 @@ public:
     [[nodiscard]] inline uchar GetGameFrames() const { return game_frames; }
 
     //Settings
-    void SetMusicVolume(float n_v);
-    [[nodiscard]] inline float GetMusicVolume() const { return msc_volume; }
     void SetSFXVolume(float n_v);
     [[nodiscard]] inline float GetSFXVolume() const { return sfx_volume; }
 

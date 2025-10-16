@@ -31,3 +31,7 @@ enum class Widget {
 	Music_V,
 	SFX_V
 };
+
+enum class Song {
+	NONE
+};

@@ -19,7 +19,7 @@ Slider::Slider(const Sprite::Info& s_i, Menu* m, const Widget w)
     knob_pos_min = bbox.x + bbox.w * .1f;
 
     //Setting knob position based on appropriate value
-    string rounded_val = "";
+    string rounded_val;
     if (widget == Widget::Music_V or widget == Widget::SFX_V) {
         float vol = widget == Widget::Music_V ? engine->GetMusicVolume() : engine->GetSFXVolume();
         knob_pos = (((knob_pos_max - knob_pos_min) * vol) * .01) + knob_pos_min;
@@ -46,7 +46,7 @@ void Slider::GetInput() {
         knob_spr.MoveTo({ (int)knob_pos, pos.y });
 
         float new_val = 0;
-        uint dec_place = 0;
+        uchar dec_place = 0;
         if (widget == Widget::Music_V or widget == Widget::SFX_V) {
             new_val = (knob_pos - knob_pos_min) / (knob_pos_max - knob_pos_min) * 100;
 
