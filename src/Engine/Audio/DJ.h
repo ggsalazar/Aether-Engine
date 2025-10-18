@@ -35,6 +35,6 @@ private:
 	MIX_Mixer* mixer = nullptr;
 	MIX_Track* msc_track = nullptr;
 	std::unordered_map<Song, MIX_Audio*> songs;
-	const uint SEC = 1000; //1000 milliseconds
+	const unsigned int SEC = 1000; //1000 milliseconds
 	float msc_volume = 100.f;
 };

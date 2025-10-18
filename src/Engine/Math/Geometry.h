@@ -10,8 +10,7 @@ struct Color {
 	Color(float r, float g, float b, float a = 1) : r(r), g(g), b(b), a(a) {}
 };
 //ostream operator
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const Color& c) { return os << "r: " << c.r << " g: " << c.g << " b: " << c.b << " a: " << c.a; }
+inline std::ostream& operator<<(std::ostream& os, const Color& c) { return os << "r: " << c.r << " g: " << c.g << " b: " << c.b << " a: " << c.a; }
 
 struct Line {
 	int x1 = 0, x2 = 0, y1 = 0, y2 = 0;
@@ -23,8 +22,7 @@ struct Line {
 	[[nodiscard]] inline float Length() const { return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); }
 };
 //ostream operator
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const Line& l) { return os << "p1: " << Vec2i(l.x1, l.y1) << " p2: " << Vec2i(l.x2, l.y2); }
+inline std::ostream& operator<<(std::ostream& os, const Line& l) { return os << "p1: " << Vec2i(l.x1, l.y1) << " p2: " << Vec2i(l.x2, l.y2); }
 
 struct Circle {
 	int x = 0, y = 0;
@@ -36,8 +34,7 @@ struct Circle {
 	[[nodiscard]] inline float Circ() const { return 6.28318 * r; }
 };
 //ostream operator
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const Circle& c) { return os << "Circle pos: " << Vec2i{ c.x, c.y } << "; Radius: " << c.r; }
+inline std::ostream& operator<<(std::ostream& os, const Circle& c) { return os << "Circle pos: " << Vec2i{ c.x, c.y } << "; Radius: " << c.r; }
 
 struct Tri {
 	Vec2i pos1, pos2, pos3;
@@ -47,8 +44,7 @@ struct Tri {
 	[[nodiscard]] inline float Area() const { return (pos1.x * (pos2.y - pos3.y) + pos2.x * (pos3.y - pos1.y) + pos3.x * (pos1.y - pos2.y)) * .5; }
 };
 //ostream operator
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const Tri& t) { return os << "p1: " << t.pos1 << " p2: " << t.pos2 << " p3: " << t.pos3; }
+inline std::ostream& operator<<(std::ostream& os, const Tri& t) { return os << "p1: " << t.pos1 << " p2: " << t.pos2 << " p3: " << t.pos3; }
 
 struct Rect {
 	int x = 0, y = 0, w = 0, h = 0;
@@ -60,5 +56,4 @@ struct Rect {
 	[[nodiscard]] inline float Area() const { return w * h; }
 };
 //ostream operator
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const Rect& r) { return os << "pos: " << Vec2i{ r.x, r.y } << " size: " << Vec2i{ r.w, r.h }; }
+inline std::ostream& operator<<(std::ostream& os, const Rect& r) { return os << "pos: " << Vec2i{ r.x, r.y } << " size: " << Vec2i{ r.w, r.h }; }
