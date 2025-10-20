@@ -106,7 +106,7 @@ void Renderer::DrawTxt(Text& txt) {
 
 	//Draw the text
 	string line;
-	for (uint i = 0; i < lines.size(); i++) {
+	for (int i = 0; i < lines.size(); i++) {
 		line = lines[i];
 
 		//Surface and texture

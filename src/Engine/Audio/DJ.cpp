@@ -9,8 +9,8 @@ DJ::DJ() {
 	mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
 	msc_track = MIX_CreateTrack(mixer);
 
-	//Initialize all of the game's tracks
-	//songs.insert({Song::<songname>, MIX_LoadAudio(mixer, "../assets/Music/<songname>.mp3", false)});
+	//Initialize all of the game's tracks (the Engine has no tracks)
+	//songs.insert({Song::<Songname>, MIX_LoadAudio(mixer, "../assets/Music/file_name.mp3/ogg/etc", false)});
 	//Repeat above line as necessary
 }
 

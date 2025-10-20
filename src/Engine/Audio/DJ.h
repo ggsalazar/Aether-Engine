@@ -6,11 +6,11 @@
 class DJ {
 public:
 	DJ();
-	//Assumedly, when ~Engine calls MIX_Quit(), it frees all the Mixer-related resources
+	//Assumedly, when ~Engine calls MIX_Quit(), that frees all Mixer-related resources
 	~DJ() { songs.clear(); }
 
 	//Check if a song exists
-	bool CheckSong(const Song s);
+	inline bool CheckSong(const Song s);
 	//What song is currently playing?
 	Song CurrSong();
 
