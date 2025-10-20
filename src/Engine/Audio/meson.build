@@ -1,3 +1,4 @@
 sources += files(
-  'DJ.cpp'
+  'DJ.cpp',
+  'SoundBoard.cpp'
 )

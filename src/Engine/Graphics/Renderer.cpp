@@ -67,40 +67,79 @@ void Renderer::DrawTxt(Text& txt) {
 	}
 	if (ti->str.empty() or !ti->color.a)
 		return;
-
 	//Disable logical rendering so we can draw text properly
 	SDL_SetRenderLogicalPresentation(renderer, win_size.x, win_size.y, SDL_LOGICAL_PRESENTATION_DISABLED);
 
-	if (surface) SDL_DestroySurface(surface);
-	//Try TTF_RenderText_LCD_Wrapped whenever you get a chance - TO-DO
-	surface = TTF_RenderText_Blended_Wrapped(txt.font.GetFont(), ti->str.c_str(), ti->str.length(), c, txt.GetMaxW(true));
-	if (!surface) {
-		std::cout << "Failed to create text surface!\n";
-		return;
-	}
-	if (text_tar) SDL_DestroyTexture(text_tar);
-	text_tar = SDL_CreateTextureFromSurface(renderer, surface);
-	if (!text_tar) {
-		std::cout << "Failed to create text texture!\n";
-		return;
+	//Text wrapping has to be done manually to account for alignment
+	std::vector<string> lines;
+	std::istringstream full_stream(ti->str);
+	string full_text;
+	string curr_line;
+	string test;
+	string word;
+	int w = 0;
+
+	//Wrap the text
+	while (std::getline(full_stream, full_text, '\n')) {
+		std::istringstream line_stream(full_text);
+		word = "";
+		curr_line = "";
+		while (line_stream >> word) {
+			test = curr_line.empty() ? word : curr_line + " " + word;
+			TTF_GetStringSize(txt.font.GetFont(), test.c_str(), test.length(), &w, nullptr);
+			if (w > txt.GetMaxW(true) and !curr_line.empty()) {
+				lines.push_back(curr_line);
+				curr_line = word;
+			}
+			else
+				curr_line = test;
+		}
+		if (!curr_line.empty()) lines.push_back(curr_line);
 	}
 
-	TTF_GetStringSizeWrapped(txt.font.GetFont(), ti->str.c_str(), strlen(ti->str.c_str()), txt.GetMaxW(true), &ti->str_size.x, &ti->str_size.y);
+	Vec2i line_size = {0, TTF_GetFontLineSkip(txt.font.GetFont()) - ti->line_height_offset * Text::res_scale};
 
+	//Only draw lines that can be seen by the camera
 	Rect true_cam_vp = Rect({ camera->viewport.x, camera->viewport.y },
-		{ camera->viewport.w * Text::res_scale, camera->viewport.h * Text::res_scale });
-	Vec2i txt_pos = { ti->pos.x * Text::res_scale + camera->viewport.x, ti->pos.y * Text::res_scale + camera->viewport.y };
-	txt_pos = Round(txt_pos.x - (ti->str_size.x * ti->origin.x), txt_pos.y - (ti->str_size.y * ti->origin.y));
-	if (Collision::AABB(true_cam_vp, Rect(txt_pos, Vec2i(ti->str_size.x, ti->str_size.y)))) {
-		SDL_FRect src_rect = { 0, 0, (float)surface->w, (float)surface->h };
-		SDL_FRect dest_rect = {
-			(float)(txt_pos.x - true_cam_vp.x),
-			(float)(txt_pos.y - true_cam_vp.y),
-			(float)surface->w,
-			(float)surface->h
-		};
-		SDL_RenderTexture(renderer, text_tar, &src_rect, &dest_rect);
+	{ camera->viewport.w * Text::res_scale, camera->viewport.h * Text::res_scale });
+	Vec2i str_size = txt.GetStrSize();
+
+	//Draw the text
+	string line;
+	for (uint i = 0; i < lines.size(); i++) {
+		line = lines[i];
+
+		//Surface and texture
+		if (surface) SDL_DestroySurface(surface);
+		surface = TTF_RenderText_Blended(txt.font.GetFont(), line.c_str(), line.length(), c);
+		if (!surface) {
+			std::cout << "Failed to create text surface!\n";
+			return;
+		}
+		if (text_tar) SDL_DestroyTexture(text_tar);
+		text_tar = SDL_CreateTextureFromSurface(renderer, surface);
+		if (!text_tar) {
+			std::cout << "Failed to create text texture!\n";
+			return;
+		}
+
+		//Get the size of the current line
+		TTF_GetStringSize(txt.font.GetFont(), line.c_str(), line.length(), &line_size.x, nullptr);
+
+		Vec2i txt_pos = { ti->pos.x * Text::res_scale + camera->viewport.x, ti->pos.y * Text::res_scale + camera->viewport.y };
+		txt_pos = Round(txt_pos.x - (line_size.x * ti->origin.x), txt_pos.y - (line_size.y * ti->origin.y));
+		if (Collision::AABB(true_cam_vp, Rect(txt_pos, Vec2i(str_size.x, str_size.y)))) {
+			SDL_FRect src_rect = { 0, 0, (float)surface->w, (float)surface->h };
+			SDL_FRect dest_rect = {
+				(float)(txt_pos.x - true_cam_vp.x),
+				(float)(txt_pos.y + line_size.y*i - true_cam_vp.y),
+				(float)surface->w,
+				(float)surface->h
+			};
+			SDL_RenderTexture(renderer, text_tar, &src_rect, &dest_rect);
+		}
 	}
+
 	//Re-enable logical rendering at the base resolution
 	SDL_SetRenderLogicalPresentation(renderer, min_res.x, min_res.y, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE);
 }

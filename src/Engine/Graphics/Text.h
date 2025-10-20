@@ -14,10 +14,11 @@ public:
         string str;
         Vec2i pos;
         uint font_size = 36;
+        uchar line_height_offset = 0;
         Vec2i str_size;
         uint max_width = 640;
         Color color{ 1 };
-        Vec2f origin{};
+        Vec2f origin{}; //Origin and alignment are, for now, one and the same
         float rot = 0.f;
         Info() = default;
     };
@@ -53,8 +54,12 @@ public:
     }
     [[nodiscard]] inline uint GetFontSize() const { return info.font_size; }
 
-    inline void SetStr(const string s) { info.str = s; }
-    inline void ConcatStr(const string s) { info.str += s; }
+    //Set the line height offset
+    inline void SetLHO(const uchar new_lho) { info.line_height_offset = new_lho; }
+    [[nodiscard]] inline uchar GetLHO() const { return info.line_height_offset; }
+
+    inline void SetStr(const string& s) { info.str = s; }
+    inline void ConcatStr(const string& s) { info.str += s; }
     [[nodiscard]] inline string GetStr() const { return info.str; }
 
     inline void MoveTo(const Vec2i new_pos) { info.pos = new_pos; }
@@ -62,7 +67,38 @@ public:
     [[nodiscard]] inline Vec2i GetPos() const { return info.pos; }
 
     inline Vec2i GetStrSize(const bool physical = false) {
-        TTF_GetStringSizeWrapped(font.GetFont(), info.str.c_str(), strlen(info.str.c_str()), GetMaxW(true), &info.str_size.x, &info.str_size.y);
+        //Have to manually calculate the width & height of the string
+        vector<string> lines;
+		std::istringstream full_stream(info.str);
+		string full_text;
+		string curr_line;
+		string test;
+		string word;
+		int line_w = 0;
+    	info.str_size.x = 0;
+
+		//Wrap the text
+		while (std::getline(full_stream, full_text, '\n')) {
+			std::istringstream line_stream(full_text);
+			word = "";
+			curr_line = "";
+			while (line_stream >> word) {
+				test = curr_line.empty() ? word : curr_line + " " + word;
+				TTF_GetStringSize(font.GetFont(), test.c_str(), test.length(), &line_w, nullptr);
+				if (line_w > GetMaxW(true) and !curr_line.empty()) {
+					lines.push_back(curr_line);
+					curr_line = word;
+				}
+				else {
+					curr_line = test;
+					info.str_size.x = line_w > info.str_size.x ? line_w : info.str_size.x;
+				}
+			}
+			if (!curr_line.empty()) lines.push_back(curr_line);
+		}
+
+    	info.str_size.y = (TTF_GetFontLineSkip(font.GetFont()) - info.line_height_offset * res_scale) * lines.size();
+
         if (physical) return info.str_size;
         return info.str_size / res_scale;
     }

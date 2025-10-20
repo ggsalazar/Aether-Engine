@@ -25,7 +25,11 @@ public:
 	}
 
 	//Where in the song are we (in minutes)?
-	[[nodiscard]] inline float GetSongPos() { return MIX_TrackFramesToMS(msc_track, MIX_GetTrackPlaybackPosition(msc_track))/SEC/60; }
+	[[nodiscard]] inline float GetSongPos() const { return MIX_TrackFramesToMS(msc_track, MIX_GetTrackPlaybackPosition(msc_track))/SEC/60; }
+	//Is there a song playing at all?
+	[[nodiscard]] inline bool SongPlaying() const { return MIX_TrackPlaying(msc_track); }
+	//Is the song paused?
+	[[nodiscard]] inline bool SongPaused() const { return MIX_TrackPaused(msc_track); }
 
 	//Volume
 	[[nodiscard]] inline float GetVolume() const  { return msc_volume; }

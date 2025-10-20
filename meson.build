@@ -25,6 +25,21 @@ dependency('sdl3-ttf', required : true),
 dependency('nlohmann_json', required : true)
 ]
 
+if host_mache.system() == 'windows'
+    # Resource file
+    rc_file = 'icon.rc'
+    res_obj = rc_file.replace('.rc', '.res')
+
+    # Compile .rc -> .res using windres
+    rc_compile = custom_target(
+        'compile_rc',
+        input: rc_file,
+        output: res_obj,
+        command: ['x86_64-w64-mingw32-windres', '@INPUT@', '-O', 'coff', '-o', '@OUTPUT@']
+    )
+    sources += rc_compile
+endif
+
 executable('Aether Engine', sources,
   dependencies: deps,
   install: true,

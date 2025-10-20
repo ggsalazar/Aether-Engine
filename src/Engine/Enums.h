@@ -32,6 +32,11 @@ enum class Widget {
 	SFX_V
 };
 
+//Audio
 enum class Song {
 	NONE
+};
+
+enum class SFX {
+
 };
