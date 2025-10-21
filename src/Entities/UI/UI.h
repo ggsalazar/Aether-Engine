@@ -8,7 +8,7 @@ public:
     Menu* menu = nullptr;
     Text label;
 
-    UI(const Sprite::Info& s_i, Menu* m = nullptr, const Widget w = Widget::NONE);
+    UI(Menu* m, const Widget w);
 
     void GetInput() override;
     void Draw() override;

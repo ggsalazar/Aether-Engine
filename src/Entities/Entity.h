@@ -10,11 +10,7 @@ public:
     inline static uchar SEC;
     bool expired = false;
 
-    //SFX Stuff
-    //sf::SoundBuffer sb;
-    //sf::Sound sound;
-
-    Entity(const Sprite::Info s_i);
+    Entity(const Sprite::Info& spr_info = {});
     virtual ~Entity() = default;
 
     static void SetEngine(Engine* e, Game* g);
@@ -32,9 +28,6 @@ public:
 
     [[nodiscard]] inline Vec2i GetPos() const { return pos; }
     [[nodiscard]] inline Rect GetBBox() const { return bbox; }
-
-    void PlaySFX();
-    void PlaySFXPitchShift();
 
 protected:
     Vec2i pos;

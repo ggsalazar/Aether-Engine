@@ -101,7 +101,7 @@ void Game::Resize() {
 
 void Game::OpenMenu(const MenuName menu, const bool o) {
 	if (Menu* m = FindMenu(menu))
-		m->Open();
+		m->Open(o);
 	else
 		cout << "Game::OpenMenu(): Cannot open non-existent menu.\n";
 

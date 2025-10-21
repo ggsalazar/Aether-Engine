@@ -20,14 +20,14 @@ public:
     ~Game();
 	void Init(Engine* e);
 
-    void ChangeScene(Scene new_scn);
-
     //Engine stuff
     void GetInput();
     void Update();
     void Draw();
     void DrawGUI();
     void Resize();
+
+    void ChangeScene(Scene new_scn);
 
     //Menu handling
     void CreateMenu(const MenuName menu);

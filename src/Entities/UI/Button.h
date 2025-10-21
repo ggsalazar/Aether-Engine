@@ -3,13 +3,7 @@
 
 class Button : public UI {
 public:
-    Button(const Sprite::Info& s_i, Menu* m = nullptr, const Widget w=Widget::NONE)
-        : UI(s_i, m, w) {
-
-        //Can't put this in the init list for some reason
-        label_offset = 2;
-        label.MoveTo({ pos.x, pos.y - label_offset });
-    }
+    Button(const Vec2i init_pos, Menu* m, const Widget w);
 
     void Update() override;
     void Draw() override;

@@ -1,5 +1,49 @@
 #include "Button.h"
 
+Button::Button(const Vec2i init_pos, Menu *m, const Widget w) : UI(m, w) {
+    //Label
+    string l_str;
+    Sprite::Info info = {}; info.sheet = "UI/Btn_Blank";
+    info.pos = pos; info.origin = sprite.GetOrigin();
+    info.frame_size = {112, 33}; info.num_frames = 3;
+    info.anim_fps = 0; info.dfc = -10;
+
+    switch (widget) {
+        case Widget::Apply:
+            l_str = "Apply";
+            SetActive(false);
+            break;
+
+        case Widget::Back:
+            l_str = "Back";
+            break;
+
+        case Widget::Options:
+            l_str = "Options";
+            break;
+
+        case Widget::Quit:
+            l_str = "Quit";
+            break;
+
+        case Widget::Resume:
+            l_str = "Resume";
+            break;
+
+        case Widget::Title:
+            l_str = "Return to Title";
+            break;
+    }
+
+    sprite.Init(info);
+
+    label_offset = 2;
+    label.SetStr(l_str);
+    label.SetOrigin();
+
+    Button::Move();
+}
+
 void Button::Update() {
     //When not Selected or primed, this is 0; when Selected but not primed, this is 1; when selected and primed, this is 2
     sprite.SetCurrFrame(Selected() + primed);
@@ -40,10 +84,12 @@ void Button::Released() {
 
     case Widget::Back:
         menu->Open(false);
+        game->OpenMenu(MenuName::Main);
         break;
 
     case Widget::Options:
         menu->Open(false);
+        game->OpenMenu(MenuName::Options);
         break;
 
     case Widget::Quit:

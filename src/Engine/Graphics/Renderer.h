@@ -53,6 +53,6 @@ private:
 	SDL_Surface* surface = nullptr;
 	SDL_Texture* text_tar = nullptr;
 	Camera* camera = nullptr;
-	const Vec2i min_res = { 400 };
+	const Vec2i min_res = { 640, 360 };
 	Vec2i win_size;
 };

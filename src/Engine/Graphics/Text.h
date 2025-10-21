@@ -4,7 +4,7 @@
 #include "../Math/Geometry.h" //Vec2 (iostream)
 #include "Font.h"
 
-using std::string, std::unordered_map;
+using std::string;
 
 class Text {
     friend class Font;
@@ -23,7 +23,7 @@ public:
         Info() = default;
     };
     static inline uchar res_scale = 1;
-    static inline unordered_map<int, Font> fonts;
+    static inline std::unordered_map<int, Font> fonts;
     Font font;
 
     Text() { Init(info); }
@@ -68,7 +68,7 @@ public:
 
     inline Vec2i GetStrSize(const bool physical = false) {
         //Have to manually calculate the width & height of the string
-        vector<string> lines;
+        std::vector<string> lines;
 		std::istringstream full_stream(info.str);
 		string full_text;
 		string curr_line;

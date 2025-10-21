@@ -5,7 +5,7 @@
 Engine* Entity::engine = nullptr;
 Game* Entity::game = nullptr;
 
-Entity::Entity(const Sprite::Info s_i) : sprite(s_i) /*, sound(sb)*/ {
+Entity::Entity(const Sprite::Info& spr_info) : sprite(spr_info) {
     Entity::MoveTo(Vec2f(sprite.GetPos()));
 }
 

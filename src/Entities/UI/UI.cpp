@@ -1,43 +1,10 @@
 #include "UI.h"
 #include "../../Engine/Input.h" //Window
 
-UI::UI(const Sprite::Info& s_i, Menu* m, const Widget w)
-    : Entity(s_i), menu(m), label(18), widget(w) {
-
-    //Label
-    string l_str;
-    Sprite::Info info = {}; info.sheet = "UI/Btn_Blank";
-    info.pos = pos; info.origin = sprite.GetOrigin();
-    info.frame_size = {112, 33}; info.num_frames = 3;
-    info.anim_fps = 0; info.dfc = -10;
-
-    switch (widget) {
-    case Widget::Apply:
-        l_str = "Apply";
-        SetActive(false);
-        break;
-
-    case Widget::Back:
-        l_str = "Back";
-        break;
+UI::UI(Menu* m, const Widget w)
+    : menu(m), label(18), widget(w) {
 
 
-    case Widget::Options:
-        l_str = "Options";
-        break;
-
-    case Widget::Quit:
-        l_str = "Quit";
-        break;
-
-    case Widget::Resume:
-        l_str = "Resume";
-        break;
-
-    case Widget::Title:
-        l_str = "Return to Title";
-        break;
-    }
     //Pickers, sliders, and toggles
     switch (widget) {
         //Pickers
@@ -49,39 +16,29 @@ UI::UI(const Sprite::Info& s_i, Menu* m, const Widget w)
         case Widget::Music_V:
             l_str = "Music Volume";
             info.sheet = "UI/Slider";
+            info.frame_size = {64, 9};
+            info.num_frames = 1;
         break;
 
         case Widget::SFX_V:
             l_str = "SFX Volume";
             info.sheet = "UI/Slider";
+            info.frame_size = {64, 9};
+            info.num_frames = 1;
         break;
 
         //Toggles
         case Widget::Fullscreen:
             l_str = "Fullscreen";
             info.sheet = "UI/Toggle";
+            info.frame_size = {24};
+            info.num_frames = 2;
         break;
     }
 
-    sprite.Init(info);
 
-    //Set bbox size
-    Entity::Move();
 
     label.MoveTo(pos);
-    label.SetStr(l_str);
-    label.SetOrigin();
-
-    //Sound
-    /*
-    if (!sb.loadFromFile("assets/SFX/ButtonClick.mp3")) {
-        cerr << "Failed to load sound for UI widgetent!" << endl;
-        return;
-    }
-    sound.setBuffer(sb);
-    sound.setVolume(game->GetSFXVolume());
-    */
-
 }
 
 void UI::GetInput() {
