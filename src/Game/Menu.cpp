@@ -16,64 +16,57 @@ Menu::Menu(const MenuName i_name) : name(i_name), menu_text(42), sup_text(30) {
     string s_t_str;
     uint s_t_str_max_w = 0;
 
-    Sprite::Info elem_info = {}; elem_info.origin = ui_ori;
+    Vec2i elem_pos;
     int e_y_buffer = 0;
     //What we do depends on our name
     switch (name) {
-    case MenuName::Main: {
-        m_t_pos = Round(engine->min_res.x * .5f, engine->min_res.y * .12f); m_t_str = "Aether Engine";
-        s_t_pos = Round(m_t_pos.x, engine->min_res.y * .15f); s_t_str = "";
+        case MenuName::Main: {
+            m_t_pos = Round(engine->min_res.x * .5f, engine->min_res.y * .12f); m_t_str = "Aether Engine";
+            s_t_pos = Round(m_t_pos.x, engine->min_res.y * .15f); s_t_str = "";
 
-        elem_info.pos = Round(engine->min_res.x * .5f, engine->min_res.y * .4f);
+            elem_pos = Round(engine->min_res.x * .5f, engine->min_res.y * .4f);
+            e_y_buffer = round(engine->min_res.y * .1f);
 
-        e_y_buffer = round(engine->min_res.y * .1f);
+            widgets.insert({ Widget::Options, new Button(elem_pos, this, Widget::Options) });
 
-        widgets.insert({ Widget::Options, new Button(elem_info, this, Widget::Options) });
+            elem_pos.y += e_y_buffer;
+            widgets.insert({ Widget::Quit, new Button(elem_pos, this, Widget::Quit) });
 
-        elem_info.pos.y += e_y_buffer;
-        widgets.insert({ Widget::Quit, new Button(elem_info, this, Widget::Quit) });
+            break;
+        }
 
-        break;
-    }
+        case MenuName::Options: {
+            m_t_pos = Round(engine->min_res.x * .5f, engine->min_res.y * .12f); m_t_str = "Aether Engine";
+            s_t_pos = Round(m_t_pos.x, engine->min_res.y * .15f); s_t_str = "Options";
 
-    case MenuName::Options: {
-        m_t_pos = Round(engine->min_res.x * .5f, engine->min_res.y * .12f); m_t_str = "Aether Engine";
-        s_t_pos = Round(m_t_pos.x, engine->min_res.y * .15f); s_t_str = "Options";
+            elem_pos = Round(m_t_pos.x, engine->min_res.y * .3f);
+            e_y_buffer = round(engine->min_res.y * .09f);
 
-        elem_info.pos = Round(m_t_pos.x, engine->min_res.y * .3f);
-        elem_info.sheet = "UI/Slider";
+            //Music and sfx sliders
+            widgets.insert({ Widget::Music_V, new Slider(elem_pos, this, Widget::Music_V) });
 
-        e_y_buffer = round(engine->min_res.y * .09f);
-
-        //Music and sfx sliders
-        widgets.insert({ Widget::Music_V, new Slider(elem_info, this, Widget::Music_V) });
-
-        elem_info.pos.y += e_y_buffer;
-        widgets.insert({ Widget::SFX_V, new Slider(elem_info, this, Widget::SFX_V) });
+            elem_pos.y += e_y_buffer;
+            widgets.insert({ Widget::SFX_V, new Slider(elem_pos, this, Widget::SFX_V) });
 
 
-        //Resolution picker, fullscreen toggle, and apply button
-        elem_info.pos.y += e_y_buffer;
-        widgets.insert({ Widget::Resolution, new Picker(elem_info, this, Widget::Resolution) });
+            //Resolution picker, fullscreen toggle, and apply button
+            elem_pos.y += e_y_buffer;
+            widgets.insert({ Widget::Resolution, new Picker(elem_pos, this, Widget::Resolution) });
 
-        elem_info.frame_size = { 24 };
-        elem_info.pos.y += e_y_buffer;
-        elem_info.pos.x += 34;
-        widgets.insert({ Widget::Fullscreen, new Toggle(elem_info, this, Widget::Fullscreen) });
-        elem_info.pos.x -= 34;
+            elem_pos.y += e_y_buffer;
+            elem_pos.x += 34;
+            widgets.insert({ Widget::Fullscreen, new Toggle(elem_pos, this, Widget::Fullscreen) });
+            elem_pos.x -= 34;
 
-        //Reset the size of a single frame
-        elem_info.frame_size = { 0 };
+            elem_pos.y += e_y_buffer;
+            widgets.insert({ Widget::Apply, new Button(elem_pos, this, Widget::Apply) });
 
-        elem_info.pos.y += e_y_buffer;
-        widgets.insert({ Widget::Apply, new Button(elem_info, this, Widget::Apply) });
+            //Back button
+            elem_pos.y = round(engine->min_res.y * .9f);
+            widgets.insert({ Widget::Back, new Button(elem_pos, this, Widget::Back) });
 
-        //Back button
-        elem_info.pos.y = round(engine->min_res.y * .9f);
-        widgets.insert({ Widget::Back, new Button(elem_info, this, Widget::Back) });
-
-        break;
-    }
+            break;
+        }
     }
 
 

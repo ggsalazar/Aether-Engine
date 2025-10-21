@@ -2,46 +2,43 @@
 
 Button::Button(const Vec2i init_pos, Menu *m, const Widget w) : UI(m, w) {
     //Label
-    string l_str;
-    Sprite::Info info = {}; info.sheet = "UI/Btn_Blank";
-    info.pos = pos; info.origin = sprite.GetOrigin();
+    Sprite::Info info; info.sheet = "UI/Btn_Blank";
+    info.pos = init_pos; info.origin = {.5f};
     info.frame_size = {112, 33}; info.num_frames = 3;
-    info.anim_fps = 0; info.dfc = -10;
+    sprite.Init(info);
 
     switch (widget) {
         case Widget::Apply:
-            l_str = "Apply";
+            label.SetStr("Apply");
             SetActive(false);
             break;
 
         case Widget::Back:
-            l_str = "Back";
+            label.SetStr("Back");
             break;
 
         case Widget::Options:
-            l_str = "Options";
+            label.SetStr("Options");
             break;
 
         case Widget::Quit:
-            l_str = "Quit";
+            label.SetStr("Quit");
             break;
 
         case Widget::Resume:
-            l_str = "Resume";
+            label.SetStr("Resume");
             break;
 
         case Widget::Title:
-            l_str = "Return to Title";
+            label.SetStr("Return to Title");
             break;
     }
 
-    sprite.Init(info);
-
     label_offset = 2;
-    label.SetStr(l_str);
     label.SetOrigin();
 
-    Button::Move();
+    //Move stuff last
+    Button::MoveTo(sprite.GetPos());
 }
 
 void Button::Update() {
@@ -61,7 +58,6 @@ void Button::Pressed() {
 }
 
 void Button::Released() {
-    activated = true;
     switch (widget) {
 
     case Widget::Apply:

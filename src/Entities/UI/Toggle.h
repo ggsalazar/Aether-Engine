@@ -5,11 +5,11 @@ class Toggle : public UI {
 public:
     bool on = false;
 
-    Toggle(const Sprite::Info& s_i, Menu* m, const Widget w);
+    Toggle(const Vec2i init_pos, Menu* m, const Widget w);
 
     void Draw() override;
-    inline void MoveBy(Vec2f offset) override { Entity::MoveBy(offset); Move(); }
-    inline void MoveTo(Vec2f new_pos) override { Entity::MoveTo(new_pos); Move(); }
+    inline void MoveBy(Vec2i offset) override { Entity::MoveBy(offset); Move(); }
+    inline void MoveTo(Vec2i new_pos) override { Entity::MoveTo(new_pos); Move(); }
 
 private:
     //Functions

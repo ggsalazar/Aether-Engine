@@ -4,7 +4,7 @@
 
 class Picker : public UI {
 public:
-    Picker(const Sprite::Info& s_i, Menu* m = nullptr, const Widget w=Widget::NONE);
+    Picker(const Vec2i init_pos, Menu* m, const Widget w);
 
     void GetInput() override;
     void Update() override;
@@ -12,8 +12,8 @@ public:
 
     inline void SetPickingF() { picking.font = label.font; }
 
-    inline void MoveBy(Vec2f offset) override { Entity::MoveBy(offset); Move(); }
-    inline void MoveTo(Vec2f new_pos) override { Entity::MoveTo(new_pos); Move(); }
+    inline void MoveBy(Vec2i offset) override { Entity::MoveBy(offset); Move(); }
+    inline void MoveTo(Vec2i new_pos) override { Entity::MoveTo(new_pos); Move(); }
 
     void SetPicking(const string& new_p);
     inline string GetPicking() const { return picking.GetStr(); }

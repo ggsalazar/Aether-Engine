@@ -1,46 +1,6 @@
 #include "UI.h"
 #include "../../Engine/Input.h" //Window
 
-UI::UI(Menu* m, const Widget w)
-    : menu(m), label(18), widget(w) {
-
-
-    //Pickers, sliders, and toggles
-    switch (widget) {
-        //Pickers
-        case Widget::Resolution:
-            l_str = "Resolution";
-        break;
-
-        //Sliders
-        case Widget::Music_V:
-            l_str = "Music Volume";
-            info.sheet = "UI/Slider";
-            info.frame_size = {64, 9};
-            info.num_frames = 1;
-        break;
-
-        case Widget::SFX_V:
-            l_str = "SFX Volume";
-            info.sheet = "UI/Slider";
-            info.frame_size = {64, 9};
-            info.num_frames = 1;
-        break;
-
-        //Toggles
-        case Widget::Fullscreen:
-            l_str = "Fullscreen";
-            info.sheet = "UI/Toggle";
-            info.frame_size = {24};
-            info.num_frames = 2;
-        break;
-    }
-
-
-
-    label.MoveTo(pos);
-}
-
 void UI::GetInput() {
     if (Selected()) { //Selected() accounts for current state of active
         if (Input::BtnPressed(LMB))
@@ -73,5 +33,5 @@ void UI::SetActive(const bool new_active) {
 
 void UI::Pressed() {
     primed = true;
-    //sound.play();
+    //Play a sound - TO-DO
 }

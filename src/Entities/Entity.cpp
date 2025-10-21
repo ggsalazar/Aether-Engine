@@ -41,21 +41,6 @@ void Entity::MoveTo(const Vec2i new_pos) {
     Entity::Move();
 }
 
-void Entity::PlaySFX() {
-    ///Play the sound
-}
-
-void Entity::PlaySFXPitchShift() {
-    //Play assigned noise with slight pitch shift
-    float pitch_shift = (rand() % 10) * .01;
-    if (rand() % 2) pitch_shift *= -1;
-    /*
-    sound.setPitch(sound.getPitch() + pitch_shift);
-    sound.play();
-    sound.setPitch(1);
-    */
-}
-
 void Entity::Move() {
     sprite.MoveTo(pos);
     size = sprite.GetScaledSize();

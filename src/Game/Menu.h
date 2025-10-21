@@ -45,7 +45,6 @@ protected:
 
     unordered_map<MenuName, Menu*> sub_menus;
     unordered_map<Widget, UI*> widgets;
-    Vec2f ui_ori = { .5f, .5f };
 
     static inline Engine* engine;
 };

@@ -1,18 +1,28 @@
 #include "Toggle.h"
 
-Toggle::Toggle(const Sprite::Info& s_i, Menu* m, const Widget w)
-	: UI(s_i, m, w) {
+Toggle::Toggle(const Vec2i init_pos, Menu* m, const Widget w)
+	: UI(m, w) {
+
+	Sprite::Info info; info.sheet = "UI/Toggle";
+	info.pos = init_pos; info.origin = {.5f};
+	info.num_frames = 2; info.frame_size = {24};
+	sprite.Init(info);
+
 
 	label_offset = 12;
 	label.SetOrigin({ 1.f, .5 });
 	label.MoveTo({ pos.x - label_offset, pos.y });
 
 	switch (widget) {
-	case Widget::Fullscreen:
-		on = engine->resolution.x == engine->window.ScreenSize().x;
-		SetActive(!on);
+		case Widget::Fullscreen:
+			label.SetStr("Fullscreen");
+			on = engine->resolution.x == engine->window.ScreenSize().x;
+			SetActive(!on);
 		break;
 	}
+
+	//Move stuff last
+	Toggle::MoveTo(sprite.GetPos());
 }
 
 void Toggle::Draw() {
@@ -20,6 +30,7 @@ void Toggle::Draw() {
 		engine->renderer.DrawRect(bbox, Color(1, 0, 0));
 
 	UI::Draw();
+	engine->renderer.DrawTxt(label);
 
 	if (on)
 		sprite.SetCurrFrame(1);
@@ -34,11 +45,11 @@ void Toggle::Released() {
 	on = !on;
 
 	switch (widget) {
-	case Widget::Fullscreen:
-		//Set the Apply button to active
-		menu->SetWidgetActive(Widget::Apply);
+		case Widget::Fullscreen:
+			//Set the Apply button to active
+			menu->SetWidgetActive(Widget::Apply);
 
-		menu->SetWidgetActive(Widget::Resolution, !on);
+			menu->SetWidgetActive(Widget::Resolution, !on);
 		break;
 
 	}

@@ -1,31 +1,35 @@
 #include "Picker.h"
 #include "../../Engine/Input.h"
 
-Picker::Picker(const Sprite::Info& s_i, Menu* m, const Widget w)
-    : UI(s_i, m, w), picking(label.GetFontSize()) {
+Picker::Picker(const Vec2i init_pos, Menu* m, const Widget w)
+    : UI(m, w), picking(label.GetFontSize()) {
+
+    Sprite::Info info; info.sheet = "UI/Btn_Blank";
+    info.pos = init_pos; info.origin = {.5f};
+    info.num_frames = 3; info.frame_size = {112, 33};
+    sprite.Init(info);
 
     //We want those arrow sprites
-    Sprite::Info arrow_info = {};
+    Sprite::Info arrow_info;
     arrow_info.sheet = "UI/Picker_Arrow"; arrow_info.origin = {.5f};
     arrow_info.frame_size = {15, 10}; arrow_info.num_frames = 2;
-    l_arrow.Init(arrow_info);
-    r_arrow.Init(arrow_info);
+    l_arrow.Init(arrow_info); r_arrow.Init(arrow_info);
 
     label_offset = 6;
+    label.SetOrigin();
     label.MoveTo({ pos.x, pos.y - label_offset });
 
     //What exactly ARE we picking?
-    string picking_str;
     switch (widget) {
         case Widget::Resolution:
-            picking_str = to_string(engine->resolution.x / engine->min_res.x);
+            label.SetStr("Resolution");
+            picking.SetStr(to_string(engine->resolution.x / engine->min_res.x));
         break;
     }
-    picking.SetStr(picking_str);
     picking.SetOrigin();
 
-    //Move shit
-    Move();
+    //Move stuff last
+    Picker::MoveTo(sprite.GetPos());
 }
 
 void Picker::GetInput() {

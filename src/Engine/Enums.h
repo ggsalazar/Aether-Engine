@@ -28,7 +28,7 @@ enum class Widget {
 	//Pickers
 	Resolution,
 	//Sliders
-	Music_V,
+	Msc_V,
 	SFX_V
 };
 
