@@ -1,5 +1,5 @@
 project('Aether Engine', ['cpp', 'c'],
-          version: '0.8.0',
+          version: '2025.10.20',
     meson_version: '>= 0.62.0',
   default_options: [ 'warning_level=2', 'werror=false', 'cpp_std=gnu++2a', ],
 )
@@ -22,10 +22,11 @@ deps = [
 dependency('sdl3', required : true),
 dependency('sdl3-image', required : true),
 dependency('sdl3-ttf', required : true),
+dependency('sdl3-mixer', required : true),
 dependency('nlohmann_json', required : true)
 ]
 
-if host_mache.system() == 'windows'
+if host_machine.system() == 'windows'
     # Resource file
     rc_file = 'icon.rc'
     res_obj = rc_file.replace('.rc', '.res')
