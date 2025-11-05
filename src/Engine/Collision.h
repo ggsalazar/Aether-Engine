@@ -6,11 +6,11 @@ using std::min, std::max;
 namespace Collision {
     bool AABB(const Rect& a, const Rect& b);
 
-    bool LinePoint(const Line& l, const Vec2i& p);
+    bool LinePoint(const Line& l, const Vec2f& p);
 
     //bool Lines(const Line& a, const Line& b);
 
-    bool CirclePoint(const Circle& c, const Vec2i& p);
+    bool CirclePoint(const Circle& c, const Vec2f& p);
 
     /*
     bool CircleLine(const Circle& c, const Vec2i& p);
@@ -18,7 +18,7 @@ namespace Collision {
     bool Circles(const Circle& a, const Circle& b);
     */
 
-    bool RectPoint(const Rect& r, const Vec2i& p);
+    bool RectPoint(const Rect& r, const Vec2f& p);
 
     //inline static bool RectLine(const Rect& r, const Line& l);
 

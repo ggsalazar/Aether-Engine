@@ -7,6 +7,7 @@
 class Camera;
 class Sprite;
 class Text;
+class TileMap;
 
 class Renderer {
 public:
@@ -35,6 +36,7 @@ public:
 	//Sprites
 	void DrawSheet(const Sprite& sheet, const Vec2i& pos = { 0 }) const;
 	void DrawSprite(const Sprite& spr) const;
+	void DrawTilemap(TileMap& tmp) const;
 	//Text
 	void DrawTxt(Text& txt);
 

@@ -18,7 +18,7 @@ struct Vec2 {
 
     //Conversion constructor
     template<typename U>
-    explicit constexpr Vec2(const Vec2<U>& other) : x(static_cast<T>(other.x)), y(static_cast<T>(other.y)) {}
+    constexpr Vec2(const Vec2<U>& other) : x(static_cast<T>(other.x)), y(static_cast<T>(other.y)) {}
 
     //Negation
     constexpr Vec2 operator-() const { return { -x, -y }; }

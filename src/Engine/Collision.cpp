@@ -14,7 +14,7 @@ bool Collision::AABB(const Rect& a, const Rect& b) {
         a_norm.y + a_norm.h >= b_norm.y && b_norm.y + b_norm.h >= a_norm.y);
 }
 
-bool Collision::LinePoint(const Line& l, const Vec2i& p) {
+bool Collision::LinePoint(const Line& l, const Vec2f& p) {
     //Vertical line
     if (l.x1 == l.x2) return p.x == l.x1 and min(l.y1, l.y2) <= p.y and p.y <= max(l.y1, l.y2);
     //Horizontal line
@@ -27,18 +27,18 @@ bool Collision::LinePoint(const Line& l, const Vec2i& p) {
     return on_line and within_segment;
 }
 
-bool Collision::CirclePoint(const Circle& c, const Vec2i& p) {
-    return Distance({ c.x, c.y }, p) <= c.r;
+bool Collision::CirclePoint(const Circle& c, const Vec2f& p) {
+    return Distance(Vec2i{ c.x, c.y }, p) <= c.r;
 }
 
-bool Collision::RectPoint(const Rect& r, const Vec2i& p) {
+bool Collision::RectPoint(const Rect& r, const Vec2f& p) {
     return min(r.x, r.x + r.w) <= p.x and p.x <= max(r.x, r.x + r.w) and
         min(r.y, r.y + r.h) <= p.y and p.y <= max(r.y, r.y + r.h);
 }
 
 bool Collision::RectCircle(const Rect& r, const Circle& c) {
     //Get the closest point of the rectangle to the circle
-    Vec2i closest_point = { c.x, c.y };
+    Vec2f closest_point = { c.x, c.y };
     Math::Clamp(closest_point.x, r.x, r.x + r.w);
     Math::Clamp(closest_point.y, r.y, r.y + r.h);
     return CirclePoint(c, closest_point);

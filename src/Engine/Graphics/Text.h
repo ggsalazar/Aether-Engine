@@ -62,8 +62,8 @@ public:
     inline void ConcatStr(const string& s) { info.str += s; }
     [[nodiscard]] inline string GetStr() const { return info.str; }
 
-    inline void MoveTo(const Vec2i new_pos) { info.pos = new_pos; }
-    inline void MoveBy(const Vec2i offset) { info.pos += offset; }
+    inline void MoveTo(const Vec2f new_pos) { info.pos = Round(new_pos); }
+    inline void MoveBy(const Vec2f offset) { info.pos += Round(offset); }
     [[nodiscard]] inline Vec2i GetPos() const { return info.pos; }
 
     inline Vec2i GetStrSize(const bool physical = false) {
@@ -118,12 +118,10 @@ public:
     }
     [[nodiscard]] inline Vec2f GetOrigin() const { return info.origin; }
 
-    //Rotation in degrees
-    inline void SetRotD(const float angle) { info.rot = angle; }
-    [[nodiscard]] inline float GetRotD() const { return info.rot; }
-    //Rotation in radians
-    inline void SetRotR(const float rad) { info.rot = rad * 57.2958; }
-    [[nodiscard]] inline float GetRotR() const { return info.rot / 57.2958; }
+	//Rotation
+	inline void SetRot(const float angle, const bool rad = false) { info.rot = angle * (57.2958f * rad); }
+	inline void AlterRot(const float offset, const bool rad = false) { info.rot += offset * (57.2958f * rad); }
+	[[nodiscard]] inline float GetRot(const bool rad = false) const { return rad ? info.rot : info.rot / 57.2958f; }
 
 private:
     Info info = {};

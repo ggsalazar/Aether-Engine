@@ -5,7 +5,7 @@
 void Sprite::Init(const Info& i) {
     info = i;
 
-    if (info.sheet != "") {
+    if (!info.sheet.empty()) {
 
         SetAnimFPS(info.anim_fps);
         std::string sheet_png = "../assets/Sprites/" + info.sheet + ".png";
@@ -27,15 +27,15 @@ void Sprite::Init(const Info& i) {
         info.frame_size = info.frame_size == Vec2i{0} ? info.sheet_size : info.frame_size;
         info.spr_size = info.spr_size == Vec2i{0} ? info.frame_size : info.spr_size;
 
-        //Automatically set num_frames if it wasn't already set (assumes only 1 row in the sheet)
-        if (info.num_frames == 1 and info.sheet_size.y == info.frame_size.y) info.num_frames = info.sheet_size.x / info.frame_size.x;
+        //Automatically set num_frames if it wasn't already set
+        if (info.num_frames == 1) info.num_frames = info.sheet_size.x / info.frame_size.x;
     }
 }
 
 void Sprite::Update() {
     if (info.anim_fps != 0 and ++info.game_frames >= info.fci) {
-        info.game_frames = 0;
 
+        //Game frames set in SetCurrFrame
         if (info.anim_fps > 0) SetCurrFrame(++info.curr_frame);
         else if (info.anim_fps < 0) SetCurrFrame(--info.curr_frame);
     }
@@ -43,6 +43,29 @@ void Sprite::Update() {
 
 void Sprite::Draw() const {
     renderer->DrawSprite(*this);
+}
+
+void Sprite::SetSheet(const std::string &new_sheet) {
+    info.sheet = new_sheet;
+
+    if (!info.sheet.empty()) {
+
+        std::string sheet_png = "../assets/Sprites/" + info.sheet + ".png";
+        if (texture) {
+            SDL_DestroyTexture(texture);
+            texture = nullptr;
+        }
+        texture = IMG_LoadTexture(sdl_renderer, sheet_png.c_str());
+
+        if (!texture)
+            std::cout << "Could not load texture from file: " << sheet_png << "!\n";
+
+        SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
+
+        Vec2f s_size;
+        SDL_GetTextureSize(texture, &s_size.x, &s_size.y);
+        info.sheet_size = Round(s_size.x, s_size.y);
+    }
 }
 
 void Sprite::SetSheetRow(uchar new_s_r, const uchar new_n_f) {

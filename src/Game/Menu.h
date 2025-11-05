@@ -9,12 +9,11 @@ class Menu {
 public:
     bool to_close = false, has_focus = false;
 
-    Menu(const MenuName i_name);
+    explicit Menu(const MenuName i_name);
     ~Menu();
     static inline void SetEngine(Engine* e) { engine = e; }
 
     //Engine
-    void GetInput();
     void Update();
     void Draw();
 
@@ -34,7 +33,7 @@ public:
     void SetWidgetActive(const Widget ui, const bool a = true);
     Vec2i GetWidgetPos(const Widget ui);
     string GetWidgetStatus(const Widget ui);
-    void SetWidgetStatus(const Widget ui, const string new_status);
+    void SetWidgetStatus(const Widget ui, const string& new_status);
 
 protected:
     MenuName name;

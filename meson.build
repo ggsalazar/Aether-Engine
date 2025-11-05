@@ -1,5 +1,5 @@
 project('Aether Engine', ['cpp', 'c'],
-          version: '2025.10.20',
+          version: '2025.11.04',
     meson_version: '>= 0.62.0',
   default_options: [ 'warning_level=2', 'werror=false', 'cpp_std=gnu++2a', ],
 )
@@ -29,6 +29,7 @@ dependency('sdl3-mixer', required : true),
 dependency('nlohmann_json', required : true)
 ]
 
+#Embedding the icon
 if host_machine.system() == 'windows'
     # Resource file
     rc_file = 'icon.rc'
@@ -44,7 +45,7 @@ if host_machine.system() == 'windows'
     sources += rc_compile
 endif
 
-executable('Aether Engine', sources,
+executable(meson.project_name(), sources,
   dependencies: deps,
   install: true,
 )

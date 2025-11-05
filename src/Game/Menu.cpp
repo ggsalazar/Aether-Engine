@@ -8,24 +8,24 @@ Menu::Menu(const MenuName i_name) : name(i_name), menu_text(42), sup_text(30) {
 
     //Menu and Supp text variables
     menu_text.SetOrigin();
-    Vec2i m_t_pos = { 0 };
+    Vec2f m_t_pos = { 0 };
     string m_t_str;
 
     sup_text.SetOrigin();
-    Vec2i s_t_pos = { 0 };
+    Vec2f s_t_pos = { 0 };
     string s_t_str;
     uint s_t_str_max_w = 0;
 
-    Vec2i elem_pos;
-    int e_y_buffer = 0;
+    Vec2f elem_pos;
+    float e_y_buffer = 0;
     //What we do depends on our name
     switch (name) {
         case MenuName::Main: {
-            m_t_pos = Round(engine->min_res.x * .5f, engine->min_res.y * .12f); m_t_str = "Aether Engine";
-            s_t_pos = Round(m_t_pos.x, engine->min_res.y * .15f); s_t_str = "";
+            m_t_pos = {engine->min_res.x * .5f, engine->min_res.y * .12f}; m_t_str = "Aether Engine";
+            s_t_pos = {m_t_pos.x, engine->min_res.y * .15f}; s_t_str = "";
 
-            elem_pos = Round(engine->min_res.x * .5f, engine->min_res.y * .4f);
-            e_y_buffer = round(engine->min_res.y * .1f);
+            elem_pos = {engine->min_res.x * .5f, engine->min_res.y * .4f};
+            e_y_buffer = engine->min_res.y * .1f;
 
             widgets.insert({ Widget::Options, new Button(elem_pos, this, Widget::Options) });
 
@@ -36,14 +36,14 @@ Menu::Menu(const MenuName i_name) : name(i_name), menu_text(42), sup_text(30) {
         }
 
         case MenuName::Options: {
-            m_t_pos = Round(engine->min_res.x * .5f, engine->min_res.y * .12f); m_t_str = "Aether Engine";
-            s_t_pos = Round(m_t_pos.x, engine->min_res.y * .15f); s_t_str = "Options";
+            m_t_pos = {engine->min_res.x * .5f, engine->min_res.y * .12f}; m_t_str = "Aether Engine";
+            s_t_pos = {m_t_pos.x, engine->min_res.y * .15f}; s_t_str = "Options";
 
-            elem_pos = Round(m_t_pos.x, engine->min_res.y * .3f);
-            e_y_buffer = round(engine->min_res.y * .09f);
+            elem_pos = {m_t_pos.x, engine->min_res.y * .3f};
+            e_y_buffer = engine->min_res.y * .09f;
 
             //Music and sfx sliders
-            widgets.insert({ Widget::Music_V, new Slider(elem_pos, this, Widget::Music_V) });
+            widgets.insert({ Widget::Msc_V, new Slider(elem_pos, this, Widget::Msc_V) });
 
             elem_pos.y += e_y_buffer;
             widgets.insert({ Widget::SFX_V, new Slider(elem_pos, this, Widget::SFX_V) });
@@ -62,7 +62,7 @@ Menu::Menu(const MenuName i_name) : name(i_name), menu_text(42), sup_text(30) {
             widgets.insert({ Widget::Apply, new Button(elem_pos, this, Widget::Apply) });
 
             //Back button
-            elem_pos.y = round(engine->min_res.y * .9f);
+            elem_pos.y = engine->min_res.y * .9f;
             widgets.insert({ Widget::Back, new Button(elem_pos, this, Widget::Back) });
 
             break;
@@ -85,17 +85,6 @@ Menu::~Menu() {
     sub_menus.clear();
 }
 
-
-void Menu::GetInput() {
-    if (open) {
-        for (auto& w : widgets)
-            w.second->GetInput();
-
-        for (auto& s_m : sub_menus)
-            s_m.second->GetInput();
-    }
-}
-
 void Menu::Update() {
     if (open) {
     	for (auto& w : widgets) w.second->Update();
@@ -103,6 +92,7 @@ void Menu::Update() {
         for (const auto& s_m : sub_menus)
             s_m.second->Update();
     }
+    if (to_close) Open(false);
 }
 
 void Menu::Draw() {
@@ -134,10 +124,9 @@ void Menu::Open(const bool o) {
     open = o;
     has_focus = open;
 
-    if (!open) {
+    if (!open)
         for (const auto& sm : sub_menus)
             sm.second->Open(false);
-    }
 }
 
 void Menu::OpenSM(const MenuName s_m) {
@@ -178,10 +167,10 @@ Vec2i Menu::GetWidgetPos(const Widget w) {
         return widgets[w]->GetPos();
 
     cout << "Menu::GetWidgetPos(): No such Widget exists\n";
-    return Vec2i();
+    return {};
 }
 
-void Menu::SetWidgetStatus(const Widget w, const string new_status) {
+void Menu::SetWidgetStatus(const Widget w, const string& new_status) {
     if (CheckWidget(w)) {
         if (auto picker = dynamic_cast<Picker*>(widgets[w]))
             picker->SetPicking(new_status);
@@ -202,5 +191,3 @@ string Menu::GetWidgetStatus(const Widget w) {
 
     return "Menu::GetWidgetStatus(): No such Widget exists\n";
 }
-
-

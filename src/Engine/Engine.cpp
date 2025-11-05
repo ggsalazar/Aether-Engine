@@ -4,7 +4,7 @@
 #include "Graphics/Text.h"
 #include "Math/Math.h"
 
-Engine::Engine(const char* title, const uchar init_fps)
+Engine::Engine(const char* title, const float init_fps)
     : fps(init_fps), resolution(min_res*2), window(title, resolution),
     renderer(window.GetWin(), &camera), camera({ 0 }, Vec2i(min_res)) {
 
@@ -21,6 +21,8 @@ Engine::Engine(const char* title, const uchar init_fps)
 
     //Set the resolution
     resolution = window.WinSize();
+    //Initialize the Input namespace
+    Input::Init(&window, &camera);
     SetResolution(resolution);
 
     //Set sprite's renderer & game fps
@@ -30,9 +32,6 @@ Engine::Engine(const char* title, const uchar init_fps)
 
     //Initialize text fonts
     Text::InitFonts();
-
-    //Initialize the Input namespace
-    Input::Init(&window, &camera);
 
     //Init game, which sets the Engine* in all the classes that need it
     game.Init(this);
@@ -46,47 +45,29 @@ void Engine::Run() {
     //Calculate delta time
     auto now = hr_clock::now();
     delta = now - last_time;
-    last_time = now;
     delta_time = delta.count();
+    accumulated_time += delta_time;
+
+    last_time = now;
 
     //Handle events
     window.PollEvents();
 
     //Process input and update the game state once every 60th of a second
-    accumulated_time += delta_time;
     if (accumulated_time >= target_frame_time) {
         accumulated_time -= target_frame_time;
         if (++game_frames >= fps) game_frames = 0;
 
-        //Process input
-        ProcessInput();
-        //Update the game world
-        Update();
+        //Update the game
+        game.Update();
+
+        //Reset the input arrays - must come *after* querying input from the player
+        Input::Update();
     }
 
     //Draw the game world
     if (window.open) Render();
     else running = false;
-
-    //Framerate cap
-    auto frame_time = (hr_clock::now() - now).count();
-    if (frame_time < target_frame_time)
-        this_thread::sleep_for(durationf(target_frame_time - frame_time));
-}
-
-//Process input
-void Engine::ProcessInput() {
-    //Get input for the game
-    game.GetInput();
-}
-
-//Update the game world
-void Engine::Update() {
-    //Reset our input variables
-    Input::Update();
-
-    //Update the game
-    game.Update();
 }
 
 //Draw the game world
@@ -150,6 +131,9 @@ void Engine::SetRes() {
 
     //Set the renderer's window size
     renderer.SetWinSize();
+
+    //Update the input namespace's resolution
+    Input::UpdateRes();
 
     //Set the res_scale for Text
     Text::SetResScale(resolution.x / min_res.x);

@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
-#include "../Engine/Enums.h"
 #include "../Engine/Graphics/Sprite.h"
+#include "../Engine/Graphics/TileMap.h" //Enums
 
 using namespace std;
 
@@ -21,12 +21,12 @@ public:
 	void Init(Engine* e);
 
     //Engine stuff
-    void GetInput();
     void Update();
     void Draw();
     void DrawGUI();
     void Resize();
 
+    //Game Stuff
     void ChangeScene(Scene new_scn);
 
     //Menu handling
@@ -41,8 +41,10 @@ public:
     void SetEntitySFXVolume(const float new_volume);
 
 private:
+    //Must be a vector to more easily control draw order
     vector<Menu*> menus;
     Sprite cursor;
+    TileMap tilemap;
 
     inline static Engine* engine = nullptr;
 };

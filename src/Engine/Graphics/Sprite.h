@@ -52,12 +52,13 @@ public:
     void Update();
     void Draw() const;
 
+    void SetSheet(const std::string& new_sheet);
     [[nodiscard]] inline std::string GetSheet() const { return info.sheet; }
     [[nodiscard]] inline Vec2i GetSheetSize() const { return info.sheet_size; }
 
     [[nodiscard]] inline Vec2i GetPos() const { return info.pos; }
-    inline void MoveTo(const Vec2i& new_pos) { info.pos = new_pos; }
-    inline void MoveBy(const Vec2i& offset) { info.pos += offset; }
+    inline void MoveTo(const Vec2f& new_pos) { info.pos = Round(new_pos); }
+    inline void MoveBy(const Vec2f& offset) { info.pos += Round(offset); }
 
     inline void SetSize(const Vec2i& s) { info.spr_size = s; }
     [[nodiscard]] inline Vec2i GetSprSize() const { return info.spr_size; }
@@ -67,14 +68,10 @@ public:
     inline void SetScale(const Vec2i& s) { info.scale = s; }
     [[nodiscard]] inline Vec2i GetScale() const { return info.scale; }
 
-    //Rotation in degrees
-    inline void SetRotD(const float angle) { info.rot = angle; }
-    inline void AlterRotD(const float offset) { info.rot += offset; }
-    [[nodiscard]] inline float GetRotD() const { return info.rot; }
-    //Rotation in radians
-    inline void SetRotR(const float rad) { info.rot = rad * 57.2958; }
-    inline void AlterRotR(const float offset) { info.rot += offset * 57.2958; }
-    [[nodiscard]] inline float GetRotR() const { return info.rot / 57.2958; }
+    //Rotation
+    inline void SetRot(const float angle, const bool rad = false) { info.rot = angle * (57.2958f * rad); }
+    inline void AlterRot(const float offset, const bool rad = false) { info.rot += offset * (57.2958f * rad); }
+    [[nodiscard]] inline float GetRot(const bool rad = false) const { return rad ? info.rot : info.rot / 57.2958f; }
 
     inline void SetColor(const Color& c) { info.tint = c; }
     [[nodiscard]] inline Color GetColor() const { return info.tint; }

@@ -3,15 +3,15 @@
 
 class Slider : public UI {
 public:
-    Slider(const Vec2i init_pos, Menu* m, const Widget w);
+    Slider(const Vec2f init_pos, Menu* m, const Widget w);
 
-    void GetInput() override;
+    void Update() override;
     void Draw() override;
 
     inline void SetKLF() { knob_label.font = label.font; }
 
-    inline void MoveBy(Vec2i offset) override { Entity::MoveBy(offset); Move(); }
-    inline void MoveTo(Vec2i new_pos) override { Entity::MoveTo(new_pos); Move(); }
+    inline void MoveBy(Vec2f offset) override { Entity::MoveBy(offset); Move(); }
+    inline void MoveTo(Vec2f new_pos) override { Entity::MoveTo(new_pos); Move(); }
 
 private:
     void Move() override;
@@ -19,6 +19,5 @@ private:
     //Knob stuff
     Sprite knob_spr;
     Text knob_label;
-    int knob_pos_max = 0, knob_pos_min = 0;
-    float knob_pos = 0;
+    int knob_pos_max = 0, knob_pos_min = 0, knob_pos = 0;
 };

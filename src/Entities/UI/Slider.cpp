@@ -2,11 +2,11 @@
 #include "../../Engine/Math/Math.h"
 #include "../../Engine/Input.h" //Window
 
-Slider::Slider(const Vec2i init_pos, Menu* m, const Widget w)
+Slider::Slider(const Vec2f init_pos, Menu* m, const Widget w)
     : UI(m, w), knob_label(label.GetFontSize()) {
 
     Sprite::Info info; info.sheet = "UI/Slider";
-    info.pos = init_pos; info.origin = {.5f};
+    info.pos = Round(init_pos); info.origin = {.5f};
     info.scale = 2;
     sprite.Init(info);
     Slider::MoveTo(sprite.GetPos());
@@ -20,7 +20,7 @@ Slider::Slider(const Vec2i init_pos, Menu* m, const Widget w)
             label.SetStr("SFX Volume");
         break;
     }
-    label_offset = 6;
+    label_offset = 16;
     label.SetOrigin();
     label.MoveTo({ pos.x, pos.y - label_offset });
 
@@ -35,7 +35,7 @@ Slider::Slider(const Vec2i init_pos, Menu* m, const Widget w)
     string rounded_val;
     if (widget == Widget::Msc_V or widget == Widget::SFX_V) {
         float vol = widget == Widget::Msc_V ? engine->dj.GetVolume() : engine->GetSFXVolume();
-        knob_pos = ((knob_pos_max - knob_pos_min) * vol * .005) + knob_pos_min;
+        knob_pos = ((knob_pos_max - knob_pos_min) * vol * .005f) + knob_pos_min;
 
         //Set the value
         rounded_val = to_string((knob_pos - knob_pos_min) / (knob_pos_max - knob_pos_min) * 200);
@@ -50,8 +50,8 @@ Slider::Slider(const Vec2i init_pos, Menu* m, const Widget w)
     Slider::MoveTo(sprite.GetPos());
 }
 
-void Slider::GetInput() {
-    UI::GetInput();
+void Slider::Update() {
+    UI::Update();
 
     if (Selected() and Input::BtnDown(LMB)) {
 
@@ -62,10 +62,10 @@ void Slider::GetInput() {
 
         float new_val = 0;
         uchar dec_place = 0;
-        if (widget == Widget::Music_V or widget == Widget::SFX_V) {
+        if (widget == Widget::Msc_V or widget == Widget::SFX_V) {
             new_val = (knob_pos - knob_pos_min) / (knob_pos_max - knob_pos_min) * 200;
 
-            if (widget == Widget::Music_V)
+            if (widget == Widget::Msc_V)
                 engine->dj.SetVolume(new_val);
             else if (widget == Widget::SFX_V)
                 engine->SetSFXVolume(new_val);
@@ -97,7 +97,7 @@ void Slider::Move() {
     knob_pos_max = bbox.x + bbox.w * .9f;
     knob_pos_min = bbox.x + bbox.w * .1f;
 
-    if (widget == Widget::Music_V)
+    if (widget == Widget::Msc_V)
         knob_pos = knob_pos_min + (engine->dj.GetVolume() * .005 * (knob_pos_max - knob_pos_min));
     else if (widget == Widget::SFX_V)
         knob_pos = knob_pos_min + (engine->GetSFXVolume() * .005 * (knob_pos_max - knob_pos_min));

@@ -61,11 +61,12 @@ namespace Input {
 
 	void Init(Window* win, Camera* cam);
 	void Update();
+	void UpdateRes();
 
 	bool BtnDown(int btn);
 	bool BtnPressed(int btn);
 	bool BtnReleased(int btn);
-	Vec2i MousePos();
+	Vec2f MousePos();
 
 	bool KeyDown(int key);
 	bool KeyPressed(int key);

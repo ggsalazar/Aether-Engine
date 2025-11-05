@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "Camera.h"
 #include "Text.h" //Font
+#include "TileMap.h"
 #include "Sprite.h"
 #include "../Collision.h"
 
@@ -49,6 +50,43 @@ void Renderer::DrawSprite(const Sprite& spr) const {
 
 		SDL_RenderTextureRotated(renderer, spr.texture, &src, &dest, si->rot, &center, SDL_FLIP_NONE);
 	}
+}
+
+void Renderer::DrawTilemap(TileMap &tmp) const {
+	SDL_Texture* ts_tex = nullptr;
+	std::array<SDL_Vertex, 4> quad{};
+	std::array<int, 6> tile_inds = { 0, 1, 2, 0, 2, 3 };
+	Vec2i tile_world_pos;
+
+	//Draw the tiles
+	for (auto& [ts_name, verts] : tmp.verts_by_tileset) {
+		ts_tex = tmp.tilesets[ts_name];
+
+		for (size_t i = 0; i < verts.size(); i += 4) {
+			// Get tile vertices
+			quad = {
+				verts[i + 0],
+				verts[i + 1],
+				verts[i + 2],
+				verts[i + 3]
+			};
+
+			//AABB cull in world space
+			if (!Collision::AABB(camera->viewport, Rect(Round(quad[0].position.x, quad[0].position.y), TS)))
+				continue;
+
+			//Now convert to screen space
+			for (auto& v : quad) {
+				v.position.x = roundf(v.position.x - camera->viewport.x);
+				v.position.y = roundf(v.position.y - camera->viewport.y);
+			}
+
+			// Draw visible tile
+			SDL_RenderGeometry(renderer, ts_tex, quad.data(), 4, tile_inds.data(), 6);
+		}
+	}
+
+	//Draw the decorations - TO-DO
 }
 
 void Renderer::DrawTxt(Text& txt) {

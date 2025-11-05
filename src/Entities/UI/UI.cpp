@@ -1,7 +1,8 @@
 #include "UI.h"
+#include "../../Engine/Collision.h"
 #include "../../Engine/Input.h" //Window
 
-void UI::GetInput() {
+void UI::Update() {
     if (Selected()) { //Selected() accounts for current state of active
         if (Input::BtnPressed(LMB))
             Pressed();
@@ -10,10 +11,6 @@ void UI::GetInput() {
             Released();
     }
     else if (!Selected()) primed = false;
-}
-
-void UI::Draw() {
-    Entity::Draw();
 }
 
 bool UI::Selected() {

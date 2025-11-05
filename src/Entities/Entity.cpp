@@ -1,5 +1,4 @@
 #include "Entity.h"
-#include "../Engine/Engine.h" //Game
 
 //Just trust
 Engine* Entity::engine = nullptr;
@@ -15,28 +14,14 @@ void Entity::SetEngine(Engine* e, Game* g) {
     SEC = engine->GetFPS();
 }
 
-void Entity::Draw() {
-    sprite.Draw();
-}
-
 void Entity::MoveBy(const Vec2f offset) {
     pos += Round(offset);
 
     Entity::Move();
 }
-void Entity::MoveBy(const Vec2i offset) {
-	pos += offset;
-
-	Entity::Move();
-}
 
 void Entity::MoveTo(const Vec2f new_pos) {
     pos = Round(new_pos);
-
-    Entity::Move();
-}
-void Entity::MoveTo(const Vec2i new_pos) {
-    pos = new_pos;
 
     Entity::Move();
 }

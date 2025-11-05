@@ -10,8 +10,8 @@ public:
 
     UI(Menu* m, const Widget w) : menu(m), label(18), widget(w) {}
 
-    void GetInput() override;
-    void Draw() override;
+    void Update() override;
+    inline void Draw() override { Entity::Draw(); }
 
     bool Selected();
 

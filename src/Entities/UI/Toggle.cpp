@@ -1,10 +1,10 @@
 #include "Toggle.h"
 
-Toggle::Toggle(const Vec2i init_pos, Menu* m, const Widget w)
+Toggle::Toggle(const Vec2f init_pos, Menu* m, const Widget w)
 	: UI(m, w) {
 
 	Sprite::Info info; info.sheet = "UI/Toggle";
-	info.pos = init_pos; info.origin = {.5f};
+	info.pos = Round(init_pos); info.origin = {.5f};
 	info.num_frames = 2; info.frame_size = {24};
 	sprite.Init(info);
 

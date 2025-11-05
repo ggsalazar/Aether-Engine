@@ -1,11 +1,12 @@
 #include "Picker.h"
+#include "../../Engine/Collision.h"
 #include "../../Engine/Input.h"
 
-Picker::Picker(const Vec2i init_pos, Menu* m, const Widget w)
+Picker::Picker(const Vec2f init_pos, Menu* m, const Widget w)
     : UI(m, w), picking(label.GetFontSize()) {
 
     Sprite::Info info; info.sheet = "UI/Btn_Blank";
-    info.pos = init_pos; info.origin = {.5f};
+    info.pos = Round(init_pos); info.origin = {.5f};
     info.num_frames = 3; info.frame_size = {112, 33};
     sprite.Init(info);
 
@@ -32,7 +33,9 @@ Picker::Picker(const Vec2i init_pos, Menu* m, const Widget w)
     Picker::MoveTo(sprite.GetPos());
 }
 
-void Picker::GetInput() {
+void Picker::Update() {
+    UI:Update();
+
     if (active) {
         if (LeftSelected()) {
             if (Input::BtnPressed(LMB))
@@ -50,9 +53,7 @@ void Picker::GetInput() {
         }
         else if (!RightSelected()) r_primed = false;
     }
-}
 
-void Picker::Update() {
     //Change the current frame of the arrows
     l_arrow.SetCurrFrame(LeftSelected());
     r_arrow.SetCurrFrame(RightSelected());
@@ -90,14 +91,14 @@ void Picker::Move() {
     l_bbox.w = round(bbox.w * .2);
     l_bbox.h = round(bbox.h * .75);
     l_arrow.SetScale({-1, 1});
-    l_arrow.MoveTo(Round(l_bbox.x + l_bbox.w*.5, l_bbox.y + l_bbox.h*.5));
+    l_arrow.MoveTo({l_bbox.x + l_bbox.w*.5, l_bbox.y + l_bbox.h*.5});
 
     //Right bbox
     r_bbox.x = bbox.x + round(bbox.w * .775);
     r_bbox.y = l_bbox.y;
     r_bbox.w = l_bbox.w;
     r_bbox.h = l_bbox.h;
-    r_arrow.MoveTo(Round(r_bbox.x + r_bbox.w*.5, r_bbox.y + r_bbox.h*.5));
+    r_arrow.MoveTo({r_bbox.x + r_bbox.w*.5, r_bbox.y + r_bbox.h*.5});
 
     label.MoveTo({ pos.x, pos.y - label_offset });
     picking.MoveTo({pos.x, pos.y + label_offset});
