@@ -45,6 +45,7 @@ constexpr int LCTRL = SDL_SCANCODE_LCTRL;
 constexpr int RCTRL = SDL_SCANCODE_RCTRL;
 constexpr int LSHIFT = SDL_SCANCODE_LSHIFT;
 constexpr int RSHIFT = SDL_SCANCODE_RSHIFT;
+constexpr int SPACE = SDL_SCANCODE_SPACE;
 
 namespace Input {
 
