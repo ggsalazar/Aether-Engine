@@ -11,7 +11,7 @@ Toggle::Toggle(const Vec2f init_pos, Menu* m, const Widget w)
 
 	label_offset = 12;
 	label.SetOrigin({ 1.f, .5 });
-	label.MoveTo({ pos.x - label_offset, pos.y });
+	label.MoveTo({ (float)pos.x - label_offset, (float)pos.y });
 
 	switch (widget) {
 		case Widget::Fullscreen:
@@ -32,9 +32,7 @@ void Toggle::Draw() {
 	UI::Draw();
 	engine->renderer.DrawTxt(label);
 
-	if (on)
-		sprite.SetCurrFrame(1);
-	else sprite.SetCurrFrame(0);
+	sprite.SetCurrFrame(on);
 }
 
 void Toggle::Move() {

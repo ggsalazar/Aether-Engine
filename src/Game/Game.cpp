@@ -17,22 +17,12 @@ void Game::Init(Engine* e) {
 	engine = e;
 	Menu::SetEngine(engine);
 	Entity::SetEngine(engine, this);
-	tilemap.SetSDLRenderer(engine->renderer.GetRender());
+	tilemap.SetSDLRenderer(engine->renderer.GetRenderer());
 
 	//Initialize the cursor sprite
 	Sprite::Info spr_info = {};
 	spr_info.sheet = "UI/Cursor"; spr_info.frame_size = {10, 14};
 	cursor.Init(spr_info);
-}
-
-void Game::GetInput() {
-	//Update cursor position and frame
-	cursor.MoveTo(Input::MousePos());
-	cursor.SetCurrFrame(Input::BtnDown(LMB));
-
-	for (auto& e : entities) e->GetInput();
-
-	for (uchar i = 0; i < menus.size(); ++i) menus[i]->GetInput();
 }
 
 void Game::Update() {
@@ -50,7 +40,7 @@ void Game::Update() {
 	// last (closest to the camera)
 	if (engine->GetGameFrames() % 10 == 0) {
 		sort(entities.begin(), entities.end(),
-			[](const Entity* a, const Entity* b) { return a->sprite.GetDFC() > b->sprite.GetDFC(); });
+			[](const Entity* a, const Entity* b) { return a->GetDFC() > b->GetDFC(); });
 	}
 
 	//Remove dead entities walking

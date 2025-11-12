@@ -10,7 +10,7 @@ public:
 
     UI(Menu* m, const Widget w) : menu(m), label(18), widget(w) {}
 
-    void Update() override;
+    virtual void Update() override;
     inline void Draw() override { Entity::Draw(); }
 
     bool Selected();
@@ -20,12 +20,10 @@ public:
     [[nodiscard]] inline Widget GetWidget() const { return widget; }
 
 protected:
-    //Variables
     int label_offset = 0;
     Widget widget = Widget::NONE;
     bool active = true, primed = false;
 
-    //Functions
     virtual void Pressed();
     virtual void Released() {}
 };

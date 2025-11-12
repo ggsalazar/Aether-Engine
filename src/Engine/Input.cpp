@@ -35,7 +35,7 @@ bool Input::BtnReleased(int btn) {
 }
 
 Vec2f Input::MousePos() {
-	return {mouse_pos.x + camera->viewport.x * res_scale) / res_scale, (mouse_pos.y + camera->viewport.y * res_scale) / res_scale};
+	return {(mouse_pos.x + camera->viewport.x * res_scale) / res_scale, (mouse_pos.y + camera->viewport.y * res_scale) / res_scale};
 }
 
 bool Input::KeyDown(int key) {

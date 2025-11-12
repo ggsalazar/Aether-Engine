@@ -1,6 +1,7 @@
 #include "Button.h"
 
-Button::Button(const Vec2f init_pos, Menu *m, const Widget w) : UI(m, w) {
+template<typename T>
+Button::Button(const Vec2<T> init_pos, Menu *m, const Widget w) : UI(m, w) {
     //Label
     Sprite::Info info; info.sheet = "UI/Btn_Blank";
     info.pos = Round(init_pos); info.origin = {.5f};
@@ -38,7 +39,7 @@ Button::Button(const Vec2f init_pos, Menu *m, const Widget w) : UI(m, w) {
     label.SetOrigin();
 
     //Move stuff last
-    Button::MoveTo(sprite.GetPos());
+    MoveTo(sprite.GetPos());
 }
 
 void Button::Update() {

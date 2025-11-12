@@ -17,7 +17,7 @@ class Portal;
 struct Tile {
     Vec2u pos;
     bool walkable = true;
-    //Terrain terrain = Terrain::NONE;
+    Terrain terrain = Terrain::NONE;
 };
 
 class TileMap {

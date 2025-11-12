@@ -113,10 +113,10 @@ void Menu::Resize() {
     menu_text.SetFont();
     sup_text.SetFont();
 
-    for (auto& w : widgets) {
-        w.second->label.SetFont();
-        if (Picker* p = dynamic_cast<Picker*>(w.second)) p->SetPickingF();
-        else if (Slider* s = dynamic_cast<Slider*>(w.second)) s->SetKLF();
+    for (auto& [_, w] : widgets) {
+        w->label.SetFont();
+        if (Picker* p = dynamic_cast<Picker*>(w)) p->SetPickingF();
+        else if (Slider* s = dynamic_cast<Slider*>(w)) s->SetKLF();
     }
 }
 
@@ -137,8 +137,7 @@ void Menu::OpenSM(const MenuName s_m) {
 
 void Menu::RemoveWidget(const Widget w) {
     if (CheckWidget(w)) {
-        //Why is this commented out?
-        //delete widgets[w];
+        delete widgets[w];
         widgets.erase(w);
     }
 }
@@ -170,15 +169,6 @@ Vec2i Menu::GetWidgetPos(const Widget w) {
     return {};
 }
 
-void Menu::SetWidgetStatus(const Widget w, const string& new_status) {
-    if (CheckWidget(w)) {
-        if (auto picker = dynamic_cast<Picker*>(widgets[w]))
-            picker->SetPicking(new_status);
-        else if (auto toggle = dynamic_cast<Toggle*>(widgets[w]))
-        	toggle->on = new_status == "True";
-    }
-}
-
 string Menu::GetWidgetStatus(const Widget w) {
     if (CheckWidget(w)) {
         if (auto picker = dynamic_cast<Picker*>(widgets[w]))
@@ -189,5 +179,14 @@ string Menu::GetWidgetStatus(const Widget w) {
         }
     }
 
-    return "Menu::GetWidgetStatus(): No such Widget exists\n";
+    return "";
+}
+
+void Menu::SetWidgetStatus(const Widget w, const string& new_status) {
+    if (CheckWidget(w)) {
+        if (auto picker = dynamic_cast<Picker*>(widgets[w]))
+            picker->SetPicking(new_status);
+        else if (auto toggle = dynamic_cast<Toggle*>(widgets[w]))
+        	toggle->on = new_status == "True";
+    }
 }

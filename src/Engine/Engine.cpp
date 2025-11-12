@@ -44,10 +44,8 @@ Engine::Engine(const char* title, const float init_fps)
 void Engine::Run() {
     //Calculate delta time
     auto now = hr_clock::now();
-    delta = now - last_time;
-    delta_time = delta.count();
+    delta_time = (now - last_time).count();
     accumulated_time += delta_time;
-
     last_time = now;
 
     //Handle events

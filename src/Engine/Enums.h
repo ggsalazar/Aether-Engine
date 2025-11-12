@@ -1,5 +1,11 @@
 #pragma once
 
+enum class Terrain {
+	NONE,
+	Normal,
+	Water
+};
+
 //Engine
 enum class Scene {
 	Game,

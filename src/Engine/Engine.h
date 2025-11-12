@@ -18,7 +18,6 @@ private:
     uchar game_frames = 0;
     float fps = 0.f, target_frame_time = 0.f, delta_time = .0f, accumulated_time = .0f;;
     hr_clock::time_point last_time;
-    durationf delta;
     float sfx_volume = 100;
 
 public:
@@ -26,8 +25,8 @@ public:
     Vec2u resolution;
     Window window;
     Renderer renderer;
-    DJ dj;
     Camera camera;
+    DJ dj;
     Game game;
     bool running = true;
 
@@ -43,7 +42,7 @@ public:
     void Render();
 
     //Frame stuff
-    [[nodiscard]] inline uchar GetFPS() const { return fps; }
+    [[nodiscard]] inline float GetFPS() const { return fps; }
     [[nodiscard]] inline uchar GetGameFrames() const { return game_frames; }
 
     //Settings

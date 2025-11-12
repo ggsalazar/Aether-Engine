@@ -2,7 +2,8 @@
 #include "../../Engine/Collision.h"
 #include "../../Engine/Input.h"
 
-Picker::Picker(const Vec2f init_pos, Menu* m, const Widget w)
+template<typename T>
+Picker::Picker(const Vec2<T> init_pos, Menu* m, const Widget w)
     : UI(m, w), picking(label.GetFontSize()) {
 
     Sprite::Info info; info.sheet = "UI/Btn_Blank";
@@ -18,7 +19,7 @@ Picker::Picker(const Vec2f init_pos, Menu* m, const Widget w)
 
     label_offset = 6;
     label.SetOrigin();
-    label.MoveTo({ pos.x, pos.y - label_offset });
+    label.MoveTo(Vec2i{ pos.x, pos.y - label_offset });
 
     //What exactly ARE we picking?
     switch (widget) {
@@ -30,7 +31,7 @@ Picker::Picker(const Vec2f init_pos, Menu* m, const Widget w)
     picking.SetOrigin();
 
     //Move stuff last
-    Picker::MoveTo(sprite.GetPos());
+    MoveTo(sprite.GetPos());
 }
 
 void Picker::Update() {
@@ -91,17 +92,17 @@ void Picker::Move() {
     l_bbox.w = round(bbox.w * .2);
     l_bbox.h = round(bbox.h * .75);
     l_arrow.SetScale({-1, 1});
-    l_arrow.MoveTo({l_bbox.x + l_bbox.w*.5, l_bbox.y + l_bbox.h*.5});
+    l_arrow.MoveTo(Vec2f{l_bbox.x + l_bbox.w*.5f, l_bbox.y + l_bbox.h*.5f});
 
     //Right bbox
     r_bbox.x = bbox.x + round(bbox.w * .775);
     r_bbox.y = l_bbox.y;
     r_bbox.w = l_bbox.w;
     r_bbox.h = l_bbox.h;
-    r_arrow.MoveTo({r_bbox.x + r_bbox.w*.5, r_bbox.y + r_bbox.h*.5});
+    r_arrow.MoveTo(Vec2f{r_bbox.x + r_bbox.w*.5f, r_bbox.y + r_bbox.h*.5f});
 
-    label.MoveTo({ pos.x, pos.y - label_offset });
-    picking.MoveTo({pos.x, pos.y + label_offset});
+    label.MoveTo(Vec2i{ pos.x, pos.y - label_offset });
+    picking.MoveTo(Vec2i{pos.x, pos.y + label_offset});
 }
 
 void Picker::SetPicking(const string& new_p) {

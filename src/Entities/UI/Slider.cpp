@@ -22,7 +22,7 @@ Slider::Slider(const Vec2f init_pos, Menu* m, const Widget w)
     }
     label_offset = 16;
     label.SetOrigin();
-    label.MoveTo({ pos.x, pos.y - label_offset });
+    label.MoveTo(Vec2i{ pos.x, pos.y - label_offset });
 
     //Set the origin/anchor, scale, and position
     Sprite::Info knob_info; knob_info.sheet = "UI/SliderKnob";
@@ -41,13 +41,13 @@ Slider::Slider(const Vec2f init_pos, Menu* m, const Widget w)
         rounded_val = to_string((knob_pos - knob_pos_min) / (knob_pos_max - knob_pos_min) * 200);
         rounded_val = rounded_val.substr(0, rounded_val.find('.') + 3);
     }
-    knob_spr.MoveTo({ (int)knob_pos, pos.y });
+    knob_spr.MoveTo(Vec2i{ knob_pos, pos.y });
     knob_label.SetOrigin();
     knob_label.SetStr(rounded_val + '%');
-    knob_label.MoveTo({ pos.x, pos.y + label_offset });
+    knob_label.MoveTo(Vec2i{ pos.x, pos.y + label_offset });
 
     //Move stuff last
-    Slider::MoveTo(sprite.GetPos());
+    MoveTo(sprite.GetPos());
 }
 
 void Slider::Update() {
@@ -58,7 +58,7 @@ void Slider::Update() {
         //Adjust knob position
         knob_pos = Input::MousePos().x;
         Math::Clamp(knob_pos, knob_pos_min, knob_pos_max);
-        knob_spr.MoveTo({ (int)knob_pos, pos.y });
+        knob_spr.MoveTo(Vec2i{ knob_pos, pos.y });
 
         float new_val = 0;
         uchar dec_place = 0;
@@ -91,7 +91,7 @@ void Slider::Move() {
     //Entity::Move() takes care of sprite and bbox
 
     //Move everything else
-    label.MoveTo({ pos.x, pos.y - label_offset });
+    label.MoveTo(Vec2i{ pos.x, pos.y - label_offset });
 
     //Resize and move the knob
     knob_pos_max = bbox.x + bbox.w * .9f;
@@ -103,5 +103,5 @@ void Slider::Move() {
         knob_pos = knob_pos_min + (engine->GetSFXVolume() * .005 * (knob_pos_max - knob_pos_min));
 
     knob_spr.MoveTo(Round(knob_pos, pos.y));
-    knob_label.MoveTo({ pos.x, pos.y + label_offset });
+    knob_label.MoveTo(Vec2i{ pos.x, pos.y + label_offset });
 }

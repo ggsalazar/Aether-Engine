@@ -14,13 +14,15 @@ void Entity::SetEngine(Engine* e, Game* g) {
     SEC = engine->GetFPS();
 }
 
-void Entity::MoveBy(const Vec2f offset) {
+template<typename T>
+void Entity::MoveBy(const Vec2<T>& offset) {
     pos += Round(offset);
 
     Entity::Move();
 }
 
-void Entity::MoveTo(const Vec2f new_pos) {
+template<typename T>
+void Entity::MoveTo(const Vec2<T>& new_pos) {
     pos = Round(new_pos);
 
     Entity::Move();

@@ -4,8 +4,7 @@
 
 class Entity {
 public:
-    //Variables
-    Vec2i size = { 0, 0 };
+    Vec2i size;
     inline static uchar SEC;
     bool expired = false;
 
@@ -18,9 +17,12 @@ public:
     inline virtual void Draw() { sprite.Draw(); }
     inline virtual void DrawGUI() {}
 
+    inline int GetDFC() const { return sprite.GetDFC(); }
 
-    virtual void MoveBy(const Vec2f offset);
-    virtual void MoveTo(const Vec2f new_pos);
+    template<typename T>
+    void MoveBy(const Vec2<T>& offset);
+    template<typename T>
+    void MoveTo(const Vec2<T>& new_pos);
 
     [[nodiscard]] inline Vec2i GetPos() const { return pos; }
     [[nodiscard]] inline Rect GetBBox() const { return bbox; }

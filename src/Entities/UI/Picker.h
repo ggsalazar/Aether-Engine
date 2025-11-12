@@ -4,15 +4,18 @@
 
 class Picker : public UI {
 public:
-    Picker(const Vec2f init_pos, Menu* m, const Widget w);
+    template<typename T>
+    Picker(const Vec2<T> init_pos, Menu* m, const Widget w);
 
     void Update() override;
     void Draw() override;
 
     inline void SetPickingF() { picking.font = label.font; }
 
-    inline void MoveBy(Vec2f offset) override { Entity::MoveBy(offset); Move(); }
-    inline void MoveTo(Vec2f new_pos) override { Entity::MoveTo(new_pos); Move(); }
+    template<typename T>
+    inline void MoveBy(Vec2<T> offset) { Entity::MoveBy(offset); Move(); }
+    template<typename T>
+    inline void MoveTo(Vec2<T> new_pos) { Entity::MoveTo(new_pos); Move(); }
 
     void SetPicking(const string& new_p);
     inline string GetPicking() const { return picking.GetStr(); }
@@ -22,7 +25,6 @@ private:
     Sprite l_arrow;
     Sprite r_arrow;
 
-    //Variables
     Rect l_bbox;
     bool l_primed = false;
     Rect r_bbox;
@@ -32,14 +34,13 @@ private:
     vector<string> options;
     vector<string>::iterator option_picked;
 
-    //Functions
     void Move() override;
 
-    inline bool LeftSelected();
+    bool LeftSelected();
     inline void LeftPressed() { l_primed = true; }
     void LeftReleased();
 
-    inline bool RightSelected();
+    bool RightSelected();
     inline void RightPressed() { r_primed = true; }
     void RightReleased();
 };

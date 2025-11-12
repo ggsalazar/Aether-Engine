@@ -19,7 +19,6 @@ public:
         uint max_width = 640;
         Color color{ 1 };
         Vec2f origin{}; //Origin and alignment are, for now, one and the same
-        float rot = 0.f;
         Info() = default;
     };
     static inline uchar res_scale = 1;
@@ -62,8 +61,10 @@ public:
     inline void ConcatStr(const string& s) { info.str += s; }
     [[nodiscard]] inline string GetStr() const { return info.str; }
 
-    inline void MoveTo(const Vec2f new_pos) { info.pos = Round(new_pos); }
-    inline void MoveBy(const Vec2f offset) { info.pos += Round(offset); }
+	template<typename T>
+    inline void MoveTo(const Vec2<T>& new_pos) { info.pos = Round(new_pos); }
+	template<typename T>
+	inline void MoveBy(const Vec2<T>& offset) { info.pos += Round(offset); }
     [[nodiscard]] inline Vec2i GetPos() const { return info.pos; }
 
     inline Vec2i GetStrSize(const bool physical = false) {
@@ -117,11 +118,6 @@ public:
         info.origin = ori;
     }
     [[nodiscard]] inline Vec2f GetOrigin() const { return info.origin; }
-
-	//Rotation
-	inline void SetRot(const float angle, const bool rad = false) { info.rot = angle * (57.2958f * rad); }
-	inline void AlterRot(const float offset, const bool rad = false) { info.rot += offset * (57.2958f * rad); }
-	[[nodiscard]] inline float GetRot(const bool rad = false) const { return rad ? info.rot : info.rot / 57.2958f; }
 
 private:
     Info info = {};

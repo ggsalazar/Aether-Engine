@@ -7,4 +7,3 @@ sources += files(
 foreach d : ['Audio', 'Graphics', 'Math']
    subdir(d)
 endforeach
-

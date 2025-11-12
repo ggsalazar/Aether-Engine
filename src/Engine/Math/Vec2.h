@@ -13,8 +13,8 @@ struct Vec2 {
 
     //Constructors
     constexpr Vec2() : x(0), y(0) {}
-    constexpr Vec2(T x) : x(x), y(x) {}
-    constexpr Vec2(T x, T y) : x(x), y(y) {}
+    constexpr Vec2(const T xy) : x(xy), y(xy) {}
+    constexpr Vec2(const T x, const T y) : x(x), y(y) {}
 
     //Conversion constructor
     template<typename U>
@@ -85,6 +85,9 @@ struct Vec2 {
     //Dot product
     [[nodiscard]] constexpr T Dot(const Vec2& other) const { return x * other.x + y * other.y; }
 };
+//Class Template Argument Deduction
+template<typename T, typename U>
+Vec2(T, U) -> Vec2<std::common_type_t<T, U>>;
 
 //ostream operator
 template <typename T>

@@ -45,7 +45,7 @@ public:
     static inline void SetSDLRenderer(SDL_Renderer* r) { sdl_renderer = r; }
     static inline void SetRenderer(Renderer* r) { renderer = r; }
 
-    static inline void SetGameFPS(const uchar gfps) { game_fps = gfps; }
+    static inline void SetGameFPS(const float gfps) { game_fps = gfps; }
 
     [[nodiscard]] inline SDL_Texture* GetTexture() const { return texture; }
 
@@ -56,9 +56,11 @@ public:
     [[nodiscard]] inline std::string GetSheet() const { return info.sheet; }
     [[nodiscard]] inline Vec2i GetSheetSize() const { return info.sheet_size; }
 
+    template<typename T>
+    inline void MoveTo(const Vec2<T>& new_pos) { info.pos = Round(new_pos); }
+    template<typename T>
+    inline void MoveBy(const Vec2<T>& offset) { info.pos += Round(offset); }
     [[nodiscard]] inline Vec2i GetPos() const { return info.pos; }
-    inline void MoveTo(const Vec2f& new_pos) { info.pos = Round(new_pos); }
-    inline void MoveBy(const Vec2f& offset) { info.pos += Round(offset); }
 
     inline void SetSize(const Vec2i& s) { info.spr_size = s; }
     [[nodiscard]] inline Vec2i GetSprSize() const { return info.spr_size; }
@@ -104,5 +106,5 @@ private:
     SDL_Texture* texture = nullptr;
     static inline SDL_Renderer* sdl_renderer;
     static inline Renderer* renderer;
-    static inline uchar game_fps = 60;
+    static inline float game_fps = 60;
 };

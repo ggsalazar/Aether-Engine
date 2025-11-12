@@ -27,13 +27,13 @@ public:
     void OpenSM(const MenuName s_m);
 
     //Widgets
-    void RemoveWidget(const Widget ui);
-    bool CheckWidget(const Widget ui);
-    bool GetWidgetActive(const Widget ui);
-    void SetWidgetActive(const Widget ui, const bool a = true);
-    Vec2i GetWidgetPos(const Widget ui);
-    string GetWidgetStatus(const Widget ui);
-    void SetWidgetStatus(const Widget ui, const string& new_status);
+    bool CheckWidget(const Widget w);
+    void RemoveWidget(const Widget w);
+    bool GetWidgetActive(const Widget w);
+    void SetWidgetActive(const Widget w, const bool a = true);
+    Vec2i GetWidgetPos(const Widget w);
+    string GetWidgetStatus(const Widget w);
+    void SetWidgetStatus(const Widget w, const string& new_status);
 
 protected:
     MenuName name;
