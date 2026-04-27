@@ -33,6 +33,13 @@ float Math::Lerp(const float a, const float b, const float t, const bool angle) 
 
         return a + diff * t;
     }
-    else
-        return a + t * (b - a);
+
+    return a + t * (b - a);
+}
+
+std::string Math::DecPlace(const float num, const uchar place) {
+    std::string ret = std::to_string(num);
+    if (num != floor(num)) ret = ret.substr(0, ret.find('.') + place+1);
+    else ret = ret.substr(0, ret.find('.'));
+    return ret;
 }

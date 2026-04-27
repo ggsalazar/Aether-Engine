@@ -1,103 +1,90 @@
-#include <SDL3/SDL_render.h>
 #include "Sprite.h"
+#include <filesystem>
 #include "Renderer.h"
+
+namespace fs = std::filesystem;
 
 void Sprite::Init(const Info& i) {
     info = i;
 
-    if (!info.sheet.empty()) {
-
-        SetAnimFPS(info.anim_fps);
-        std::string sheet_png = "../assets/Sprites/" + info.sheet + ".png";
-        if (texture) {
-            SDL_DestroyTexture(texture);
-            texture = nullptr;
-        }
-        texture = IMG_LoadTexture(sdl_renderer, sheet_png.c_str());
-
-        if (!texture)
-            std::cout << "Could not load texture from file: " << sheet_png << "!\n";
-
-        SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
-
-        Vec2f s_size;
-        SDL_GetTextureSize(texture, &s_size.x, &s_size.y);
-        info.sheet_size = Round(s_size.x, s_size.y);
-
-        info.frame_size = info.frame_size == Vec2i{0} ? info.sheet_size : info.frame_size;
-        info.spr_size = info.spr_size == Vec2i{0} ? info.frame_size : info.spr_size;
-
-        //Automatically set num_frames if it wasn't already set
-        if (info.num_frames == 1) info.num_frames = info.sheet_size.x / info.frame_size.x;
-    }
+    SetSheet(info.sheet);
 }
 
 void Sprite::Update() {
     if (info.anim_fps != 0 and ++info.game_frames >= info.fci) {
-
-        //Game frames set in SetCurrFrame
-        if (info.anim_fps > 0) SetCurrFrame(++info.curr_frame);
-        else if (info.anim_fps < 0) SetCurrFrame(--info.curr_frame);
+        //Game frames set in SetFrame
+        if (info.anim_fps > 0) SetFrame(++info.frame);
+        else if (info.anim_fps < 0) SetFrame(--info.frame);
     }
 }
 
-void Sprite::Draw() const {
-    renderer->DrawSprite(*this);
+void Sprite::Draw(LayerName l) const {
+    l = l == LayerName::NONE ? info.default_layer : l;
+    renderer->SubmitSprite(l, *this);
 }
 
-void Sprite::SetSheet(const std::string &new_sheet) {
+void Sprite::SwitchAnim(const Anim new_anim) {
+
+}
+
+void Sprite::SetSheet(const string &new_sheet) {
     info.sheet = new_sheet;
 
-    if (!info.sheet.empty()) {
+    if (info.sheet.size()) {
+        string path_name, sprite_name, file_name, sheet_png;
+        size_t pos = 0;
+        //This should NEVER return npos since EVERY sprite should be in a directory
+        pos = info.sheet.find_last_of('/');
+        path_name = info.sheet.substr(0, pos+1);
+        sprite_name = info.sheet.substr(pos+1);
 
-        std::string sheet_png = "../assets/Sprites/" + info.sheet + ".png";
-        if (texture) {
-            SDL_DestroyTexture(texture);
-            texture = nullptr;
+        for (const auto& file : fs::directory_iterator("../assets/Sprites/" + path_name)) {
+            if (!file.is_regular_file()) continue;
+
+            file_name = file.path().filename().string();
+            //We've found our file! Assign it to sheet_png to be passed to the texture manager
+            if (file_name.find(sprite_name) != string::npos)
+                sheet_png = path_name + file_name;
         }
-        texture = IMG_LoadTexture(sdl_renderer, sheet_png.c_str());
 
-        if (!texture)
-            std::cout << "Could not load texture from file: " << sheet_png << "!\n";
+        if (sheet_png.size())
+            texture = tex_man->LoadTexture(sheet_png);
+        else {
+            std::cerr << "Sprite::Init(): Could not find the sheet for current Sprite!\n";
+            return;
+        }
+        SetAnimFPS(info.anim_fps);
 
-        SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
+        SDL_GetTextureSize(texture, &info.sheet_size.x, &info.sheet_size.y);
 
-        Vec2f s_size;
-        SDL_GetTextureSize(texture, &s_size.x, &s_size.y);
-        info.sheet_size = Round(s_size.x, s_size.y);
+        //Do we know the number of frames?
+        if (info.num_frames == 1) {
+            string num_frms = sheet_png;
+            size_t pos = num_frms.rfind('_');
+            //Assume the character after the last _ is a number (will throw errors if this is not the case!)
+            if (pos != string::npos)
+                info.num_frames = stoi(num_frms.substr(pos+1));
+        }
+        //Calculate frame size
+        info.frame_size = Vec2{info.sheet_size.x/info.num_frames, info.sheet_size.y};
+
+        //Sprite size
+        info.spr_size = info.frame_size * info.scale;
     }
+
 }
 
-void Sprite::SetSheetRow(uchar new_s_r, const uchar new_n_f) {
-    //Dividing the height of the sheet by the height of the frame should ALWAYS produce a whole number
-    const uchar num_rows = info.sheet_size.y / info.frame_size.y;
-    while (0 > new_s_r or new_s_r >= num_rows) {
-        if (new_s_r < 0) new_s_r += num_rows;
-        else if (new_s_r >= num_rows) new_s_r -= num_rows;
-    }
-    info.sheet_row = new_s_r;
-
-    //If a new number of frames is not provided, it will be assumed that the # of frames is staying the same
-    if (new_n_f != 0)
-        SetNumFrames(new_n_f);
-}
-
-void Sprite::SetCurrFrame(uchar new_c_f) {
+void Sprite::SetFrame(uchar new_f) {
     if (info.anim_fps > 0) {
-        if (info.ping_pong and new_c_f == info.num_frames-1) {
-            info.anim_fps *= -1;
-        }
+        if (info.ping_pong and new_f == info.num_frames-1) info.anim_fps *= -1;
         else
-            while (new_c_f >= info.num_frames) new_c_f -= info.num_frames;
+            while (new_f >= info.num_frames) new_f -= info.num_frames;
     }
 
-    else if (info.anim_fps < 0) {
-        if (info.ping_pong and new_c_f == 0) {
-            info.anim_fps *= -1;
-        }
-    }
+    else if (info.anim_fps < 0 and info.ping_pong and new_f == 0)
+        info.anim_fps *= -1;
 
-    info.curr_frame = new_c_f;
+    info.frame = new_f;
 }
 
 void Sprite::SetAnimFPS(const char new_fps) {
@@ -105,7 +92,6 @@ void Sprite::SetAnimFPS(const char new_fps) {
 
     if (info.anim_fps != 0) {
         info.fci = abs(round(game_fps / info.anim_fps));
-
         info.anim_length = (float)info.num_frames / (float)info.anim_fps;
     }
     else {

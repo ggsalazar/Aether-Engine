@@ -5,17 +5,18 @@
 class Picker : public UI {
 public:
     template<typename T>
-    Picker(const Vec2<T> init_pos, Menu* m, const Widget w);
+    Picker(const Vec2<T> init_pos, Menu* m, const Widget w) : UI(m, w), picking(FontName::Normal, label.GetFontSize()) { Init(init_pos); }
+    void Init(const Vec2f i_pos);
 
     void Update() override;
     void Draw() override;
 
     inline void SetPickingF() { picking.font = label.font; }
 
-    template<typename T>
-    inline void MoveBy(Vec2<T> offset) { Entity::MoveBy(offset); Move(); }
-    template<typename T>
-    inline void MoveTo(Vec2<T> new_pos) { Entity::MoveTo(new_pos); Move(); }
+    inline void MoveBy(const Vec2f offset) override { Entity::MoveBy(offset); Move(); }
+    inline void MoveBy(const Vec2i offset) override { Entity::MoveBy(offset); Move(); }
+    inline void MoveTo(const Vec2f new_pos) override { Entity::MoveTo(new_pos); Move(); }
+    inline void MoveTo(const Vec2i new_pos) override { Entity::MoveTo(new_pos); Move(); }
 
     void SetPicking(const string& new_p);
     inline string GetPicking() const { return picking.GetStr(); }

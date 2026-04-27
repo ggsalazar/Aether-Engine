@@ -1,14 +1,21 @@
 #include "Button.h"
+#include "../../Engine/Collision.h"
+#include "../../Engine/Input.h"
 
-template<typename T>
-Button::Button(const Vec2<T> init_pos, Menu *m, const Widget w) : UI(m, w) {
-    //Label
-    Sprite::Info info; info.sheet = "UI/Btn_Blank";
-    info.pos = Round(init_pos); info.origin = {.5f};
-    info.frame_size = {112, 33}; info.num_frames = 3;
-    sprite.Init(info);
+void Button::Init(const Vec2f i_pos) {
+    Sprite::Info info; info.pos = i_pos;
+    info.origin = {.5f};
+    info.sheet = "UI/BlankBtn";
+    info.default_layer = sprite.GetDefaultLayer() == LayerName::NONE ? LayerName::UI : sprite.GetDefaultLayer();
+    info.layer_order = menu != nullptr ? menu->layer_order+1 : 1;
+    label.SetLayerOrder(info.layer_order+1);
 
     switch (widget) {
+        case Widget::Close:
+            info.sheet = "UI/CloseBtn";
+        break;
+
+        //All other buttons
         case Widget::Apply:
             label.SetStr("Apply");
             SetActive(false);
@@ -34,8 +41,10 @@ Button::Button(const Vec2<T> init_pos, Menu *m, const Widget w) : UI(m, w) {
             label.SetStr("Return to Title");
             break;
     }
+    info.tint = sprite.GetColor();
+    sprite.Init(info);
 
-    label_offset = 2;
+    label_offset = 0;
     label.SetOrigin();
 
     //Move stuff last
@@ -46,32 +55,34 @@ void Button::Update() {
     UI::Update();
 
     //When not Selected or primed, this is 0; when Selected but not primed, this is 1; when selected and primed, this is 2
-    sprite.SetCurrFrame(Selected() + primed);
+    sprite.SetFrame(UI::Selected() + primed);
 }
 
 void Button::Draw() {
-    UI::Draw();
+    sprite.Draw();
 
     if (sprite.GetSheet() == "UI/Btn_Blank")
-        engine->renderer.DrawTxt(label);
+        label.Draw();
 }
 
 void Button::Pressed() {
-    UI::Pressed();
+    primed = true;
 }
 
 void Button::Released() {
+    primed = false;
+    
     switch (widget) {
         case Widget::Apply:
             if (menu->GetName() == MenuName::Options) {
                 //Set the game's current resolution to the scale determined by the resolution picker OR set it to fullscreen if that toggle is clicked
-                if (menu->GetWidgetStatus(Widget::Fullscreen) == "True" and engine->resolution != engine->window.ScreenSize())
-                    engine->SetResolution(engine->window.ScreenSize());
+                if (menu->GetWidgetStatus(Widget::Fullscreen) == "True" and core->resolution != core->window.GetScreenSize())
+                    core->SetResolution(core->window.GetScreenSize());
                 else {
                     uint new_scale = stoi(menu->GetWidgetStatus(Widget::Resolution));
-                    uint old_scale = engine->resolution.x / engine->min_res.x;
+                    uint old_scale = core->resolution.x / core->min_res.x;
                     if (new_scale != old_scale)
-                        engine->SetResolution(new_scale);
+                        core->SetResolution(new_scale);
                 }
                 //Resize all the text
                 game->Resize();
@@ -91,7 +102,7 @@ void Button::Released() {
         break;
 
         case Widget::Quit:
-            engine->window.open = false;
+            core->window.open = false;
         break;
 
         case Widget::Resume:

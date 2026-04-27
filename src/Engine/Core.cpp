@@ -1,12 +1,12 @@
 #include <thread>
-#include "Engine.h"
+#include "Core.h"
 #include "Input.h"
 #include "Graphics/Text.h"
 #include "Math/Math.h"
 
-Engine::Engine(const char* title, const float init_fps)
-    : fps(init_fps), resolution(min_res*2), window(title, resolution),
-    renderer(window.GetWin(), &camera), camera({ 0 }, Vec2i(min_res)) {
+Core::Core(const char* title, const float init_fps)
+    : fps(init_fps), resolution(min_res * 2), window(title, resolution),
+    renderer(window.GetWin()) {
 
     //Set random seed
     srand((uint)time(nullptr));
@@ -16,35 +16,43 @@ Engine::Engine(const char* title, const float init_fps)
     TTF_Init();
 
     //Delta time
-    target_frame_time = 1.f / fps;
+    target_frame_time = durationf{1.f / fps};
     last_time = hr_clock::now();
 
-    //Set the resolution
-    resolution = window.WinSize();
     //Initialize the Input namespace
-    Input::Init(&window, &camera);
-    SetResolution(resolution);
+    Input::Init(&window);
 
-    //Set sprite's renderer & game fps
-    Sprite::SetSDLRenderer(renderer.GetRenderer());
+    //Set Sprite's renderer & game fps
+    TextureManager::SetSDLRenderer(renderer.GetRenderer());
     Sprite::SetRenderer(&renderer);
+    Sprite::SetTexMan(&tex_man);
     Sprite::SetGameFPS(fps);
 
-    //Initialize text fonts
+    //Init Text fonts & renderer
+    Text::SetRenderer(&renderer);
     Text::InitFonts();
 
-    //Init game, which sets the Engine* in all the classes that need it
+    //Init gm, which sets the Game* in all the classes that need it
     game.Init(this);
+
+    //Set the camera for the renderer and the Input namespace
+    renderer.SetCamera(&game.camera);
+    Input::SetCamera(&game.camera);
+
+    //Set the resolution (also sets Input's res_scale)
+    SetResolution(resolution);
+
+    //Open the title scene
     game.ChangeScene(Scene::Title);
 
     //SDL_SetWindowRelativeMouseMode(); //This will lock the cursor to the game window
     SDL_HideCursor();
 }
 
-void Engine::Run() {
+void Core::Run() {
     //Calculate delta time
-    auto now = hr_clock::now();
-    delta_time = (now - last_time).count();
+    now = hr_clock::now();
+    delta_time = now - last_time;
     accumulated_time += delta_time;
     last_time = now;
 
@@ -52,42 +60,50 @@ void Engine::Run() {
     window.PollEvents();
 
     //Process input and update the game state once every 60th of a second
-    if (accumulated_time >= target_frame_time) {
+    while (accumulated_time >= target_frame_time) {
         accumulated_time -= target_frame_time;
-        if (++game_frames >= fps) game_frames = 0;
 
-        //Update the game
-        game.Update();
+        if (accumulated_time < target_frame_time) {
+            if (++game_frames >= fps) game_frames = 0;
 
-        //Reset the input arrays - must come *after* querying input from the player
-        Input::Update();
+            game.Update();
+            //Reset input arrays - must be done after querying input
+            Input::Update();
+        }
     }
 
     //Draw the game world
     if (window.open) Render();
     else running = false;
+
+    //Frame limiter
+    frame_time = hr_clock::now() - now;
+    if (frame_time < target_frame_time)
+        this_thread::sleep_for(target_frame_time - frame_time);
 }
 
 //Draw the game world
-void Engine::Render() {
-    renderer.BeginFrame(); //This also clears the frame
+void Core::Render() {
+    renderer.BeginFrame();
 
     game.Draw();
     game.DrawGUI();
 
+    renderer.Render();
+
     renderer.EndFrame();
 }
 
-void Engine::SetSFXVolume(float n_v) {
-    Math::Clamp(n_v, 0, 100);
+void Core::SetSFXVolume(float n_v) {
+    Math::Clamp(n_v, 0, 200);
     sfx_volume = n_v;
 }
 
-void Engine::SetResolution(uchar res_scalar) {
+void Core::SetResolution(uchar res_scalar) {
     //Minimum resolution is 640 x 360
     if (res_scalar > 0) {
         Vec2u new_win_size = { res_scalar * min_res.x, res_scalar * min_res.y };
-        while (new_win_size.x > window.ScreenSize().x or new_win_size.y > window.ScreenSize().y) {
+        while (new_win_size.x > window.GetScreenSize().x or new_win_size.y > window.GetScreenSize().y) {
             --res_scalar;
             new_win_size = { res_scalar * min_res.x, res_scalar * min_res.y };
         }
@@ -101,20 +117,22 @@ void Engine::SetResolution(uchar res_scalar) {
     SetRes();
 }
 
-void Engine::SetResolution(Vec2u n_r) {
+void Core::SetResolution(Vec2u n_r) {
+
     if (n_r.x > 0 and n_r.y > 0) {
-        n_r.x = n_r.x <= window.ScreenSize().x ? n_r.x : window.ScreenSize().x;
-        n_r.y = n_r.y <= window.ScreenSize().y ? n_r.y : window.ScreenSize().y;
+        n_r.x = n_r.x <= window.GetScreenSize().x ? n_r.x : window.GetScreenSize().x;
+        n_r.y = n_r.y <= window.GetScreenSize().y ? n_r.y : window.GetScreenSize().y;
 
         resolution = n_r;
 
         SetRes();
     }
+
 }
 
-void Engine::SetRes() {
+void Core::SetRes() {
     //Resize the window
-    if (resolution == window.ScreenSize())
+    if (resolution == window.GetScreenSize())
         SDL_SetWindowFullscreen(window.GetWin(), true);
     else {
         SDL_SetWindowFullscreen(window.GetWin(), false);
@@ -127,12 +145,6 @@ void Engine::SetRes() {
         SDL_SetWindowPosition(window.GetWin(), (int)(screen_bounds.w * .5f - resolution.x * .5f), (int)(screen_bounds.h * .5f - resolution.y * .5f));
     }
 
-    //Set the renderer's window size
-    renderer.SetWinSize();
-
-    //Update the input namespace's resolution
-    Input::UpdateRes();
-
-    //Set the res_scale for Text
-    Text::SetResScale(resolution.x / min_res.x);
+    //Update Input's resolution
+    Input::UpdateResScale(resolution.x);
 }

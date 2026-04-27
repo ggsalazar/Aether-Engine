@@ -45,7 +45,6 @@ constexpr int LCTRL = SDL_SCANCODE_LCTRL;
 constexpr int RCTRL = SDL_SCANCODE_RCTRL;
 constexpr int LSHIFT = SDL_SCANCODE_LSHIFT;
 constexpr int RSHIFT = SDL_SCANCODE_RSHIFT;
-constexpr int SPACE = SDL_SCANCODE_SPACE;
 
 namespace Input {
 
@@ -53,23 +52,26 @@ namespace Input {
 	static Camera* camera = nullptr;
 
 	//State arrays
-	static bool prev_keys[SDL_SCANCODE_COUNT] = { 0 };
+	static bool prev_keys[SDL_SCANCODE_COUNT] = {0};
 	static const bool* curr_keys = nullptr;
 	static Uint32 prev_mouse_state = 0;
 	static Uint32 curr_mouse_state = 0;
 	static Vec2f mouse_pos;
 	static uchar res_scale;
 
-	void Init(Window* win, Camera* cam);
+	void Init(Window* win);
+	void SetCamera(Camera* cam);
 	void Update();
-	void UpdateRes();
+	void UpdateResScale(const int res);
 
-	bool BtnDown(int btn);
-	bool BtnPressed(int btn);
-	bool BtnReleased(int btn);
+	bool BtnDown(const int btn);
+	bool BtnPressed(const int btn);
+	bool BtnReleased(const int btn);
+	//bool ScrollUp();
+	//bool ScrollDown();
 	Vec2f MousePos();
 
-	bool KeyDown(int key);
-	bool KeyPressed(int key);
-	bool KeyReleased(int key);
+	bool KeyDown(const int key);
+	bool KeyPressed(const int key);
+	bool KeyReleased(const int key);
 };

@@ -16,29 +16,29 @@ bool Collision::AABB(const Rect& a, const Rect& b) {
 
 bool Collision::LinePoint(const Line& l, const Vec2f& p) {
     //Vertical line
-    if (l.x1 == l.x2) return p.x == l.x1 and min(l.y1, l.y2) <= p.y and p.y <= max(l.y1, l.y2);
+    if (l.pos1.x == l.pos2.x) return p.x == l.pos1.x and min(l.pos1.y, l.pos2.y) <= p.y and p.y <= max(l.pos1.y, l.pos2.y);
     //Horizontal line
-    if (l.y1 == l.y2) return p.y == l.y1 and min(l.x1, l.x2) <= p.x and p.x <= max(l.x1, l.x2);
+    if (l.pos1.y == l.pos2.y) return p.y == l.pos1.y and min(l.pos1.x, l.pos2.x) <= p.x and p.x <= max(l.pos1.x, l.pos2.x);
 
-    bool on_line = (p.y - l.y1) * (l.x2 - l.x1) == (l.y2 - l.y1) * (p.x - l.x1);
-    bool within_segment = min(l.x1, l.x2) <= p.x and p.x <= max(l.x1, l.x2) and
-        min(l.y1, l.y2) <= p.y and p.y <= max(l.y1, l.y2);
+    bool on_line = (p.y - l.pos1.y) * (l.pos2.x - l.pos1.x) == (l.pos2.y - l.pos1.y) * (p.x - l.pos1.x);
+    bool within_segment = min(l.pos1.x, l.pos2.x) <= p.x and p.x <= max(l.pos1.x, l.pos2.x) and
+        min(l.pos1.y, l.pos2.y) <= p.y and p.y <= max(l.pos1.y, l.pos2.y);
 
     return on_line and within_segment;
 }
 
 bool Collision::CirclePoint(const Circle& c, const Vec2f& p) {
-    return Distance(Vec2i{ c.x, c.y }, p) <= c.r;
+    return Distance({ c.pos.x, c.pos.y }, p) <= c.r;
 }
 
 bool Collision::RectPoint(const Rect& r, const Vec2f& p) {
     return min(r.x, r.x + r.w) <= p.x and p.x <= max(r.x, r.x + r.w) and
-        min(r.y, r.y + r.h) <= p.y and p.y <= max(r.y, r.y + r.h);
+           min(r.y, r.y + r.h) <= p.y and p.y <= max(r.y, r.y + r.h);
 }
 
 bool Collision::RectCircle(const Rect& r, const Circle& c) {
     //Get the closest point of the rectangle to the circle
-    Vec2f closest_point = { c.x, c.y };
+    Vec2f closest_point = { c.pos.x, c.pos.y };
     Math::Clamp(closest_point.x, r.x, r.x + r.w);
     Math::Clamp(closest_point.y, r.y, r.y + r.h);
     return CirclePoint(c, closest_point);

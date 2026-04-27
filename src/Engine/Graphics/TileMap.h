@@ -1,18 +1,19 @@
 #pragma once
 #include <fstream>
 #include <vector>
-#include <SDL3/SDL_render.h>
 #include <nlohmann/json.hpp>
+#include "Renderer.h"
+#include "Sprite.h" //Geometry (Vec2 (iostream))
 #include "../Enums.h"
-#include "../Math/Geometry.h"
 
 using json = nlohmann::json;
-using std::vector, std::cerr, std::cout, std::unordered_map, std::string;
+using std::vector, std::cerr, std::cout, std::unordered_map, std::string, std::pair;
 
-//Tile Size (for now)
-const int TS = 16;
+//Tile Size
+constexpr float TS = 8;
+constexpr float METER = 16;
 
-class Portal;
+class Door;
 
 struct Tile {
     Vec2u pos;
@@ -22,10 +23,11 @@ struct Tile {
 
 class TileMap {
     friend class Renderer;
+    friend class Pathfinding;
 public:
     TileMap() = default;
 
-    void SetSDLRenderer(SDL_Renderer* r) { renderer = r; }
+    inline static void SetRenderer(Renderer* r) { renderer = r; }
 
     //Tiling
     bool Load(const string& json_file);
@@ -36,18 +38,31 @@ public:
     [[nodiscard]] inline Vec2u GetMapSizeTiles() const { return map_size_t; }
     [[nodiscard]] inline Vec2u GetMapSizePixels() const { return map_size_p; }
 
-    [[nodiscard]] inline Tile GetTileData(Vec2i tile_pos) const { return tile_data[floor(tile_pos.x)][floor(tile_pos.y)]; }
+    [[nodiscard]] inline Tile GetTileData(const Vec2i tile_pos) const { return tile_data[floor(tile_pos.x)][floor(tile_pos.y)]; }
+
+    inline bool HasDoors() const { return doors.size(); }
+    inline vector<Door*>* GetDoors() { return &doors; }
+    inline bool HasMobs() const { return mobs.size(); }
+    inline vector<pair<string, Vec2i>>* GetMobs() { return &mobs; }
+    inline bool HasNPCs() const { return npcs.size(); }
+    inline vector<pair<NPCName, Vec2i>>* GetNPCs() { return &npcs; }
+    [[nodiscard]] Vec2i GetSpawnPoint(const string& spawn_point) const;
 
 private:
-    //SDL stuff
-    SDL_Renderer* renderer = nullptr;
-    unordered_map<string, vector<SDL_Vertex>> verts_by_tileset;
-    unordered_map<string, vector<int>> indices_by_tileset;
+    inline static Renderer* renderer = nullptr;
+
+    unordered_map<string, Batch> tile_batches;
+
     unordered_map<string, SDL_Texture*> tilesets;
 
-    //Map stuff
     json tilemap_data;
     vector<vector<Tile>> tile_data;
+
+    vector<Door*> doors;
+    vector<pair<string, Vec2i>> mobs;
+    vector<pair<NPCName, Vec2i>> npcs;
+    unordered_map<string, Vec2i> spawn_points;
+
     Vec2u map_size_t = { 0, 0 };
     Vec2u map_size_p = { 0, 0 };
 };

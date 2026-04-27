@@ -1,5 +1,4 @@
 #pragma once
-#include <filesystem>
 #include <SDL3_ttf/SDL_ttf.h>
 
 class Font {
@@ -14,10 +13,7 @@ public:
 		if (!font)
 			std::cout << "Could not load font from file: " << path << "! SDL Error: " << SDL_GetError() << '\n';
 	}
-	~Font() {
-		//This causes crashes for some fucking reason
-		//TTF_CloseFont(font);
-	}
+	~Font() = default;
 
 	[[nodiscard]] inline TTF_Font* GetFont() const { if (font) return font; return nullptr; }
 

@@ -7,14 +7,14 @@ public:
 	Rect viewport;
 
 	Camera() = default;
-	Camera(Vec2i pos) { viewport.x = pos.x; viewport.y = pos.y; }
-	Camera(Vec2i pos, Vec2i size) { viewport.x = pos.x; viewport.y = pos.y; viewport.w = size.x; viewport.h = size.y; }
+	Camera(Vec2f pos) { viewport.x = pos.x; viewport.y = pos.y; }
+	Camera(Vec2f pos, Vec2f size) { viewport.x = pos.x; viewport.y = pos.y; viewport.w = size.x; viewport.h = size.y; }
 
-	inline void MoveTo(Vec2i new_pos) { viewport.x = new_pos.x; viewport.y = new_pos.y; }
-	inline void MoveCenterTo(Vec2i new_pos) { viewport.x = new_pos.x - viewport.w * .5f; viewport.y = new_pos.y - viewport.h * .5f; }
-	inline void MoveBy(Vec2i offset) { viewport.x += offset.x; viewport.y += offset.y; }
+	inline void MoveTo(Vec2f new_pos) { viewport.x = new_pos.x; viewport.y = new_pos.y; }
+	inline void MoveCenterTo(Vec2f new_pos) { viewport.x = new_pos.x - viewport.w * .5f; viewport.y = new_pos.y - viewport.h * .5f; }
+	inline void MoveBy(Vec2f offset) { viewport.x += offset.x; viewport.y += offset.y; }
 
-	[[nodiscard]] inline Vec2i GetPos() const { return { viewport.x, viewport.y }; }
-	[[nodiscard]] inline Vec2i GetCenter() const { return Round((viewport.x + viewport.w * .5f), (viewport.y + viewport.h * .5f)); }
+	[[nodiscard]] inline Vec2f GetPos() const { return { viewport.x, viewport.y }; }
+	[[nodiscard]] inline Vec2f GetCenter() const { return Round((viewport.x + viewport.w * .5f), (viewport.y + viewport.h * .5f)); }
 
 };

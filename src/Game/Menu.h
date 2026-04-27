@@ -1,23 +1,27 @@
 #pragma once
 #include <unordered_map>
-#include "../Engine/Engine.h"
+#include "../Engine/Core.h"
 #include "../Engine/Graphics/Text.h"
 
 class UI;
 
 class Menu {
 public:
-    bool to_close = false, has_focus = false;
+    Text menu_text,
+        sup_text, //Supplementary text
+        tert_text; //Tertiary text
+    Sprite sprite;
+    unordered_map<Widget, UI*> widgets;
+    bool to_close = false, has_focus = false, expired = false;
+    int layer_order = 0;
 
-    explicit Menu(const MenuName i_name);
+    explicit Menu(const MenuName i_name, Menu* owning_m = nullptr, Entity* owning_e = nullptr);
     ~Menu();
-    static inline void SetEngine(Engine* e) { engine = e; }
+    static inline void SetCore(Core* e, Game* g) { core = e; game = g; }
 
     //Engine
     void Update();
     void Draw();
-
-    void Resize();
 
     //Self and Sub-Menus
     void Open(const bool o = true);
@@ -27,23 +31,24 @@ public:
     void OpenSM(const MenuName s_m);
 
     //Widgets
-    bool CheckWidget(const Widget w);
     void RemoveWidget(const Widget w);
     bool GetWidgetActive(const Widget w);
     void SetWidgetActive(const Widget w, const bool a = true);
-    Vec2i GetWidgetPos(const Widget w);
+    Vec2f GetWidgetPos(const Widget w);
     string GetWidgetStatus(const Widget w);
     void SetWidgetStatus(const Widget w, const string& new_status);
 
+    //Owners
+    inline void AssignOwningMenu(Menu* m) { owning_menu = m; }
+    void AssignOwningEnt(Entity* e);
+
 protected:
     MenuName name;
-
-    Text menu_text;
-    Text sup_text; //Supplementary text
     bool open = false;
+    Menu* owning_menu = nullptr;
+    Entity* owning_ent = nullptr;
 
     unordered_map<MenuName, Menu*> sub_menus;
-    unordered_map<Widget, UI*> widgets;
-
-    static inline Engine* engine;
+    static inline Core* core;
+    static inline Game* game;
 };

@@ -1,22 +1,23 @@
 #include "Toggle.h"
 
-Toggle::Toggle(const Vec2f init_pos, Menu* m, const Widget w)
-	: UI(m, w) {
+
+void Toggle::Init(const Vec2f i_pos) {
 
 	Sprite::Info info; info.sheet = "UI/Toggle";
-	info.pos = Round(init_pos); info.origin = {.5f};
-	info.num_frames = 2; info.frame_size = {24};
+	info.pos = i_pos; info.origin = {.5f};
+	info.default_layer = sprite.GetDefaultLayer() == LayerName::NONE ? LayerName::UI : sprite.GetDefaultLayer();
+	info.layer_order = menu != nullptr ? menu->layer_order+1 : 1;
 	sprite.Init(info);
-
 
 	label_offset = 12;
 	label.SetOrigin({ 1.f, .5 });
-	label.MoveTo({ (float)pos.x - label_offset, (float)pos.y });
+	label.SetLayerOrder(info.layer_order+1);
+	label.MoveTo(Vec2{ pos.x - label_offset, pos.y });
 
 	switch (widget) {
 		case Widget::Fullscreen:
 			label.SetStr("Fullscreen");
-			on = engine->resolution.x == engine->window.ScreenSize().x;
+			on = core->resolution.x == core->window.GetScreenSize().x;
 			SetActive(!on);
 		break;
 	}
@@ -25,14 +26,17 @@ Toggle::Toggle(const Vec2f init_pos, Menu* m, const Widget w)
 	Toggle::MoveTo(sprite.GetPos());
 }
 
+void Toggle::Update() {
+	UI::Update();
+
+	if (!on)
+		sprite.SetFrame(Selected() or primed);
+	else sprite.SetFrame(2 + (Selected() or primed));
+}
+
 void Toggle::Draw() {
-	if (Selected())
-		engine->renderer.DrawRect(bbox, Color(1, 0, 0));
-
-	UI::Draw();
-	engine->renderer.DrawTxt(label);
-
-	sprite.SetCurrFrame(on);
+	sprite.Draw();
+	label.Draw();
 }
 
 void Toggle::Move() {

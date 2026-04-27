@@ -12,7 +12,6 @@ Window::Window(const char* title, Vec2u size) {
 
 	int w, h;
 	SDL_GetWindowSizeInPixels(window, &w, &h);
-	win_size = Vec2u{ (uint)w, (uint)h };
 
 	int display_count = 0;
 	SDL_DisplayID* displays = SDL_GetDisplays(&display_count);
@@ -21,7 +20,7 @@ Window::Window(const char* title, Vec2u size) {
 		SDL_Rect bounds;
 
 		SDL_GetDisplayBounds(displays[0], &bounds);
-		screen_size = { (uint)bounds.w, (uint)bounds.h };
+		screen_size = { bounds.w, bounds.h };
 
 		if (screen_size.x != bounds.w or screen_size.y != bounds.h)
 			SDL_Log("Failed to get display bounds: %s", SDL_GetError());
@@ -32,16 +31,16 @@ Window::Window(const char* title, Vec2u size) {
 void Window::PollEvents() {
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
-		case SDL_EVENT_WINDOW_FOCUS_GAINED:
-			has_focus = true;
-			break;
-		case SDL_EVENT_WINDOW_FOCUS_LOST:
-			has_focus = false;
-			break;
+			case SDL_EVENT_WINDOW_FOCUS_GAINED:
+				has_focus = true;
+				break;
+			case SDL_EVENT_WINDOW_FOCUS_LOST:
+				has_focus = false;
+				break;
 
-		case SDL_EVENT_QUIT:
-			open = false;
-			break;
+			case SDL_EVENT_QUIT:
+				open = false;
+				break;
 		}
 	}
 }

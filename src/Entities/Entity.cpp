@@ -1,36 +1,26 @@
 #include "Entity.h"
 
 //Just trust
-Engine* Entity::engine = nullptr;
+Core* Entity::engine = nullptr;
 Game* Entity::game = nullptr;
 
 Entity::Entity(const Sprite::Info& spr_info) : sprite(spr_info) {
+    //Default every Entity to the Objects layer
+    if (sprite.GetDefaultLayer() == LayerName::NONE)
+        sprite.SetDefaultLayer(LayerName::Objects);
+
     Entity::MoveTo(Vec2f(sprite.GetPos()));
 }
 
-void Entity::SetEngine(Engine* e, Game* g) {
-    engine = e;
+void Entity::SetCore(Core* c, Game* g) {
+    core = c;
     game = g;
-    SEC = engine->GetFPS();
-}
-
-template<typename T>
-void Entity::MoveBy(const Vec2<T>& offset) {
-    pos += Round(offset);
-
-    Entity::Move();
-}
-
-template<typename T>
-void Entity::MoveTo(const Vec2<T>& new_pos) {
-    pos = Round(new_pos);
-
-    Entity::Move();
+    SEC = core->GetFPS();
 }
 
 void Entity::Move() {
     sprite.MoveTo(pos);
-    size = sprite.GetScaledSize();
+    size = sprite.GetSprSize();
 
     //bbox position will always be top left
     bbox.x = pos.x - floor(sprite.GetOrigin().x * size.x);

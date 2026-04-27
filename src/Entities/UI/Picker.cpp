@@ -2,35 +2,38 @@
 #include "../../Engine/Collision.h"
 #include "../../Engine/Input.h"
 
-template<typename T>
-Picker::Picker(const Vec2<T> init_pos, Menu* m, const Widget w)
-    : UI(m, w), picking(label.GetFontSize()) {
+
+void Picker::Init(const Vec2f i_pos) {
 
     Sprite::Info info; info.sheet = "UI/Btn_Blank";
-    info.pos = Round(init_pos); info.origin = {.5f};
-    info.num_frames = 3; info.frame_size = {112, 33};
+    info.pos = i_pos; info.origin = {.5f};
+    info.default_layer = sprite.GetDefaultLayer() == LayerName::NONE ? LayerName::UI : sprite.GetDefaultLayer();
+    info.layer_order = menu != nullptr ? menu->layer_order+1 : 1;
+    label.SetLayerOrder(info.layer_order+1);
     sprite.Init(info);
 
     //We want those arrow sprites
-    Sprite::Info arrow_info;
-    arrow_info.sheet = "UI/Picker_Arrow"; arrow_info.origin = {.5f};
-    arrow_info.frame_size = {15, 10}; arrow_info.num_frames = 2;
-    l_arrow.Init(arrow_info); r_arrow.Init(arrow_info);
+    info = {};
+    info.sheet = "UI/Arrow"; info.origin = {.5f};
+    info.default_layer = sprite.GetDefaultLayer();
+    info.layer_order = sprite.GetLayerOrder();
+    l_arrow.Init(info); r_arrow.Init(info);
 
-    label_offset = 6;
-    label.SetOrigin();
-    label.MoveTo(Vec2i{ pos.x, pos.y - label_offset });
+    label_offset = 2;
+    label.SetOrigin({.5f, .6f});
+    label.SetLayerOrder(info.layer_order+1);
+    label.MoveTo(Vec2{ pos.x, pos.y - label_offset });
 
     //What exactly ARE we picking?
     switch (widget) {
         case Widget::Resolution:
             label.SetStr("Resolution");
-            picking.SetStr(to_string(engine->resolution.x / engine->min_res.x));
+            picking.SetStr(to_string(core->resolution.x / core->min_res.x));
         break;
     }
+    picking.SetLayerOrder(sprite.GetLayerOrder()+1);
     picking.SetOrigin();
 
-    //Move stuff last
     MoveTo(sprite.GetPos());
 }
 
@@ -56,28 +59,26 @@ void Picker::Update() {
     }
 
     //Change the current frame of the arrows
-    l_arrow.SetCurrFrame(LeftSelected());
-    r_arrow.SetCurrFrame(RightSelected());
+    l_arrow.SetFrame(LeftSelected());
+    r_arrow.SetFrame(RightSelected());
     //And ourself
-    sprite.SetCurrFrame(Selected() + primed);
+    sprite.SetFrame(Selected() + primed);
 }
 
 void Picker::Draw() {
-    UI::Draw();
-
-    if (sprite.GetSheet() == "UI/Btn_Blank")
-        engine->renderer.DrawTxt(label);
+    sprite.Draw();
 
     //Draw the arrows
-    engine->renderer.DrawSprite(l_arrow);
-    engine->renderer.DrawSprite(r_arrow);
+    l_arrow.Draw();
+    r_arrow.Draw();
 
-    engine->renderer.DrawTxt(picking);
+    label.Draw();
+    picking.Draw();
 
     if (LeftSelected())
-        engine->renderer.DrawRect(l_bbox, Color(1, 0, 0, .5)); //Red, 50% opacity
+        core->renderer.SubmitRect(sprite.GetDefaultLayer(), l_bbox, Color(1, 0, 0, .5)); //Red, 50% opacity
     else if (RightSelected())
-        engine->renderer.DrawRect(r_bbox, Color(0, 0, 1, .5)); //Blue, 50% opacity
+        core->renderer.SubmitRect(sprite.GetDefaultLayer(), r_bbox, Color(0, 0, 1, .5)); //Blue, 50% opacity
 }
 
 void Picker::Move() {
@@ -101,8 +102,8 @@ void Picker::Move() {
     r_bbox.h = l_bbox.h;
     r_arrow.MoveTo(Vec2f{r_bbox.x + r_bbox.w*.5f, r_bbox.y + r_bbox.h*.5f});
 
-    label.MoveTo(Vec2i{ pos.x, pos.y - label_offset });
-    picking.MoveTo(Vec2i{pos.x, pos.y + label_offset});
+    label.MoveTo(Vec2{ pos.x, pos.y - label_offset });
+    picking.MoveTo(Vec2{pos.x, pos.y + label_offset});
 }
 
 void Picker::SetPicking(const string& new_p) {
@@ -119,7 +120,7 @@ void Picker::LeftReleased() {
     switch (widget) {
         case Widget::Resolution:
             if (--curr_picking < 1)
-                curr_picking = floor(engine->window.ScreenSize().x / engine->min_res.x);
+                curr_picking = floor(core->window.GetScreenSize().x / core->min_res.x);
 
             //Set the Apply button to active
             menu->SetWidgetActive(Widget::Apply);
@@ -138,7 +139,7 @@ void Picker::RightReleased() {
 
     switch (widget) {
         case Widget::Resolution:
-            if (++curr_picking > floor(engine->window.ScreenSize().x / engine->min_res.x))
+            if (++curr_picking > floor(core->window.GetScreenSize().x / core->min_res.x))
                 curr_picking = 1;
             //Set the Apply button to active
             menu->SetWidgetActive(Widget::Apply);

@@ -1,12 +1,12 @@
 #include <sstream>
 #include "Renderer.h"
 #include "Camera.h"
+#include "Sprite.h"
 #include "Text.h" //Font
 #include "TileMap.h"
-#include "Sprite.h"
 #include "../Collision.h"
 
-Renderer::Renderer(SDL_Window* window, Camera* cam) : camera(cam) {
+Renderer::Renderer(SDL_Window* window) {
 
 	SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1");
 	renderer = SDL_CreateRenderer(window, nullptr);
@@ -14,82 +14,292 @@ Renderer::Renderer(SDL_Window* window, Camera* cam) : camera(cam) {
 	//Set the renderer to *logically* render things at the minimum resolution (400x400), then scale it up to the window at rendering time
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderLogicalPresentation(renderer, min_res.x, min_res.y, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE);
+
+	//Initialize the Render Layers
+	for (int i = 0; i < scst(LayerName::COUNT); ++i) {
+		auto& l = layers.emplace_back(static_cast<LayerName>(i), i);
+		l.target = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, min_res.x, min_res.y);
+		SDL_SetTextureBlendMode(l.target, SDL_BLENDMODE_BLEND);
+		SDL_SetTextureScaleMode(l.target, SDL_SCALEMODE_NEAREST);
+	}
 }
 
-void Renderer::DrawSheet(const Sprite& sheet, const Vec2i& pos) const {
-	const SDL_FRect dest = { (float)pos.x, (float)pos.y, (float)sheet.info.sheet_size.x, (float)sheet.info.sheet_size.y };
-
-	SDL_RenderTexture(renderer, sheet.texture, nullptr, &dest);
+void Renderer::SetDrawScale(const uchar scale) {
+	SDL_SetRenderScale(renderer, scale, scale);
 }
 
-void Renderer::DrawSprite(const Sprite& spr) const {
+void Renderer::Render() {
+	//Render into each layer
+	for (auto& l : layers) {
+		if (l.opacity == 0.f) continue;
+
+		SDL_SetRenderTarget(renderer, l.target);
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		SDL_RenderClear(renderer);
+
+		//Sort the commands vectors by layer order
+		std::sort(l.persistent_commands.begin(), l.persistent_commands.end(), [](const DrawCommand& a, const DrawCommand& b) { return a.layer_order < b.layer_order; });
+		std::sort(l.transient_commands.begin(), l.transient_commands.end(), [](const DrawCommand& a, const DrawCommand& b) { return a.layer_order < b.layer_order; });
+
+		//Draw each thing in the layer
+		DrawLayer(l);
+	}
+
+	//Composite the layers
+	SDL_SetRenderTarget(renderer, nullptr);
+	for (auto& l : layers) {
+		if (l.opacity == 0.f) continue;
+
+		SDL_SetTextureAlphaModFloat(l.target, l.opacity);
+		SDL_RenderTexture(renderer, l.target, nullptr, nullptr);
+	}
+}
+
+void Renderer::DrawLayer(RenderLayer& rl) {
+	for (auto& c : rl.persistent_commands) {
+		switch (c.type) {
+			case DrawCommand::Type::Batch: {
+				auto& b = c.batch;
+				if (b.vertices.size()) {
+					if (b.tile)
+						DrawTilemap(b);
+					else {
+						SDL_RenderGeometry(
+							renderer, b.texture,
+					   b.vertices.data(),
+					   b.vertices.size(),
+					   b.indices.data(),
+					   b.indices.size());
+
+						b.vertices.clear();
+						b.indices.clear();
+					}
+				}
+				break;
+			}
+
+			case DrawCommand::Type::Rect:
+				DrawRect(c.rect);
+				break;
+
+			case DrawCommand::Type::Text:
+				DrawTxt(*c.text.first, c.text.second);
+				break;
+		}
+	}
+
+	for (auto& c : rl.transient_commands) {
+		switch (c.type) {
+			case DrawCommand::Type::Batch: {
+				auto& b = c.batch;
+				if (b.vertices.size()) {
+					SDL_RenderGeometry(
+						renderer, b.texture,
+				   b.vertices.data(),
+				   b.vertices.size(),
+				   b.indices.data(),
+				   b.indices.size());
+
+					b.vertices.clear();
+					b.indices.clear();
+				}
+				break;
+			}
+
+			case DrawCommand::Type::Rect:
+				DrawRect(c.rect);
+				break;
+
+			case DrawCommand::Type::Text:
+				DrawTxt(*c.text.first, c.text.second);
+				break;
+		}
+	}
+	rl.transient_commands.clear();
+}
+
+void Renderer::SubmitSprite(const LayerName ln, const Sprite& spr) {
+	Batch* batch = nullptr;
+	for (auto& c : layers[scst(ln)].transient_commands) {
+		if (c.type == DrawCommand::Type::Batch and c.batch.texture == spr.texture and c.layer_order == spr.GetLayerOrder()) {
+			batch = &c.batch;
+			break;
+		}
+	}
+	if (!batch) {
+		auto& b = layers[scst(ln)].transient_commands.emplace_back(DrawCommand::Type::Batch, spr.GetLayerOrder());
+		batch = &b.batch;
+		batch->layer = ln;
+		batch->texture = spr.texture;
+		SDL_GetTextureSize(batch->texture, &batch->tex_size.x, &batch->tex_size.y);
+		batch->norm_tex_size = { 1.f / batch->tex_size.x, 1.f / batch->tex_size.y };
+	}
+
 	const Sprite::Info* si = &spr.info;
 
 	//Only draw sprites if they will be seen by the camera
-	Vec2i sprite_pos = Round(si->pos.x - (si->spr_size.x * si->scale.x * si->origin.x),
-		si->pos.y - (si->spr_size.y * si->scale.y * si->origin.y));
-	if (Collision::AABB(camera->viewport, Rect(sprite_pos, Round(si->spr_size.x * si->scale.x, si->spr_size.y * si->scale.y)))) {
-		const SDL_FRect src = { (float)(si->curr_frame * si->frame_size.x),
-								(float)(si->sheet_row * si->frame_size.y),
+	Vec2i sprite_pos = Round(si->pos.x - (si->spr_size.x * si->origin.x),
+								si->pos.y - (si->spr_size.y * si->origin.y));
+
+	if (Collision::AABB(camera->viewport, Rect(sprite_pos, si->spr_size))) {
+		size_t base = batch->vertices.size();
+		SDL_Vertex vert[4];
+
+		//Vertex position in world space
+		const SDL_FRect dest = { (float)sprite_pos.x - camera->viewport.x,
+								(float)sprite_pos.y - camera->viewport.y,
+								(float)si->spr_size.x,
+								(float)si->spr_size.y };
+		vert[0].position = {dest.x, dest.y};
+		vert[1].position = {dest.x + dest.w, dest.y};
+		vert[2].position = {dest.x + dest.w, dest.y + dest.h};
+		vert[3].position = {dest.x, dest.y + dest.h};
+
+		//Vertex texture coordinates (Normalized 0 - 1)
+		SDL_FRect src = { (float)si->frame * si->frame_size.x * batch->norm_tex_size.x, 0,
+			(float)si->frame_size.x * batch->norm_tex_size.x,
+			(float)si->frame_size.y * batch->norm_tex_size.y };
+		vert[0].tex_coord = {src.x, src.y};
+		vert[1].tex_coord = {src.x + src.w, src.y};
+		vert[2].tex_coord = {src.x + src.w, src.y + src.h};
+		vert[3].tex_coord = {src.x, src.y + src.h};
+
+		//Vertex color
+		for (int i = 0; i < 4; ++i)
+			vert[i].color = { si->tint.r, si->tint.g, si->tint.b, si->tint.a };
+
+		batch->vertices.insert(batch->vertices.end(), std::begin(vert), std::end(vert));
+
+		//Indices
+		batch->indices.push_back(base);
+		batch->indices.push_back(base + 1);
+		batch->indices.push_back(base + 2);
+		batch->indices.push_back(base + 2);
+		batch->indices.push_back(base + 3);
+		batch->indices.push_back(base);
+	}
+}
+
+void Renderer::SubmitTile(const LayerName ln, SDL_Texture* tex, const uint l_tile_id, const Vec2f tile_pos) {
+	Batch* batch = nullptr;
+	for (auto& c : layers[scst(ln)].persistent_commands) {
+		if (c.type == DrawCommand::Type::Batch and c.batch.texture == tex) {
+			batch = &c.batch;
+			break;
+		}
+	}
+	if (!batch) {
+		//batch layer_order stays 0
+		auto& b = layers[scst(ln)].persistent_commands.emplace_back(DrawCommand::Type::Batch);
+		batch = &b.batch;
+		batch->layer = ln;
+		batch->texture = tex;
+		batch->tile = true;
+		SDL_GetTextureSize(batch->texture, &batch->tex_size.x, &batch->tex_size.y);
+		batch->norm_tex_size = { 1.f / batch->tex_size.x, 1.f / batch->tex_size.y };
+	}
+
+	//tiles_per_row
+	int t_p_r = batch->tex_size.x / TS;
+	Vec2f tile_uv = Vec2{l_tile_id % t_p_r, l_tile_id / t_p_r};
+	Vec2f vert_uv = tile_uv * TS;
+
+	//Set vertex positions & tex_coords
+	SDL_Vertex vert[4];
+	vert[0].position = { tile_pos.x, tile_pos.y };
+	vert[1].position = { tile_pos.x + TS, tile_pos.y };
+	vert[2].position = { tile_pos.x + TS, tile_pos.y + TS };
+	vert[3].position = { tile_pos.x, tile_pos.y + TS };
+
+	vert[0].tex_coord = { vert_uv.x * batch->norm_tex_size.x, vert_uv.y * batch->norm_tex_size.y };
+	vert[1].tex_coord = { (vert_uv.x + TS) * batch->norm_tex_size.x, vert_uv.y * batch->norm_tex_size.y };
+	vert[2].tex_coord = { (vert_uv.x + TS) * batch->norm_tex_size.x, (vert_uv.y + TS) * batch->norm_tex_size.y };
+	vert[3].tex_coord = { vert_uv.x * batch->norm_tex_size.x, (vert_uv.y + TS) * batch->norm_tex_size.y };
+
+	for (int i = 0; i < 4; ++i)
+		vert[i].color = { 1.f, 1.f, 1.f, 1.f };
+
+	int base = batch->vertices.size();
+	batch->vertices.insert(batch->vertices.end(), std::begin(vert), std::end(vert));
+	batch->indices.insert(batch->indices.end(), { base, base + 1, base + 2, base, base + 2, base + 3 });
+}
+
+void Renderer::SubmitText(const LayerName ln, Text& text, const Rect& clip_rect) {
+	auto& t = layers[scst(ln)].transient_commands.emplace_back(DrawCommand::Type::Text, text.GetLayerOrder());
+	t.text = std::make_pair(&text, clip_rect);
+}
+
+void Renderer::SubmitRect(const LayerName ln, const Rect& rect, const Color& fill_color, const Color& stroke_color, const int layer_order, const uchar edge_w) {
+	auto& r = layers[scst(ln)].transient_commands.emplace_back(DrawCommand::Type::Rect, layer_order);
+	r.rect = RRect(rect, fill_color, stroke_color, edge_w);
+}
+
+void Renderer::DrawSprite(const Sprite& spr, const RenderLayer& layer) const {
+	const Sprite::Info* si = &spr.info;
+
+	//Only draw sprites if they will be seen by the camera
+	Vec2i sprite_pos = Round(si->pos.x - (si->spr_size.x * si->origin.x),
+								si->pos.y - (si->spr_size.y * si->origin.y));
+	if (Collision::AABB(camera->viewport, Rect(sprite_pos, si->spr_size))) {
+		const SDL_FRect src = { (float)si->frame * si->frame_size.x, 0,
 								(float)si->frame_size.x,	(float)si->frame_size.y };
 
 
-		const SDL_FRect dest = { (float)(sprite_pos.x - camera->viewport.x),
-								(float)(sprite_pos.y - camera->viewport.y),
-								(float)(si->spr_size.x * si->scale.x),
-								(float)(si->spr_size.y * si->scale.y) };
+		const SDL_FRect dest = { (float)sprite_pos.x - camera->viewport.x,
+								(float)sprite_pos.y - camera->viewport.y,
+								(float)si->spr_size.x,
+								(float)si->spr_size.y };
 
 		//Set the center of rotation
 		//SDL uses degrees, as do my sprites
-		const SDL_FPoint center = {dest.w * si->origin.x, dest.h * si->origin.y};
+		const SDL_FPoint center = {dest.w * .5f, dest.h * .5f};
 		//Flip is handled by scale; -1 values for x/y will flip it appropriately
 
 		//Set the tint
 		SDL_SetTextureColorMod(spr.texture, si->tint.r * 255, si->tint.g * 255, si->tint.b * 255);
-		SDL_SetTextureAlphaMod(spr.texture, si->tint.a * 255);
+		SDL_SetTextureAlphaMod(spr.texture, si->tint.a * layer.opacity * 255);
 
 		SDL_RenderTextureRotated(renderer, spr.texture, &src, &dest, si->rot, &center, SDL_FLIP_NONE);
 	}
 }
 
-void Renderer::DrawTilemap(TileMap &tmp) const {
-	SDL_Texture* ts_tex = nullptr;
-	std::array<SDL_Vertex, 4> quad{};
-	std::array<int, 6> tile_inds = { 0, 1, 2, 0, 2, 3 };
-	Vec2i tile_world_pos;
+void Renderer::DrawTilemap(Batch& batch) const {
 
-	//Draw the tiles
-	for (auto& [ts_name, verts] : tmp.verts_by_tileset) {
-		ts_tex = tmp.tilesets[ts_name];
+	size_t base_index;
+	vector<SDL_Vertex> transformed;
+	vector<int> culled_inds;
+	auto& verts = batch.vertices;
+	Vec2f v_pos;
 
-		for (size_t i = 0; i < verts.size(); i += 4) {
-			// Get tile vertices
-			quad = {
-				verts[i + 0],
-				verts[i + 1],
-				verts[i + 2],
-				verts[i + 3]
-			};
+	for (size_t i=0; i < verts.size(); i+=4) {
+		v_pos = { verts[i].position.x, verts[i].position.y};
+		if (!Collision::AABB(camera->viewport, Rect(v_pos, TS)))
+			continue;
 
-			//AABB cull in world space
-			if (!Collision::AABB(camera->viewport, Rect(Round(quad[0].position.x, quad[0].position.y), TS)))
-				continue;
-
-			//Now convert to screen space
-			for (auto& v : quad) {
-				v.position.x = roundf(v.position.x - camera->viewport.x);
-				v.position.y = roundf(v.position.y - camera->viewport.y);
-			}
-
-			// Draw visible tile
-			SDL_RenderGeometry(renderer, ts_tex, quad.data(), 4, tile_inds.data(), 6);
+		base_index = transformed.size();
+		for (uchar v=0; v<4; ++v) {
+			transformed.push_back(SDL_Vertex{
+				verts[i+v].position.x - camera->viewport.x, verts[i+v].position.y - camera->viewport.y,
+				verts[i+v].color,
+				verts[i+v].tex_coord});
 		}
+
+		//Add indices for this tile
+		culled_inds.push_back(base_index);
+		culled_inds.push_back(base_index+1);
+		culled_inds.push_back(base_index+2);
+		culled_inds.push_back(base_index+2);
+		culled_inds.push_back(base_index+3);
+		culled_inds.push_back(base_index);
 	}
 
-	//Draw the decorations - TO-DO
+	if (!transformed.empty())
+		SDL_RenderGeometry(renderer, batch.texture,
+			transformed.data(),transformed.size(),
+			culled_inds.data(),culled_inds.size());
 }
 
-void Renderer::DrawTxt(Text& txt) {
+void Renderer::DrawTxt(Text& txt, const Rect& clip_rect) {
 	Text::Info* ti = &txt.info;
 
 	SDL_Color c = {
@@ -98,23 +308,17 @@ void Renderer::DrawTxt(Text& txt) {
 		static_cast<Uint8>(ti->color.b * 255),
 		static_cast<Uint8>(ti->color.a * 255)
 	};
+	if (ti->str.empty() or !c.a)
+		return;
 
 	if (!txt.font.GetFont()) {
-		std::cout << "Font is null\n";
+		cout << "Font is null\n";
 		return;
 	}
-	if (ti->str.empty() or !ti->color.a)
-		return;
-	//Disable logical rendering so we can draw text properly
-	SDL_SetRenderLogicalPresentation(renderer, win_size.x, win_size.y, SDL_LOGICAL_PRESENTATION_DISABLED);
-
 	//Text wrapping has to be done manually to account for alignment
 	std::vector<string> lines;
 	std::istringstream full_stream(ti->str);
-	string full_text;
-	string curr_line;
-	string test;
-	string word;
+	string full_text, curr_line, test, word;
 	int w = 0;
 
 	//Wrap the text
@@ -125,7 +329,7 @@ void Renderer::DrawTxt(Text& txt) {
 		while (line_stream >> word) {
 			test = curr_line.empty() ? word : curr_line + " " + word;
 			TTF_GetStringSize(txt.font.GetFont(), test.c_str(), test.length(), &w, nullptr);
-			if (w > txt.GetMaxW(true) and !curr_line.empty()) {
+			if (w > txt.GetMaxW() and !curr_line.empty()) {
 				lines.push_back(curr_line);
 				curr_line = word;
 			}
@@ -135,16 +339,10 @@ void Renderer::DrawTxt(Text& txt) {
 		if (!curr_line.empty()) lines.push_back(curr_line);
 	}
 
-	Vec2i line_size = {0, TTF_GetFontLineSkip(txt.font.GetFont()) - ti->line_height_offset * Text::res_scale};
-
-	//Only draw lines that can be seen by the camera
-	Rect true_cam_vp = Rect({ camera->viewport.x, camera->viewport.y },
-	{ camera->viewport.w * Text::res_scale, camera->viewport.h * Text::res_scale });
-	Vec2i str_size = txt.GetStrSize();
-
 	//Draw the text
+	Vec2i txt_pos, line_size = {0, TTF_GetFontLineSkip(txt.font.GetFont()) - ti->line_height_offset};
 	string line;
-	for (int i = 0; i < lines.size(); i++) {
+	for (int i = 0; i < lines.size(); ++i) {
 		line = lines[i];
 
 		//Surface and texture
@@ -156,6 +354,7 @@ void Renderer::DrawTxt(Text& txt) {
 		}
 		if (text_tar) SDL_DestroyTexture(text_tar);
 		text_tar = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_SetTextureScaleMode(text_tar, SDL_SCALEMODE_NEAREST);
 		if (!text_tar) {
 			std::cout << "Failed to create text texture!\n";
 			return;
@@ -164,39 +363,44 @@ void Renderer::DrawTxt(Text& txt) {
 		//Get the size of the current line
 		TTF_GetStringSize(txt.font.GetFont(), line.c_str(), line.length(), &line_size.x, nullptr);
 
-		Vec2i txt_pos = { ti->pos.x * Text::res_scale + camera->viewport.x, ti->pos.y * Text::res_scale + camera->viewport.y };
-		txt_pos = Round(txt_pos.x - (line_size.x * ti->origin.x), txt_pos.y - (line_size.y * ti->origin.y));
-		if (Collision::AABB(true_cam_vp, Rect(txt_pos, Vec2i(str_size.x, str_size.y)))) {
+		txt_pos = ti->pos;
+		txt_pos = Round(txt_pos.x - round(line_size.x * ti->origin.x), txt_pos.y - round(line_size.y * ti->origin.y * lines.size()));
+		//Only draw lines that can be seen by the camera
+		if (Collision::AABB(camera->viewport, Rect(txt_pos, txt.GetStrSize()))) {
+			//Enable ClipRect
+			SDL_Rect cr = {static_cast<int>(clip_rect.x  - camera->viewport.x),
+				static_cast<int>(clip_rect.y - camera->viewport.y),
+				static_cast<int>(clip_rect.w),
+				static_cast<int>(clip_rect.h)};
+			if (cr.w == 0) cr = {0, 0, (int)camera->viewport.w, (int)camera->viewport.h};
+			SDL_SetRenderClipRect(renderer, &cr);
 			SDL_FRect src_rect = { 0, 0, (float)surface->w, (float)surface->h };
 			SDL_FRect dest_rect = {
-				(float)(txt_pos.x - true_cam_vp.x),
-				(float)(txt_pos.y + line_size.y*i - true_cam_vp.y),
-				(float)surface->w,
-				(float)surface->h
+				(txt_pos.x - camera->viewport.x),
+				(txt_pos.y + line_size.y*i - camera->viewport.y),
+				(float)surface->w, (float)surface->h
 			};
 			SDL_RenderTexture(renderer, text_tar, &src_rect, &dest_rect);
+			//Disable ClipRect
+			SDL_SetRenderClipRect(renderer, nullptr);
 		}
 	}
-
-	//Re-enable logical rendering at the base resolution
-	SDL_SetRenderLogicalPresentation(renderer, min_res.x, min_res.y, SDL_LOGICAL_PRESENTATION_INTEGER_SCALE);
 }
 
-void Renderer::DrawGrid(const Vec2i& start, const Vec2i& end, const uchar& tile_size, const Color& grid_color) const {
+void Renderer::DrawGrid(const Vec2f& start, const Vec2f& end, const float& tile_size, const Color& grid_color) const {
 	//Vertical Lines
-	for (int i = start.x; i <= end.x; i += tile_size)
+	for (float i = start.x; i <= end.x; i += tile_size)
 		DrawLine(Line{ {i, start.y}, {i, end.y} }, grid_color);
 	//Horizontal lines
-	for (int i = start.y; i <= end.y; i += tile_size)
+	for (float i = start.y; i <= end.y; i += tile_size)
 		DrawLine(Line{ {start.x, i}, {end.x, i} }, grid_color);
 }
 
-void Renderer::DrawPath(const std::vector<Vec2i>& path, const Color& path_color) {
-
+void Renderer::DrawPath(const vector<Vec2i>& path, const Color& path_color) {
 	Rect point_box = { {0}, 2 };
 	for (const auto& point : path) {
 		point_box.x = point.x - 1; point_box.y = point.y - 1;
-		DrawRect(point_box, path_color);
+		DrawRect(RRect(point_box, path_color));
 	}
 }
 
@@ -204,13 +408,13 @@ void Renderer::DrawLine(const Line& line, const Color& color, const uchar edge_w
 	//SHOULD only draw if colliding with the camera but that requires implementing Collision::LineRect
 	SDL_SetRenderDrawColor(renderer, color.r * 255, color.g * 255, color.b * 255, color.a * 255);
 
-	SDL_RenderLine(renderer, line.x1 - camera->viewport.x, line.y1 - camera->viewport.y, line.x2 - camera->viewport.x, line.y2 - camera->viewport.y);
+	SDL_RenderLine(renderer, line.pos1.x - camera->viewport.x, line.pos1.y - camera->viewport.y, line.pos2.x - camera->viewport.x, line.pos2.y - camera->viewport.y);
 }
 
 void Renderer::DrawCircle(const Circle& circle, const Color& fill_color, const Color& stroke_color, const uchar edge_w) {
 	//Only draw if colliding with the camera
 	if (Collision::RectCircle(camera->viewport, circle)) {
-		const Vec2f circle_pos = { (float)(circle.x - camera->viewport.x), (float)(circle.y - camera->viewport.y) };
+		const Vec2f circle_pos = { (circle.pos.x - camera->viewport.x), (circle.pos.y - camera->viewport.y) };
 		float inner_r = circle.r - edge_w;
 
 		//Outline
@@ -271,12 +475,12 @@ void Renderer::DrawTri(const Tri& tri, const Color& fill_color, const Color& str
 	}
 }
 
-void Renderer::DrawRect(const Rect& rect, const Color& fill_color, const Color& stroke_color, const uchar edge_w) {
+void Renderer::DrawRect(const RRect& rect) {
 	//Only draw if colliding with the camera
-	if (Collision::AABB(rect, camera->viewport)) {
-		Vec2f rect_pos = { (float)(rect.x - camera->viewport.x), (float)(rect.y - camera->viewport.y) };
-		float w = rect.w;
-		float h = rect.h;
+	if (Collision::AABB(rect.rect, camera->viewport)) {
+		Vec2f rect_pos = { (float)(rect.rect.x - camera->viewport.x), (float)(rect.rect.y - camera->viewport.y) };
+		float w = rect.rect.w;
+		float h = rect.rect.h;
 		//Normalize w/h
 		if (w < 0) {
 			rect_pos.x += w;
@@ -287,26 +491,26 @@ void Renderer::DrawRect(const Rect& rect, const Color& fill_color, const Color& 
 			h = -h;
 		}
 		//Draw the fill
-		if (fill_color.a) {
-			SDL_SetRenderDrawColor(renderer, fill_color.r * 255, fill_color.g * 255, fill_color.b * 255, fill_color.a * 255);
+		if (rect.fill_color.a) {
+			SDL_SetRenderDrawColor(renderer, rect.fill_color.r * 255, rect.fill_color.g * 255, rect.fill_color.b * 255, rect.fill_color.a * 255);
 			SDL_FRect sdl_rect = { rect_pos.x, rect_pos.y, w, h };
 			SDL_RenderFillRect(renderer, &sdl_rect);
 		}
 
 		//Draw the edges
-		if (stroke_color.a) {
-			SDL_SetRenderDrawColor(renderer, stroke_color.r * 255, stroke_color.g * 255, stroke_color.b * 255, stroke_color.a * 255);
+		if (rect.stroke_color.a) {
+			SDL_SetRenderDrawColor(renderer, rect.stroke_color.r * 255, rect.stroke_color.g * 255, rect.stroke_color.b * 255, rect.stroke_color.a * 255);
 			//Top
-			SDL_FRect top = { rect_pos.x, rect_pos.y, w, (float)edge_w };
+			SDL_FRect top = { rect_pos.x, rect_pos.y, w, (float)rect.edge_w };
 			SDL_RenderFillRect(renderer, &top);
 			//Bottom
-			SDL_FRect bot = { rect_pos.x, (rect_pos.y + h) - edge_w, w, (float)edge_w };
+			SDL_FRect bot = { rect_pos.x, (rect_pos.y + h) - rect.edge_w, w, (float)rect.edge_w };
 			SDL_RenderFillRect(renderer, &bot);
 			//Left
-			SDL_FRect left = { rect_pos.x, rect_pos.y + edge_w, (float)edge_w, h - (edge_w * 2) };
+			SDL_FRect left = { rect_pos.x, rect_pos.y + rect.edge_w, (float)rect.edge_w, h - (rect.edge_w * 2) };
 			SDL_RenderFillRect(renderer, &left);
 			//Right
-			SDL_FRect right = { rect_pos.x + w - edge_w, rect_pos.y + edge_w, (float)edge_w, h - edge_w * 2 };
+			SDL_FRect right = { rect_pos.x + w - rect.edge_w, rect_pos.y + rect.edge_w, (float)rect.edge_w, h - rect.edge_w * 2 };
 			SDL_RenderFillRect(renderer, &right);
 		}
 	}

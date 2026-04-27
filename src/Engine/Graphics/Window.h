@@ -19,12 +19,10 @@ public:
 
 	[[nodiscard]] inline SDL_Window* GetWin() const { return window; }
 
-	[[nodiscard]] inline Vec2u ScreenSize() const { return screen_size; }
-	[[nodiscard]] inline Vec2u WinSize() const { return win_size; }
+	[[nodiscard]] inline Vec2i GetScreenSize() const { return screen_size; }
 
 private:
 	SDL_Window* window;
 	SDL_Event event;
-	Vec2u screen_size;
-	Vec2u win_size;
+	Vec2i screen_size;
 };

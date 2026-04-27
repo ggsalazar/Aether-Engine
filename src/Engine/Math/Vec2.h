@@ -15,13 +15,16 @@ struct Vec2 {
     constexpr Vec2() : x(0), y(0) {}
     constexpr Vec2(const T xy) : x(xy), y(xy) {}
     constexpr Vec2(const T x, const T y) : x(x), y(y) {}
-
+    //Constructing with different types is handled after the struct (down below)
     //Conversion constructor
     template<typename U>
     constexpr Vec2(const Vec2<U>& other) : x(static_cast<T>(other.x)), y(static_cast<T>(other.y)) {}
 
     //Negation
     constexpr Vec2 operator-() const { return { -x, -y }; }
+
+    //Comparison
+    bool operator<(const Vec2& other) const { return x + y < other.x + other.y; }
 
     //Addition
     VEC2_INLINE Vec2 operator+(const Vec2& other) const { return Vec2(x + other.x, y + other.y); }
@@ -94,11 +97,11 @@ template <typename T>
 std::ostream& operator<<(std::ostream& os, const Vec2<T>& v) { return os << v.x << ", " << v.y; }
 
 //Rounding
-template<typename T>
+template<typename T=float>
 [[nodiscard]] constexpr Vec2<int> Round(const Vec2<T>& v) {
     return { static_cast<int>(std::round(v.x)), static_cast<int>(std::round(v.y)) };
 }
-template<typename T>
+template<typename T=float>
 [[nodiscard]] constexpr Vec2<int> Round(const T x, const T y) {
     return { static_cast<int>(std::round(x)), static_cast<int>(std::round(y)) };
 }
@@ -108,7 +111,7 @@ template<typename T, typename U>
 }
 
 //Distance
-template<typename T>
+template<typename T=float>
 [[nodiscard]] constexpr float Distance(const Vec2<T>& v1, const Vec2<T>& v2) {
     return sqrt((v2.x - v1.x) * (v2.x - v1.x) + (v2.y - v1.y) * (v2.y - v1.y));
 }
@@ -118,7 +121,7 @@ template<typename T, typename U>
 }
 
 //Universal scalar multiplication & division
-template<typename T>
+template<typename T=float>
 constexpr Vec2<T> operator*(T scalar, const Vec2<T>& v) { return v * scalar; }
 template<typename T, typename U>
 constexpr auto operator*(const Vec2<T>& vec, U scalar)
@@ -127,7 +130,7 @@ constexpr auto operator*(const Vec2<T>& vec, U scalar)
     return { static_cast<R>(vec.x) * scalar, static_cast<R>(vec.y) * scalar };
 }
 
-template<typename T>
+template<typename T=float>
 constexpr Vec2<T> operator/(T scalar, const Vec2<T>& v) { return v / scalar; }
 template<typename T, typename U>
 constexpr auto operator/(const Vec2<T>& vec, U scalar)

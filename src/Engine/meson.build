@@ -1,7 +1,8 @@
 sources += files(
   'Collision.cpp',
-  'Engine.cpp',
-  'Input.cpp'
+  'Core.cpp',
+  'Input.cpp',
+  'Pathfinding.cpp'
 )
 
 foreach d : ['Audio', 'Graphics', 'Math']

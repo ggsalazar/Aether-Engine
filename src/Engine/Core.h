@@ -2,9 +2,9 @@
 #include <chrono>
 #include <SDL3_ttf/SDL_ttf.h>
 #include "Audio/DJ.h" //Enums, SDL_mixer
-#include "Graphics/Camera.h"//Geometry (Vec2 (iostream))
+#include "Graphics/Renderer.h" //SDL_render, Sprite (SDL_image), Text
+#include "Graphics/TextureManager.h"
 #include "Graphics/Window.h" //SDL, SDL_main, SDL_video
-#include "Graphics/Renderer.h" //SDL_render
 #include "../Game/Game.h" //Sprite
 
 using namespace std;
@@ -12,26 +12,25 @@ using namespace chrono;
 using hr_clock = steady_clock;
 using durationf = duration<float>;
 
-class Engine {
+class Core {
 private:
-    //Variables
     uchar game_frames = 0;
-    float fps = 0.f, target_frame_time = 0.f, delta_time = .0f, accumulated_time = .0f;;
-    hr_clock::time_point last_time;
+    float fps = 0.f;
+    durationf target_frame_time, frame_time, delta_time, accumulated_time;
+    hr_clock::time_point now, last_time;
     float sfx_volume = 100;
 
 public:
     const Vec2u min_res = { 640, 360 };
-    Vec2u resolution;
+    Vec2i resolution;
     Window window;
     Renderer renderer;
-    Camera camera;
-    DJ dj;
+    TextureManager tex_man;
     Game game;
     bool running = true;
 
-    Engine(const char* title, const float init_fps);
-    ~Engine() {
+    Core(const char* title, const float init_fps);
+    ~Core() {
         TTF_Quit();
         MIX_Quit();
         SDL_Quit(); //Has to be called last
